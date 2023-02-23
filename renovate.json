@@ -16,7 +16,6 @@
   "onboarding": true,
   "platform": "github",
   "includeForks": false,
-  "dryRun": false,
   "configMigration": true,
   "dependencyDashboard": true,
   "prCreation": "not-pending",
