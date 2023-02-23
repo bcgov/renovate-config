@@ -25,6 +25,7 @@
     "bcgov/nr-forest-client",
     "bcgov/public-code"
   ],
+  "prConcurrentLimit": 5,
   "packageRules": [
     {
       "matchManagers": [
