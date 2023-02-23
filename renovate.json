@@ -24,6 +24,7 @@
     "bcgov/nr-quickstart-typescript",
     "bcgov/nr-forest-client",
     "bcgov/nr-renovate",
+    "bcgov/nr-old-growth",
     "bcgov/public-code"
   ],
   "prConcurrentLimit": 5,
