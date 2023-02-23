@@ -60,15 +60,17 @@
       "stabilityDays": 3
     },
     {
-      "description": "Group prettier packages",
+      "description": "Group linter packages",
       "matchPackageNames": [
+        "eslint",
         "prettier"
       ],
       "matchPackagePatterns": [
+        "eslint",
         "^@prettier\\/",
         "^prettier-plugin-"
       ],
-      "groupName": "prettier packages"
+      "groupName": "linters"
     },
     {
       "description": "One week stability period for npm packages",
