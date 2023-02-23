@@ -16,7 +16,7 @@
   "onboarding": true,
   "platform": "github",
   "includeForks": false,
-  "dryRun": "full",
+  "dryRun": false,
   "configMigration": true,
   "dependencyDashboard": true,
   "prCreation": "not-pending",
@@ -37,7 +37,8 @@
         "lockFileMaintenance"
       ],
       "groupName": "npm all non-major dependencies",
-      "groupSlug": "npm all-minor-patch"
+      "groupSlug": "npm all-minor-patch",
+      "stabilityDays": 3
     },
     {
       "matchManagers": [
@@ -48,14 +49,16 @@
         "patch"
       ],
       "groupName": "github actions all non-major dependencies",
-      "groupSlug": "github actions all-minor-patch"
+      "groupSlug": "github actions all-minor-patch",
+      "stabilityDays": 3
     },
     {
       "description": "Require dashboard approval for major updates",
       "matchUpdateTypes": [
         "major"
       ],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "stabilityDays": 3
     },
     {
       "description": "Group prettier packages",
