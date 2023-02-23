@@ -23,7 +23,8 @@
   "rebaseWhen": "behind-base-branch",
   "repositories": [
     "bcgov/nr-quickstart-typescript",
-    "bcgov/nr-forest-client"
+    "bcgov/nr-forest-client",
+    "bcgov/public-code"
   ],
   "packageRules": [
     {
