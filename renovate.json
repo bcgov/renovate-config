@@ -23,6 +23,7 @@
   "repositories": [
     "bcgov/nr-quickstart-typescript",
     "bcgov/nr-forest-client",
+    "bcgov/nr-renovate",
     "bcgov/public-code"
   ],
   "prConcurrentLimit": 5,
