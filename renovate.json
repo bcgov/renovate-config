@@ -16,15 +16,17 @@
   "onboarding": true,
   "platform": "github",
   "includeForks": false,
-  "dryRun": "full",
   "configMigration": true,
   "dependencyDashboard": true,
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
   "repositories": [
     "bcgov/nr-quickstart-typescript",
-    "bcgov/nr-forest-client"
+    "bcgov/nr-forest-client",
+    "bcgov/nr-renovate",
+    "bcgov/public-code"
   ],
+  "prConcurrentLimit": 5,
   "packageRules": [
     {
       "matchManagers": [
@@ -36,7 +38,8 @@
         "lockFileMaintenance"
       ],
       "groupName": "npm all non-major dependencies",
-      "groupSlug": "npm all-minor-patch"
+      "groupSlug": "npm all-minor-patch",
+      "stabilityDays": 3
     },
     {
       "matchManagers": [
@@ -47,25 +50,29 @@
         "patch"
       ],
       "groupName": "github actions all non-major dependencies",
-      "groupSlug": "github actions all-minor-patch"
+      "groupSlug": "github actions all-minor-patch",
+      "stabilityDays": 3
     },
     {
       "description": "Require dashboard approval for major updates",
       "matchUpdateTypes": [
         "major"
       ],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "stabilityDays": 3
     },
     {
-      "description": "Group prettier packages",
+      "description": "Group linter packages",
       "matchPackageNames": [
+        "eslint",
         "prettier"
       ],
       "matchPackagePatterns": [
+        "eslint",
         "^@prettier\\/",
         "^prettier-plugin-"
       ],
-      "groupName": "prettier packages"
+      "groupName": "linters"
     },
     {
       "description": "One week stability period for npm packages",
