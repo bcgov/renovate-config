@@ -82,5 +82,8 @@
       ],
       "stabilityDays": 7
     }
+  ],
+  "schedule": [
+    "every weekend"
   ]
 }
