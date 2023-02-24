@@ -11,8 +11,6 @@
     "docker:pinDigests",
     "group:linters"
   ],
-  "username": "renovate-release",
-  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "onboarding": true,
   "platform": "github",
   "includeForks": false,
@@ -82,5 +80,8 @@
       ],
       "stabilityDays": 7
     }
+  ],
+  "schedule": [
+    "every weekend"
   ]
 }
