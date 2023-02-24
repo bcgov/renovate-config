@@ -25,7 +25,8 @@
     "bcgov/nr-forest-client",
     "bcgov/nr-renovate",
     "bcgov/nr-old-growth",
-    "bcgov/public-code"
+    "bcgov/public-code",
+    "paulushcgcj/simple-webflux"
   ],
   "prConcurrentLimit": 5,
   "packageRules": [
