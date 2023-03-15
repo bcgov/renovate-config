@@ -25,7 +25,7 @@
     "bcgov/nr-old-growth",
     "bcgov/nr-renovate",
     "bcgov/nr-spar",
-    "bcgov/public-code",
+    "bcgov/pubcode",
     "bcgov/nr-forest-client-api"
   ],
   "prConcurrentLimit": 5,
