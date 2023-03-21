@@ -19,10 +19,11 @@
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
   "repositories": [
-    "bcgov/nr-quickstart-typescript",
+    "bcgov/nr-fom",
     "bcgov/nr-forest-client",
     "bcgov/nr-forest-client-api",
     "bcgov/nr-old-growth",
+    "bcgov/nr-quickstart-typescript",
     "bcgov/nr-renovate",
     "bcgov/nr-spar",
     "bcgov/pubcode",
