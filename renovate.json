@@ -25,6 +25,7 @@
     "bcgov/nr-old-growth",
     "bcgov/nr-quickstart-typescript",
     "bcgov/nr-renovate",
+    "bcgov/nr-rfc-processing",
     "bcgov/nr-spar",
     "bcgov/pubcode",
     "bcgov/nr-forest-client-api"
