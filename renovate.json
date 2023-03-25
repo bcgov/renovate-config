@@ -79,6 +79,13 @@
       "groupName": "linters"
     },
     {
+      "descrption": "Python Conda",
+      "matchDatasources": [
+        "conda"
+      ],
+      "stabilityDays": 3
+    },
+    {
       "description": "One week stability period for npm packages",
       "matchDatasources": [
         "npm"
