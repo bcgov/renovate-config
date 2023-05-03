@@ -26,7 +26,6 @@
     "bcgov/nr-renovate",
     "bcgov/nr-rfc-processing",
     "bcgov/nr-spar",
-    "bcgov/onroutebc",
     "bcgov/pubcode",
     "bcgov/quickstart-openshift"
   ],
