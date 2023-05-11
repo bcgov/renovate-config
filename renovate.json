@@ -21,6 +21,7 @@
     "bcgov/nr-fom",
     "bcgov/nr-forest-client",
     "bcgov/nr-forest-client-api",
+    "bcgov/nr-forests-access-management",
     "bcgov/nr-old-growth",
     "bcgov/nr-renovate",
     "bcgov/nr-rfc-processing",
