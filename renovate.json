@@ -8,7 +8,6 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "docker:enableMajor",
-    "docker:pinDigests",
     "group:linters"
   ],
   "onboarding": true,
@@ -100,5 +99,8 @@
   ],
   "schedule": [
     "every weekend"
-  ]
+  ],
+  "pre-commit": {
+    "pinDigests": false
+  }
 }
