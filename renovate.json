@@ -29,7 +29,7 @@
     "bcgov/pubcode",
     "bcgov/quickstart-openshift"
   ],
-  "prConcurrentLimit": 5,
+  "prConcurrentLimit": 3,
   "packageRules": [
     {
       "matchManagers": [
