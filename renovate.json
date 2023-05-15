@@ -33,6 +33,16 @@
   "prConcurrentLimit": 3,
   "packageRules": [
     {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "postgis",
+        "postgres"
+      ],
+      "enabled": false
+    },
+    {
       "matchManagers": [
         "npm"
       ],
