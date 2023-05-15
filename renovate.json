@@ -4,6 +4,7 @@
   "extends": [
     "config:base",
     ":maintainLockFilesWeekly",
+    ":preserveSemberRanges",
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
