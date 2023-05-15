@@ -76,14 +76,19 @@
       "stabilityDays": 3
     },
     {
+      "groupName": "group vite",
+      "groupSlug": "group vite",
+      "stabilityDays": 3,
+      "matchPackagePatterns": [
+        "^vite$",
+        "^@vitejs\/"
+      ]
+    },
+    {
       "description": "Group linter packages",
-      "matchPackageNames": [
-        "eslint",
-        "prettier"
-      ],
       "matchPackagePatterns": [
         "eslint",
-        "^@prettier\\/",
+        "^@prettier\/",
         "^prettier-plugin-"
       ],
       "groupName": "linters"
