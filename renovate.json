@@ -114,9 +114,6 @@
       "stabilityDays": 3
     }
   ],
-  "schedule": [
-    "every weekend"
-  ],
   "pre-commit": {
     "pinDigests": false
   }
