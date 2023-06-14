@@ -96,6 +96,20 @@
       "groupName": "linters"
     },
     {
+      "description": "Group @testing-library packages",
+      "matchPackagePatterns": [
+        "^@testing-library\\/"
+      ],
+      "groupName": "testing-library"
+    },
+    {
+      "description": "Group @types packages",
+      "matchPackagePatterns": [
+        "^@types\\/"
+      ],
+      "groupName": "types"
+    },
+    {
       "description": "One week stability period for npm packages",
       "matchDatasources": [
         "npm"
