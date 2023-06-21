@@ -105,7 +105,8 @@
     {
       "description": "Group @nestjs packages",
       "matchPackagePatterns": [
-        "^@nestjs\\/"
+        "^@nestjs\\/",
+        "nest-winston"
       ],
       "groupName": "nestjs"
     },
