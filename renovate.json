@@ -103,6 +103,13 @@
       "groupName": "testing-library"
     },
     {
+      "description": "Group @nestjs packages",
+      "matchPackagePatterns": [
+        "^@nestjs\\/"
+      ],
+      "groupName": "nestjs"
+    },
+    {
       "description": "Group @types packages",
       "matchPackagePatterns": [
         "^@types\\/"
