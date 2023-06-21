@@ -70,14 +70,6 @@
       "stabilityDays": 3
     },
     {
-      "description": "Require dashboard approval for major updates",
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "dependencyDashboardApproval": true,
-      "stabilityDays": 3
-    },
-    {
       "description": "Groupe vite packages",
       "groupName": "vite",
       "matchPackagePatterns": [
