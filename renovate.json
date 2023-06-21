@@ -26,6 +26,7 @@
     "bcgov/nr-forests-access-management",
     "bcgov/nr-old-growth",
     "bcgov/nr-renovate",
+    "bcgov/nr-rfc-grib-copy",
     "bcgov/nr-rfc-processing",
     "bcgov/nr-spar",
     "bcgov/onroutebc",
