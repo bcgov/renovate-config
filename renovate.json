@@ -15,7 +15,7 @@
   "platform": "github",
   "includeForks": false,
   "configMigration": true,
-  "dependencyDashboard": true,
+  "dependencyDashboard": false,
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
   "repositories": [
