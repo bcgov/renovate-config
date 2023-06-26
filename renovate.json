@@ -89,6 +89,15 @@
       "groupName": "linters"
     },
     {
+      "description": "Group @angular packages",
+      "matchPackagePatterns": [
+        "^@angular\\/",
+        "^@angular-devkit\\/",
+        "^@angular-eslint\\/"
+      ],
+      "groupName": "angular"
+    },
+    {
       "description": "Group @testing-library packages",
       "matchPackagePatterns": [
         "^@testing-library\\/"
