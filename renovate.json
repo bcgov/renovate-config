@@ -25,7 +25,7 @@
     "bcgov/nr-forest-client-api",
     "bcgov/nr-forests-access-management",
     "bcgov/nr-old-growth",
-    "bcgov/nr-renovate",
+    "bcgov/nr-oracle-service",
     "bcgov/nr-rfc-grib-copy",
     "bcgov/nr-rfc-processing",
     "bcgov/nr-spar",
