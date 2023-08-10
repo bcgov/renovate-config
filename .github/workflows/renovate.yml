@@ -20,13 +20,17 @@ jobs:
       - uses: actions/checkout@v3
 
       # PRs should always use dry run
-      - name: Dry run for PRs
+      - name: Set dry run and repo list
         if: github.event_name == 'pull_request'
+        env:
+          repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
         run: |
           cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${{ env.repos }}' ${{ env.config }}) > ${{ env.config }}
+          cat ${{ env.config }} | jq .repositories
 
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v34.149.0
+        uses: renovatebot/github-action@v39.0.1
         with:
           configurationFile: ${{ env.config }}
           token: ${{ secrets.RENOVATE_TOKEN }}
