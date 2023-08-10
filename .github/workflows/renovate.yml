@@ -23,9 +23,8 @@ jobs:
       - name: Set dry run and repo list
         if: github.event_name == 'pull_request'
         env:
-          repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+          repos: '["bcgov/nr-renovate"]'
         run: |
-          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
           cat <<< $(jq '. | .repositories = ${{ env.repos }}' ${{ env.config }}) > ${{ env.config }}
 
       - name: Self-hosted Renovate
