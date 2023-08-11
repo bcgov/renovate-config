@@ -1,11 +1,13 @@
 name: Renovate
+
+# Run on pull requests, cronjob or manually (dispatch)
 on:
   pull_request:
   schedule:
     - cron: "0 11 * * *" # 3 AM PST = 11 AM UDT
   workflow_dispatch:
     inputs:
-      repo:
+      repo: # Optional input
         description: org/repo override (optional)
         type: string
         required: false
@@ -15,10 +17,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Variables
+env:
+  config: renovate.json
+  pr_repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+
 jobs:
-  renovate:
-    env:
-      config: renovate.json
+  Renovate:
     permissions:
       pull-requests: write
     runs-on: ubuntu-22.04
@@ -28,11 +33,9 @@ jobs:
       # PRs - dry run and a small number of repos
       - name: Config for pull requests
         if: github.event_name == 'pull_request'
-        env:
-          repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
         run: |
           cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
-          cat <<< $(jq '. | .repositories = ${{ env.repos }}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${{ env.pr_repos }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
       # workflow_dispatch - optionally just one repo
