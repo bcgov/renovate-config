@@ -14,7 +14,7 @@ on:
 
 # PR open and close use the same group, allowing only one at a time
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 # Variables
