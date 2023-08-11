@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "0 11 * * *" # 3 AM PST = 11 AM UDT
   workflow_dispatch:
+    inputs:
+      repository:
+        description: optional single org/repo to run against
+        type: string
+        required: false
 
 # PR open and close use the same group, allowing only one at a time
 concurrency:
@@ -20,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # PRs should always use dry run
+      # PRs - dry run and a small number of repos
       - name: Set dry run and repo list
         if: github.event_name == 'pull_request'
         env:
@@ -30,6 +35,14 @@ jobs:
           cat <<< $(jq '. | .repositories = ${{ env.repos }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
+      # workflow_dispatch - optionally just one repo
+      - name: Set dry run and repo list
+        if: inputs.repository
+        run: |
+          cat <<< $(jq '. | .repositories = ["${{ inputs.repository }}"]' ${{ env.config }}) > ${{ env.config }}
+          cat ${{ env.config }} | jq .repositories
+
+      # Run Renovate
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v39.0.1
         with:
