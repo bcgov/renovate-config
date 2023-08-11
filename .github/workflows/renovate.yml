@@ -12,7 +12,7 @@ on:
         type: string
         required: false
 
-# PR open and close use the same group, allowing only one at a time
+# Cancel any other workflows (PR, cron or manual)
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -20,7 +20,7 @@ concurrency:
 # Variables
 env:
   config: renovate.json
-  pr_repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+  pr_set: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
 
 jobs:
   Renovate:
@@ -34,14 +34,16 @@ jobs:
       - name: Config for pull requests
         if: github.event_name == 'pull_request'
         run: |
+          # Dry run and short repo list
           cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
-          cat <<< $(jq '. | .repositories = ${{ env.pr_repos }}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
       # workflow_dispatch - optionally just one repo
       - name: Config for manual workflows (optional)
         if: inputs.repo
         run: |
+          # Set target repo
           cat <<< $(jq '. | .repositories = ["${{ inputs.repo }}"]' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
