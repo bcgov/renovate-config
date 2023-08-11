@@ -72,6 +72,15 @@
       "minimumReleaseAge": "3 days"
     },
     {
+      "description": "Group boto packages",
+      "groupName": "boto",
+      "matchPackagePatterns": [
+        "^boto3$",
+        "^botocore$"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
       "description": "Groupe vite packages",
       "groupName": "vite",
       "matchPackagePatterns": [
