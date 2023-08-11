@@ -5,8 +5,8 @@ on:
     - cron: "0 11 * * *" # 3 AM PST = 11 AM UDT
   workflow_dispatch:
     inputs:
-      repository:
-        description: optional single org/repo to run against
+      repo:
+        description: org/repo override (optional)
         type: string
         required: false
 
@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v3
 
       # PRs - dry run and a small number of repos
-      - name: Set dry run and repo list
+      - name: Config for pull requests
         if: github.event_name == 'pull_request'
         env:
           repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
@@ -36,14 +36,14 @@ jobs:
           cat ${{ env.config }} | jq .repositories
 
       # workflow_dispatch - optionally just one repo
-      - name: Set dry run and repo list
-        if: inputs.repository
+      - name: Config for manual workflows (optional)
+        if: inputs.repo
         run: |
-          cat <<< $(jq '. | .repositories = ["${{ inputs.repository }}"]' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ["${{ inputs.repo }}"]' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
       # Run Renovate
-      - name: Self-hosted Renovate
+      - name: Run Renovate
         uses: renovatebot/github-action@v39.0.1
         with:
           configurationFile: ${{ env.config }}
