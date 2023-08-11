@@ -1,36 +1,54 @@
 name: Renovate
+
+# Run on pull requests, cronjob or manually (dispatch)
 on:
   pull_request:
   schedule:
     - cron: "0 11 * * *" # 3 AM PST = 11 AM UDT
   workflow_dispatch:
+    inputs:
+      repo: # Optional input
+        description: org/repo override (optional)
+        type: string
+        required: false
 
-# PR open and close use the same group, allowing only one at a time
+# Cancel any other workflows (PR, cron or manual)
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
+# Variables
+env:
+  config: renovate.json
+  pr_set: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+
 jobs:
-  renovate:
-    env:
-      config: renovate.json
+  Renovate:
     permissions:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
 
-      # PRs should always use dry run
-      - name: Set dry run and repo list
+      # PRs - dry run and a small number of repos
+      - name: Config for pull requests
         if: github.event_name == 'pull_request'
-        env:
-          repos: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
         run: |
+          # Dry run and short repo list
           cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
-          cat <<< $(jq '. | .repositories = ${{ env.repos }}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
-      - name: Self-hosted Renovate
+      # workflow_dispatch - optionally just one repo
+      - name: Config for manual workflows (optional)
+        if: inputs.repo
+        run: |
+          # Set target repo
+          cat <<< $(jq '. | .repositories = ["${{ inputs.repo }}"]' ${{ env.config }}) > ${{ env.config }}
+          cat ${{ env.config }} | jq .repositories
+
+      # Run Renovate
+      - name: Run Renovate
         uses: renovatebot/github-action@v39.0.1
         with:
           configurationFile: ${{ env.config }}
