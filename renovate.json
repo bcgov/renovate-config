@@ -72,7 +72,7 @@
       "minimumReleaseAge": "3 days"
     },
     {
-      "description": "Group boto packages",
+      "description": "Py - group boto",
       "groupName": "boto",
       "matchPackagePatterns": [
         "^boto3$",
@@ -81,7 +81,27 @@
       "minimumReleaseAge": "3 days"
     },
     {
-      "description": "Groupe vite packages",
+      "description": "Py - group pytest",
+      "groupName": "pytest",
+      "matchPackagePatterns": [
+        "^pytest$",
+        "^pytest-"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Py - group sqlalchemy",
+      "groupName": "sqlalchemy",
+      "matchPackagePatterns": [
+        "^sqlalchemy$",
+        "^sqlmodel$",
+        "^sqlacodegen$",
+        "^mock-alchemy$"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "JS - group vite",
       "groupName": "vite",
       "matchPackagePatterns": [
         "^vite$",
@@ -90,44 +110,44 @@
       "minimumReleaseAge": "3 days"
     },
     {
-      "description": "Group linter packages",
+      "description": "JS - group linters",
+      "groupName": "linters",
       "matchPackagePatterns": [
         "eslint",
         "^@prettier\\/",
         "^prettier-plugin-"
-      ],
-      "groupName": "linters"
+      ]
     },
     {
-      "description": "Group @angular packages",
+      "description": "JS - group @angular",
+      "groupName": "angular",
       "matchPackagePatterns": [
         "^@angular\\/",
         "^@angular-devkit\\/",
         "^@angular-eslint\\/"
-      ],
-      "groupName": "angular"
+      ]
     },
     {
-      "description": "Group @testing-library packages",
+      "description": "JS - group @testing-library",
+      "groupName": "testing-library",
       "matchPackagePatterns": [
         "^@testing-library\\/"
-      ],
-      "groupName": "testing-library"
+      ]
     },
     {
-      "description": "Group @nestjs packages",
+      "description": "JS - group @nestjs",
+      "groupName": "nestjs",
       "matchPackagePatterns": [
         "^@nestjs\\/",
         "nest-winston"
-      ],
-      "groupName": "nestjs"
+      ]
     },
     {
-      "description": "Group @types packages",
+      "description": "JS - group @types",
+      "groupName": "types",
       "matchPackagePatterns": [
         "^@types\\/"
-      ],
-      "groupName": "types"
+      ]
     },
     {
       "description": "One week stability period for npm packages",
