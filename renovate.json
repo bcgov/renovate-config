@@ -120,13 +120,6 @@
       ]
     },
     {
-      "description": "JS - group @types",
-      "groupName": "types",
-      "matchPackagePatterns": [
-        "^@types\\/"
-      ]
-    },
-    {
       "description": "One week stability period for npm packages",
       "matchDatasources": [
         "npm"
