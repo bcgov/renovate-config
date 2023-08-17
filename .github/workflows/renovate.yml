@@ -35,7 +35,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           # Dry run and short repo list
-          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
+          # cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
           cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
