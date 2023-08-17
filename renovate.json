@@ -14,7 +14,8 @@
     "group:allNonMajor",
     "group:definitelyTyped",
     "group:linters",
-    "group:react"
+    "group:react",
+    "group:recommended"
   ],
   "onboarding": true,
   "platform": "github",
