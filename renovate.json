@@ -3,19 +3,26 @@
   "description": "Default preset for use with Renovate's repos",
   "extends": [
     "config:recommended",
-    ":maintainLockFilesWeekly",
+    ":combinePatchMinorReleases",
+    ":enableVulnerabilityAlerts",
+    ":maintainLockFilesMonthly",
     ":preserveSemverRanges",
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
-    "docker:enableMajor",
-    "group:linters"
+    "docker:disableMajor",
+    "group:allNonMajor",
+    "group:definitelyTyped",
+    "group:linters",
+    "group:monorepos",
+    "group:react",
+    "group:recommended"
   ],
   "onboarding": true,
   "platform": "github",
   "forkProcessing": "disabled",
   "configMigration": true,
-  "dependencyDashboard": false,
+  "dependencyDashboard": true,
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
   "repositories": [
@@ -38,38 +45,11 @@
   "prConcurrentLimit": 3,
   "packageRules": [
     {
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchPackageNames": [
-        "postgis",
-        "postgres"
-      ],
-      "enabled": false
-    },
-    {
-      "matchManagers": [
-        "npm"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "lockFileMaintenance"
-      ],
-      "groupName": "npm all non-major dependencies",
-      "groupSlug": "npm all-minor-patch",
-      "minimumReleaseAge": "3 days"
-    },
-    {
       "matchManagers": [
         "github-actions"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "github actions all non-major dependencies",
-      "groupSlug": "github actions all-minor-patch",
+      "groupName": "github actions all dependencies",
+      "groupSlug": "github actions all",
       "minimumReleaseAge": "3 days"
     },
     {
@@ -141,13 +121,6 @@
       "matchPackagePatterns": [
         "^@nestjs\\/",
         "nest-winston"
-      ]
-    },
-    {
-      "description": "JS - group @types",
-      "groupName": "types",
-      "matchPackagePatterns": [
-        "^@types\\/"
       ]
     },
     {
