@@ -20,7 +20,8 @@ concurrency:
 # Variables
 env:
   config: renovate.json
-  pr_set: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+  # pr_set: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+  pr_set: '["bcgov/pubcode"]'
 
 jobs:
   Renovate:
@@ -35,7 +36,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           # Dry run and short repo list
-          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
+          # cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
           cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
@@ -50,6 +51,8 @@ jobs:
       # Run Renovate
       - name: Run Renovate
         uses: renovatebot/github-action@v39.0.1
+        env:
+          LOG_LEVEL: 'debug'
         with:
           configurationFile: ${{ env.config }}
           token: ${{ secrets.RENOVATE_TOKEN }}
