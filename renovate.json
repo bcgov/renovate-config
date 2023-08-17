@@ -56,12 +56,8 @@
       "matchManagers": [
         "github-actions"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "github actions all non-major dependencies",
-      "groupSlug": "github actions all-minor-patch",
+      "groupName": "github actions all dependencies",
+      "groupSlug": "github actions all",
       "minimumReleaseAge": "3 days"
     },
     {
