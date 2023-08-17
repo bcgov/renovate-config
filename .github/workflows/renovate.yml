@@ -20,7 +20,8 @@ concurrency:
 # Variables
 env:
   config: renovate.json
-  pr_set: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+  # pr_set: '["bcgov/nr-renovate", "bcgov/quickstart-openshift"]'
+  pr_set: '["bcgov/nr-spar"]'
 
 jobs:
   Renovate:
