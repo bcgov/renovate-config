@@ -11,6 +11,7 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "docker:disableMajor",
+    "group:allNonMajor",
     "group:linters"
   ],
   "onboarding": true,
@@ -39,19 +40,6 @@
   ],
   "prConcurrentLimit": 3,
   "packageRules": [
-    {
-      "matchManagers": [
-        "npm"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "lockFileMaintenance"
-      ],
-      "groupName": "npm all non-major dependencies",
-      "groupSlug": "npm all-minor-patch",
-      "minimumReleaseAge": "3 days"
-    },
     {
       "matchManagers": [
         "github-actions"
