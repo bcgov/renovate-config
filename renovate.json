@@ -20,7 +20,8 @@
     "group:definitelyTyped",
     "group:linters",
     "group:react",
-    "group:recommended"
+    "group:recommended",
+    "group:typescript-eslintMonorepo"
   ],
   "onboarding": true,
   "platform": "github",
