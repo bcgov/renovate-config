@@ -16,6 +16,7 @@
   "forkProcessing": "disabled",
   "configMigration": true,
   "dependencyDashboard": false,
+  "username": "bcgov-renovate[bot]",
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
   "repositories": [
