@@ -4,6 +4,7 @@
   "extends": [
     "config:recommended",
     ":combinePatchMinorReleases",
+    ":enableVulnerabilityAlerts",
     ":maintainLockFilesMonthly",
     ":preserveSemverRanges",
     ":rebaseStalePrs",
