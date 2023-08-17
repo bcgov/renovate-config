@@ -21,7 +21,8 @@
     "group:linters",
     "group:react",
     "group:recommended",
-    "group:typescript-eslintMonorepo"
+    "group:typescript-eslintMonorepo",
+    "group:yarnMonorepo"
   ],
   "onboarding": true,
   "platform": "github",
