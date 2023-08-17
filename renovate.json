@@ -12,7 +12,9 @@
     ":semanticCommitScope(deps)",
     "docker:disableMajor",
     "group:allNonMajor",
-    "group:linters"
+    "group:definitelyTyped",
+    "group:linters",
+    "group:react"
   ],
   "onboarding": true,
   "platform": "github",
