@@ -40,7 +40,12 @@
     "bcgov/nr-spar",
     "bcgov/onroutebc",
     "bcgov/pubcode",
-    "bcgov/quickstart-openshift"
+    "bcgov/quickstart-openshift",
+    "bcgov-nr/action-builder-ghcr",
+    "bcgov-nr/action-deployer-openshift",
+    "bcgov-nr/action-pr-description-add",
+    "bcgov-nr/action-test-and-analyse",
+    "bcgov-nr/action-test-and-analyse-java"
   ],
   "prConcurrentLimit": 3,
   "packageRules": [
