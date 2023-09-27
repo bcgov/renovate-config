@@ -49,7 +49,7 @@ jobs:
 
       # Run Renovate
       - name: Run Renovate
-        uses: renovatebot/github-action@v39.0.1
+        uses: renovatebot/github-action@v39.0.5
         with:
           configurationFile: ${{ env.config }}
           token: ${{ secrets.RENOVATE_TOKEN }}
