@@ -28,16 +28,15 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-
-      # PRs - dry run and a small number of repos
-      - name: Config for pull requests
-        if: github.event_name == 'pull_request'
+      # Use debug only for single repo runs
+      - name: Inputs and variables
+        id: vars
         run: |
-          # Dry run and short repo list
-          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
-          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
-          cat ${{ env.config }} | jq .repositories
+          if [ -z ${{ inputs.repo }} ]; then
+            echo "log-level=INFO" >> $GITHUB_OUTPUT
+          else 
+            echo "log-level=DEBUG" >> $GITHUB_OUTPUT
+          fi
 
       # workflow_dispatch - optionally just one repo
       - name: Config for manual workflows (optional)
@@ -47,9 +46,21 @@ jobs:
           cat <<< $(jq '. | .repositories = ["${{ inputs.repo }}"]' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
+      # PRs - dry run and a small number of repos
+      - uses: actions/checkout@v4
+      - name: Config for pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          # Dry run and short repo list
+          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
+          cat ${{ env.config }} | jq .repositories
+
       # Run Renovate
       - name: Run Renovate
         uses: renovatebot/github-action@v39.0.5
+        env:
+          LOG_LEVEL: ${{ steps.vars.outputs.log-level }}
         with:
           configurationFile: ${{ env.config }}
           token: ${{ secrets.RENOVATE_TOKEN }}
