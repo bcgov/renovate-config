@@ -28,7 +28,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # PRs - dry run and a small number of repos
       - name: Config for pull requests
