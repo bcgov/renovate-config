@@ -28,6 +28,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
+      # Use debug only for single repo runs
       - name: Inputs and variables
         id: vars
         run: |
@@ -37,24 +38,22 @@ jobs:
             echo "log-level=DEBUG" >> $GITHUB_OUTPUT
           fi
 
-
-      - uses: actions/checkout@v4
-
-      # PRs - dry run and a small number of repos
-      - name: Config for pull requests
-        if: github.event_name == 'pull_request'
-        run: |
-          # Dry run and short repo list
-          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
-          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
-          cat ${{ env.config }} | jq .repositories
-
       # workflow_dispatch - optionally just one repo
       - name: Config for manual workflows (optional)
         if: inputs.repo
         run: |
           # Set target repo
           cat <<< $(jq '. | .repositories = ["${{ inputs.repo }}"]' ${{ env.config }}) > ${{ env.config }}
+          cat ${{ env.config }} | jq .repositories
+
+      # PRs - dry run and a small number of repos
+      - uses: actions/checkout@v4
+      - name: Config for pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          # Dry run and short repo list
+          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
       # Run Renovate
