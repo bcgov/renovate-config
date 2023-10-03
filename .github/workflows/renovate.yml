@@ -39,6 +39,7 @@ jobs:
           fi
 
       # workflow_dispatch - optionally just one repo
+      - uses: actions/checkout@v4
       - name: Config for manual workflows (optional)
         if: inputs.repo
         run: |
@@ -47,7 +48,6 @@ jobs:
           cat ${{ env.config }} | jq .repositories
 
       # PRs - dry run and a small number of repos
-      - uses: actions/checkout@v4
       - name: Config for pull requests
         if: github.event_name == 'pull_request'
         run: |
