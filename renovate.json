@@ -32,6 +32,7 @@
     "bcgov/nr-forest-client",
     "bcgov/nr-forest-client-api",
     "bcgov/nr-forests-access-management",
+    "bcgov/nr-metabase",
     "bcgov/nr-old-growth",
     "bcgov/nr-oracle-service",
     "bcgov/nr-renovate",
