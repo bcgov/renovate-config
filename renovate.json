@@ -26,6 +26,7 @@
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
   "repositories": [
+    "bcgov/helm-service",
     "bcgov/nr-containers",
     "bcgov/nr-fam-idim-lookup-proxy",
     "bcgov/nr-fom",
