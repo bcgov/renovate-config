@@ -43,11 +43,8 @@ jobs:
       - name: Config for manual workflows (optional)
         # if: inputs.repos
         run: |
-          # Process inputs into a comma-separated, double-quoted string
-          # IFS=', ' read -a REPOS <<< "${{ inputs.repos }}"
-          TEMP_INPUT='bcgov/pubcode, bcgov/quickstart-openshift,bcgov/quickstart-openshift-backends'
-          IFS=', ' read -a INPUT <<< "$TEMP_INPUT"
-          REPOS=''
+          # Process and reformat inputs.repos
+          IFS=', ' read -a INPUT <<< "${{ inputs.repos }}"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
