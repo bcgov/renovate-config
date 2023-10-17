@@ -31,27 +31,30 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       # Use debug only for input-specified repo runs
-      - name: Inputs and variables
-        id: vars
-        run: |
-          if [ -z ${{ inputs.repos }} ]; then
-            echo "log-level=INFO" >> $GITHUB_OUTPUT
-          else 
-            echo "log-level=DEBUG" >> $GITHUB_OUTPUT
-          fi
+      # - name: Inputs and variables
+      #   id: vars
+      #   run: |
+      #     if [ -z ${{ inputs.repos }} ]; then
+      #       echo "log-level=INFO" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "log-level=DEBUG" >> $GITHUB_OUTPUT
+      #     fi
 
       # workflow_dispatch - optional inputs
       - uses: actions/checkout@v4
       - name: Config for manual workflows (optional)
-        if: inputs.repos
+        # if: inputs.repos
         run: |
           # Process inputs into array
-          IFS=', ' read -a REPOS <<< "${{ inputs.repos }}"
+          # IFS=', ' read -a REPOS <<< "${{ inputs.repos }}"
+          TEST='bcgov/pubcode, bcgov/quickstart-openshift,bcgov/quickstart-openshift-backends'
+          IFS=', ' read -a REPOS <<< "${TEST}"
           ARRAY=$(for f in "${ARRAY[@]}"; do printf '%s' "$f" | jq -R -s .; done | jq -s .)
 
           # Set target repos
           cat <<< $(jq '. | .repositories = ${ARRAY}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
+          exit 1
 
       # PRs - dry run and a small number of repos
       - name: Config for pull requests
