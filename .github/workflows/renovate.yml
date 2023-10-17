@@ -50,14 +50,9 @@ jobs:
           TEST='bcgov/pubcode, bcgov/quickstart-openshift,bcgov/quickstart-openshift-backends'
           IFS=', ' read -a REPOS <<< "${TEST}"
           ARRAY=$(for f in "${REPOS[@]}"; do printf '%s' "$f" | jq -R -s .; done | jq -s .)
-          
-          echo "REPOS"
-          echo "${REPOS}"
-          echo "ARRAY"
-          echo "${ARRAY[@]}"
 
           # Set target repos
-          cat <<< $(jq '. | .repositories = ${ARRAY}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ${ARRAY[0]}' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
           exit 1
 
