@@ -3,8 +3,10 @@ name: Renovate
 # Run on pull requests, cronjob or manually (dispatch)
 on:
   pull_request:
-  schedule:
-    - cron: "0 11 * * *" # 3 AM PST = 11 AM UDT
+  schedule: # 2 AM PST = 10 AM UDT
+    - cron: "0 10 * * *"
+    - cron: "0 12 * * *"
+    - cron: "0 14 * * *"
   workflow_dispatch:
     inputs:
       repo: # Optional input
