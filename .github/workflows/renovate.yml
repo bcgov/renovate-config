@@ -45,14 +45,18 @@ jobs:
       - name: Config for manual workflows (optional)
         # if: inputs.repos
         run: |
-          # Process inputs into array
+          # Process inputs into a comma-separated, double-quoted string
           # IFS=', ' read -a REPOS <<< "${{ inputs.repos }}"
-          TEST='bcgov/pubcode, bcgov/quickstart-openshift,bcgov/quickstart-openshift-backends'
-          IFS=', ' read -a REPOS <<< "${TEST}"
-          ARRAY=$(for f in "${REPOS[@]}"; do printf '%s' "$f" | jq -R -s .; done | jq -s .)
+          TEMP_INPUT='bcgov/pubcode, bcgov/quickstart-openshift,bcgov/quickstart-openshift-backends'
+          IFS=', ' read -a INPUT <<< "$TEMP_INPUT"
+          REPOS=''
+          for r in "${INPUT[@]}"; do
+            REPOS+="\"$r\", "
+          done
+          REPOS=${REPOS%,*}
 
           # Set target repos
-          cat <<< $(jq '. | .repositories = "${ARRAY[0]}"' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = [${REPOS}]' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
           exit 1
 
