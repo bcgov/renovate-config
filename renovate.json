@@ -3,20 +3,27 @@
   "description": "Default preset for use with Renovate's repos",
   "extends": [
     "config:recommended",
-    ":combinePatchMinorReleases",
-    ":enableVulnerabilityAlerts",
-    ":maintainLockFilesMonthly",
-    ":preserveSemverRanges",
-    ":rebaseStalePrs",
-    ":semanticCommits",
-    ":semanticCommitScope(deps)",
     "docker:disableMajor",
     "group:allNonMajor",
     "group:definitelyTyped",
     "group:linters",
     "group:monorepos",
     "group:react",
-    "group:recommended"
+    "group:recommended",
+    ":automergeDigest",
+    ":automergeLinters",
+    ":automergeMinor",
+    ":automergePatch",
+    ":automergePr",
+    ":automergeRequireAllStatusChecks",
+    ":automergeTypes",
+    ":combinePatchMinorReleases",
+    ":enableVulnerabilityAlerts",
+    ":maintainLockFilesMonthly",
+    ":preserveSemverRanges",
+    ":rebaseStalePrs",
+    ":semanticCommits",
+    ":semanticCommitScope(deps)"
   ],
   "onboarding": true,
   "platform": "github",
@@ -152,36 +159,9 @@
       "groupName": "maven all non-major dependencies",
       "groupSlug": "maven all-minor-patch",
       "minimumReleaseAge": "3 days"
-    },
-    {
-      "automerge": true,
-      "extends": [
-        "packages:linters"
-      ]
-    },
-    {
-      "automerge": true,
-      "matchPackagePrefixes": [
-        "@types/"
-      ]
     }
   ],
   "pre-commit": {
     "pinDigests": false
-  },
-  "digest": {
-    "automerge": true
-  },
-  "lockFileMaintenance": {
-    "automerge": true
-  },
-  "minor": {
-    "automerge": true
-  },
-  "patch": {
-    "automerge": true
-  },
-  "pin": {
-    "automerge": true
   }
 }
