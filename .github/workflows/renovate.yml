@@ -58,9 +58,8 @@ jobs:
           echo "$REPOS"
 
           # Set target repos
-          cat <<< $(jq '. | .repositories = [${REPOS}]' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = ['${REPOS}']' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
-          exit 1
 
       # PRs - dry run and a small number of repos
       - name: Config for pull requests
