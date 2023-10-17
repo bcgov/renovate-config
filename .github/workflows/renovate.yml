@@ -51,7 +51,7 @@ jobs:
           IFS=', ' read -a INPUT <<< "$TEMP_INPUT"
           REPOS=''
           for r in "${INPUT[@]}"; do
-            REPOS+="\"$r\", "
+            REPOS+="\"$r\","
           done
           REPOS=${REPOS%,*}
 
