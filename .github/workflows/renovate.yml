@@ -49,7 +49,7 @@ jobs:
           # IFS=', ' read -a REPOS <<< "${{ inputs.repos }}"
           TEST='bcgov/pubcode, bcgov/quickstart-openshift,bcgov/quickstart-openshift-backends'
           IFS=', ' read -a REPOS <<< "${TEST}"
-          ARRAY=$(for f in "${ARRAY[@]}"; do printf '%s' "$f" | jq -R -s .; done | jq -s .)
+          ARRAY=$(for f in "${REPOS[@]}"; do printf '%s' "$f" | jq -R -s .; done | jq -s .)
           
           echo "REPOS"
           echo "${REPOS}"
