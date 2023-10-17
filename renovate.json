@@ -152,9 +152,36 @@
       "groupName": "maven all non-major dependencies",
       "groupSlug": "maven all-minor-patch",
       "minimumReleaseAge": "3 days"
+    },
+    {
+      "automerge": true,
+      "extends": [
+        "packages:linters"
+      ]
+    },
+    {
+      "automerge": true,
+      "matchPackagePrefixes": [
+        "@types/"
+      ]
     }
   ],
   "pre-commit": {
     "pinDigests": false
+  },
+  "digest": {
+    "automerge": true
+  },
+  "lockFileMaintenance": {
+    "automerge": true
+  },
+  "minor": {
+    "automerge": true
+  },
+  "patch": {
+    "automerge": true
+  },
+  "pin": {
+    "automerge": true
   }
 }
