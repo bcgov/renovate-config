@@ -52,7 +52,7 @@ jobs:
           ARRAY=$(for f in "${REPOS[@]}"; do printf '%s' "$f" | jq -R -s .; done | jq -s .)
 
           # Set target repos
-          cat <<< $(jq '. | .repositories = ${ARRAY[0]}' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = "${ARRAY[0]}"' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
           exit 1
 
