@@ -9,10 +9,17 @@ on:
     - cron: "0 14 * * *"
   workflow_dispatch:
     inputs:
-      repo: # Optional input
-        description: org/repo override (optional)
+      repos: # Optional input
+        description: "List of repos (org/repo)"
         type: string
         required: false
+      log_level: # Optional input
+        description: "Log level"
+        default: "INFO"
+        type: choice
+        required: true
+        options: ["INFO", "WARNING", "DEBUG"]
+
 
 # Cancel any other workflows (PR, cron or manual)
 concurrency:
@@ -30,23 +37,21 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
-      # Use debug only for single repo runs
-      - name: Inputs and variables
-        id: vars
-        run: |
-          if [ -z ${{ inputs.repo }} ]; then
-            echo "log-level=INFO" >> $GITHUB_OUTPUT
-          else 
-            echo "log-level=DEBUG" >> $GITHUB_OUTPUT
-          fi
 
-      # workflow_dispatch - optionally just one repo
+      # workflow_dispatch - optional inputs
       - uses: actions/checkout@v4
       - name: Config for manual workflows (optional)
-        if: inputs.repo
+        # if: inputs.repos
         run: |
-          # Set target repo
-          cat <<< $(jq '. | .repositories = [${{ inputs.repo }}]' ${{ env.config }}) > ${{ env.config }}
+          # Process and reformat inputs.repos
+          IFS=', ' read -a INPUT <<< "${{ inputs.repos }}"
+          for r in "${INPUT[@]}"; do
+            REPOS+="\"$r\","
+          done
+          REPOS=${REPOS%,*}
+
+          # Set target repos
+          cat <<< $(jq '. | .repositories = ['${REPOS}']' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
       # PRs - dry run and a small number of repos
@@ -62,7 +67,7 @@ jobs:
       - name: Run Renovate
         uses: renovatebot/github-action@v39.0.5
         env:
-          LOG_LEVEL: ${{ steps.vars.outputs.log-level }}
+          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         with:
           configurationFile: ${{ env.config }}
           token: ${{ secrets.RENOVATE_TOKEN }}
