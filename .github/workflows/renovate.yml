@@ -46,7 +46,7 @@ jobs:
         if: inputs.repo
         run: |
           # Set target repo
-          cat <<< $(jq '. | .repositories = ["${{ inputs.repo }}"]' ${{ env.config }}) > ${{ env.config }}
+          cat <<< $(jq '. | .repositories = [${{ inputs.repo }}]' ${{ env.config }}) > ${{ env.config }}
           cat ${{ env.config }} | jq .repositories
 
       # PRs - dry run and a small number of repos
