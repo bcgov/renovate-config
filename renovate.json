@@ -57,7 +57,8 @@
     "bcgov-nr/action-deployer-openshift",
     "bcgov-nr/action-pr-description-add",
     "bcgov-nr/action-test-and-analyse",
-    "bcgov-nr/action-test-and-analyse-java"
+    "bcgov-nr/action-test-and-analyse-java",
+    "bcgov-nr-labs/results"
   ],
   "prConcurrentLimit": 3,
   "packageRules": [
