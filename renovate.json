@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Default preset for use with Renovate's repos",
   "extends": [
-    "github>bcgov/nr-renovate"
+    "github>bcgov/renovate-config"
   ],
   "repositories": [
     "bcgov/helm-service",
@@ -15,7 +15,7 @@
     "bcgov/nr-metabase",
     "bcgov/nr-old-growth",
     "bcgov/nr-oracle-service",
-    "bcgov/nr-renovate",
+    "bcgov/renovate-config",
     "bcgov/nr-results-exam",
     "bcgov/nr-rfc-grib-copy",
     "bcgov/nr-rfc-processing",
