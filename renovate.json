@@ -2,36 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Default preset for use with Renovate's repos",
   "extends": [
-    "config:recommended",
-    "docker:disableMajor",
-    "group:allNonMajor",
-    "group:definitelyTyped",
-    "group:linters",
-    "group:monorepos",
-    "group:react",
-    "group:recommended",
-    ":automergeDigest",
-    ":automergeLinters",
-    ":automergeMinor",
-    ":automergePatch",
-    ":automergePr",
-    ":automergeRequireAllStatusChecks",
-    ":automergeTypes",
-    ":combinePatchMinorReleases",
-    ":enableVulnerabilityAlerts",
-    ":maintainLockFilesMonthly",
-    ":preserveSemverRanges",
-    ":rebaseStalePrs",
-    ":semanticCommits",
-    ":semanticCommitScope(deps)"
+    "github>bcgov/nr-renovate"
   ],
-  "onboarding": true,
-  "platform": "github",
-  "forkProcessing": "disabled",
-  "configMigration": true,
-  "dependencyDashboard": true,
-  "prCreation": "not-pending",
-  "rebaseWhen": "behind-base-branch",
   "repositories": [
     "bcgov/helm-service",
     "bcgov/nr-containers",
@@ -59,110 +31,5 @@
     "bcgov-nr/action-test-and-analyse",
     "bcgov-nr/action-test-and-analyse-java",
     "bcgov-nr-labs/results"
-  ],
-  "prConcurrentLimit": 3,
-  "packageRules": [
-    {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "groupName": "github actions all dependencies",
-      "groupSlug": "github actions all",
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "description": "Py - group boto",
-      "groupName": "boto",
-      "matchPackagePatterns": [
-        "^boto3$",
-        "^botocore$"
-      ],
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "description": "Py - group pytest",
-      "groupName": "pytest",
-      "matchPackagePatterns": [
-        "^pytest$",
-        "^pytest-"
-      ],
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "description": "Py - group sqlalchemy",
-      "groupName": "sqlalchemy",
-      "matchPackagePatterns": [
-        "^sqlalchemy$",
-        "^sqlmodel$",
-        "^sqlacodegen$",
-        "^mock-alchemy$"
-      ],
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "description": "JS - group vite",
-      "groupName": "vite",
-      "matchPackagePatterns": [
-        "^vite$",
-        "^@vitejs\\/"
-      ],
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "description": "JS - group linters",
-      "groupName": "linters",
-      "matchPackagePatterns": [
-        "eslint",
-        "^@prettier\\/",
-        "^prettier-plugin-"
-      ]
-    },
-    {
-      "description": "JS - group @angular",
-      "groupName": "angular",
-      "matchPackagePatterns": [
-        "^@angular\\/",
-        "^@angular-devkit\\/",
-        "^@angular-eslint\\/"
-      ]
-    },
-    {
-      "description": "JS - group @testing-library",
-      "groupName": "testing-library",
-      "matchPackagePatterns": [
-        "^@testing-library\\/"
-      ]
-    },
-    {
-      "description": "JS - group @nestjs",
-      "groupName": "nestjs",
-      "matchPackagePatterns": [
-        "^@nestjs\\/",
-        "nest-winston"
-      ]
-    },
-    {
-      "description": "One week stability period for npm packages",
-      "matchDatasources": [
-        "npm"
-      ],
-      "minimumReleaseAge": "7 days"
-    },
-    {
-      "matchManagers": [
-        "maven"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "lockFileMaintenance"
-      ],
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
-      "minimumReleaseAge": "3 days"
-    }
-  ],
-  "pre-commit": {
-    "pinDigests": false
-  }
+  ]
 }
