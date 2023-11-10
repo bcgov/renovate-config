@@ -32,7 +32,7 @@
   "dependencyDashboard": true,
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
-  "prConcurrentLimit": 3,
+  "prConcurrentLimit": 5,
   "packageRules": [
     {
       "matchManagers": [
