@@ -99,6 +99,14 @@
       ]
     },
     {
+      "description": "JS - group aws-amplify",
+      "groupName": "aws-amplify",
+      "matchPackagePatterns": [
+        "^@aws-amplify\\/",
+        "^aws-amplify"
+      ]
+    },
+    {
       "description": "JS - group @testing-library",
       "groupName": "testing-library",
       "matchPackagePatterns": [
