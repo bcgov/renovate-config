@@ -6,31 +6,14 @@
   ],
   "repositories": [
     "bcgov/helm-service",
-    "bcgov/nr-containers",
     "bcgov/nr-fam-idim-lookup-proxy",
     "bcgov/nr-fom",
-    "bcgov/nr-forest-client",
-    "bcgov/nr-forest-client-api",
     "bcgov/nr-forests-access-management",
     "bcgov/nr-metabase",
-    "bcgov/nr-old-growth",
-    "bcgov/nr-oracle-service",
     "bcgov/nr-polaris-collection",
     "bcgov/nr-results-exam",
     "bcgov/nr-rfc-grib-copy",
     "bcgov/nr-rfc-processing",
-    "bcgov/nr-silva",
-    "bcgov/nr-spar",
-    "bcgov/onroutebc",
-    "bcgov/pubcode",
-    "bcgov/quickstart-openshift",
-    "bcgov/quickstart-openshift-backends",
-    "bcgov/renovate-config",
-    "bcgov-nr/action-builder-ghcr",
-    "bcgov-nr/action-deployer-openshift",
-    "bcgov-nr/action-pr-description-add",
-    "bcgov-nr/action-test-and-analyse",
-    "bcgov-nr/action-test-and-analyse-java",
-    "bcgov-nr-labs/results"
+    "bcgov/onroutebc"
   ]
 }
