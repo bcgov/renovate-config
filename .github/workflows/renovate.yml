@@ -25,7 +25,6 @@ concurrency:
 
 # Variables
 env:
-  config: renovate.json
   pr_set: '["bcgov/renovate-config", "bcgov/quickstart-openshift"]'
 
 jobs:
@@ -46,17 +45,17 @@ jobs:
           REPOS=${REPOS%,*}
 
           # Set target repos
-          cat <<< $(jq '. | .repositories = ['${REPOS}']' ${{ env.config }}) > ${{ env.config }}
-          cat ${{ env.config }} | jq .repositories
+          cat <<< $(jq '. | .repositories = ['${REPOS}']' renovate.json) > renovate.json
+          cat renovate.json | jq .repositories
 
       # PRs - dry run and a small number of repos
       - name: Config for pull requests
         if: github.event_name == 'pull_request'
         run: |
           # Dry run and short repo list
-          cat <<< $(jq '.+= {"dryRun": "full"}' ${{ env.config }}) > ${{ env.config }}
-          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' ${{ env.config }}) > ${{ env.config }}
-          cat ${{ env.config }} | jq .repositories
+          cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
+          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' renovate.json) > renovate.json
+          cat renovate.json | jq .repositories
 
       # Run Renovate
       - name: Run Renovate
@@ -64,5 +63,5 @@ jobs:
         env:
           LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         with:
-          configurationFile: ${{ env.config }}
+          configurationFile: renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}
