@@ -3,17 +3,14 @@ name: Renovate
 # Run on pull requests, cronjob or manually (dispatch)
 on:
   pull_request:
-  schedule: # 2 AM PST = 10 AM UDT
-    - cron: "0 10 * * *"
-    - cron: "0 12 * * *"
-    - cron: "0 14 * * *"
+  schedule: [cron: "0 10 * * *"] # 2 AM PST = 10 AM UDT
   workflow_dispatch:
     inputs:
       repos: # Optional input
         description: "List of repos (org/repo)"
         type: string
         required: false
-      log_level: # Optional input
+      log_level: # Default input
         description: "Log level"
         default: "INFO"
         type: choice
@@ -37,11 +34,9 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
-
       # workflow_dispatch - optional inputs
       - uses: actions/checkout@v4
       - name: Config for manual workflows (optional)
-        # if: inputs.repos
         run: |
           # Process and reformat inputs.repos
           IFS=', ' read -a INPUT <<< "${{ inputs.repos }}"

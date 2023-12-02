@@ -5,15 +5,7 @@
     "github>bcgov/renovate-config"
   ],
   "repositories": [
-    "bcgov/helm-service",
     "bcgov/nr-fam-idim-lookup-proxy",
-    "bcgov/nr-fom",
-    "bcgov/nr-forests-access-management",
-    "bcgov/nr-metabase",
-    "bcgov/nr-polaris-collection",
-    "bcgov/nr-results-exam",
-    "bcgov/nr-rfc-grib-copy",
-    "bcgov/nr-rfc-processing",
-    "bcgov/onroutebc"
+    "bcgov/nr-fom"
   ]
 }
