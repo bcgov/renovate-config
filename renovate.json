@@ -4,8 +4,5 @@
   "extends": [
     "github>bcgov/renovate-config"
   ],
-  "repositories": [
-    "bcgov/nr-fam-idim-lookup-proxy",
-    "bcgov/nr-fom"
-  ]
+  "repositories": []
 }
