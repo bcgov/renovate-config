@@ -38,14 +38,6 @@
   "prConcurrentLimit": 5,
   "packageRules": [
     {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "groupName": "github actions all dependencies",
-      "groupSlug": "github actions all",
-      "minimumReleaseAge": "3 days"
-    },
-    {
       "description": "Py - group boto",
       "groupName": "boto",
       "matchPackagePatterns": [
@@ -152,6 +144,14 @@
       ],
       "groupName": "maven all non-major dependencies",
       "groupSlug": "maven all-minor-patch",
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "github actions all dependencies",
+      "groupSlug": "github actions all",
       "minimumReleaseAge": "3 days"
     }
   ],
