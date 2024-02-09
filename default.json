@@ -114,7 +114,8 @@
       "matchPackagePatterns": [
         "^@nestjs\\/",
         "nestjs-",
-        "nest-winston"
+        "nest-winston",
+        "reflect-metadata"
       ]
     },
     {
