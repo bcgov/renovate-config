@@ -89,8 +89,7 @@
       "groupName": "angular",
       "matchPackagePatterns": [
         "^@angular\\/",
-        "^@angular-devkit\\/",
-        "^@angular-eslint\\/"
+        "^@angular-"
       ]
     },
     {
