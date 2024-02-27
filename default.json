@@ -151,9 +151,21 @@
       "matchManagers": [
         "github-actions"
       ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest",
+        "lockFileMaintenance",
+        "rollback",
+        "bump",
+        "replacement"
+      ],
       "groupName": "github actions all dependencies",
       "groupSlug": "github actions all",
-      "minimumReleaseAge": "3 days"
+      "minimumReleaseAge": "1 days"
     }
   ],
   "pre-commit": {
