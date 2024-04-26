@@ -119,7 +119,7 @@
     },
     {
       "description": "JS - group @mui",
-      "groupName": "nestjs",
+      "groupName": "mui",
       "matchPackagePatterns": [
         "^@mui\\/"
       ]
