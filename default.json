@@ -118,6 +118,13 @@
       ]
     },
     {
+      "description": "JS - group @mui",
+      "groupName": "nestjs",
+      "matchPackagePatterns": [
+        "^@mui\\/"
+      ]
+    },
+    {
       "description": "JS - group redux",
       "groupName": "redux",
       "matchPackagePatterns": [
