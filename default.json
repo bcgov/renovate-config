@@ -173,6 +173,17 @@
       "groupName": "github actions all dependencies",
       "groupSlug": "github actions all",
       "minimumReleaseAge": "1 days"
+    },
+    {
+      "description": "JS - block eslint9",
+      "enabled": false,
+      "groupName": "eslint9",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchPackagePatterns": [
+        "eslint"
+      ]
     }
   ],
   "pre-commit": {
