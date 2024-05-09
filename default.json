@@ -28,7 +28,6 @@
   "forkProcessing": "enabled",
   "onboarding": true,
   "platform": "github",
-  "forkProcessing": "disabled",
   "configMigration": true,
   "dependencyDashboard": true,
   "automerge": true,
