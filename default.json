@@ -25,6 +25,7 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)"
   ],
+  "includeForks": true,
   "onboarding": true,
   "platform": "github",
   "forkProcessing": "disabled",
