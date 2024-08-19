@@ -186,6 +186,9 @@
       ]
     }
   ],
+  "ignorePresets": [
+    ":ignoreModulesAndTests"
+  ],
   "pre-commit": {
     "pinDigests": false
   }
