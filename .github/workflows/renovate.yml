@@ -28,7 +28,7 @@ env:
   pr_set: '["bcgov/renovate-config", "bcgov/quickstart-openshift"]'
 
 jobs:
-  Renovate:
+  run:
     permissions:
       pull-requests: write
     runs-on: ubuntu-22.04
@@ -65,3 +65,11 @@ jobs:
         with:
           configurationFile: renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}
+
+  validate:
+    runs-on: ubuntu-22.04
+    needs: run-renovate
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Config
+        run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json"
