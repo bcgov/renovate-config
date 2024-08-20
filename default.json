@@ -35,6 +35,7 @@
   "platformAutomerge": true,
   "prCreation": "not-pending",
   "rebaseWhen": "behind-base-branch",
+  "minimumReleaseAge": "3 days",
   "prConcurrentLimit": 5,
   "packageRules": [
     {
@@ -43,8 +44,7 @@
       "matchPackagePatterns": [
         "^boto3$",
         "^botocore$"
-      ],
-      "minimumReleaseAge": "3 days"
+      ]
     },
     {
       "description": "Py - group pytest",
@@ -52,8 +52,7 @@
       "matchPackagePatterns": [
         "^pytest$",
         "^pytest-"
-      ],
-      "minimumReleaseAge": "3 days"
+      ]
     },
     {
       "description": "Py - group sqlalchemy",
@@ -63,8 +62,7 @@
         "^sqlmodel$",
         "^sqlacodegen$",
         "^mock-alchemy$"
-      ],
-      "minimumReleaseAge": "3 days"
+      ]
     },
     {
       "description": "JS - group vite",
@@ -72,8 +70,7 @@
       "matchPackagePatterns": [
         "^vite$",
         "^@vitejs\\/"
-      ],
-      "minimumReleaseAge": "3 days"
+      ]
     },
     {
       "description": "JS - group linters",
@@ -135,13 +132,6 @@
       ]
     },
     {
-      "description": "One week stability period for npm packages",
-      "matchDatasources": [
-        "npm"
-      ],
-      "minimumReleaseAge": "3 days"
-    },
-    {
       "matchManagers": [
         "maven"
       ],
@@ -151,8 +141,7 @@
         "lockFileMaintenance"
       ],
       "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
-      "minimumReleaseAge": "3 days"
+      "groupSlug": "maven all-minor-patch"
     },
     {
       "matchManagers": [
@@ -171,8 +160,7 @@
         "replacement"
       ],
       "groupName": "github actions all dependencies",
-      "groupSlug": "github actions all",
-      "minimumReleaseAge": "1 days"
+      "groupSlug": "github actions all"
     },
     {
       "description": "JS - block eslint9",
