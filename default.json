@@ -1,5 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "automerge": true,
+  "configMigration": true,
+  "dependencyDashboard": true,
   "description": "Default preset for use with Renovate's repos",
   "extends": [
     "config:recommended",
@@ -26,18 +29,31 @@
     ":semanticCommitScope(deps)"
   ],
   "forkProcessing": "enabled",
-  "onboarding": true,
-  "platform": "github",
-  "configMigration": true,
-  "dependencyDashboard": true,
-  "automerge": true,
-  "automergeType": "pr",
-  "platformAutomerge": true,
-  "prCreation": "not-pending",
-  "rebaseWhen": "behind-base-branch",
+  "ignorePresets": [
+    ":ignoreModulesAndTests"
+  ],
   "minimumReleaseAge": "3 days",
-  "prConcurrentLimit": 5,
+  "onboarding": true,
   "packageRules": [
+    {
+      "groupName": "github actions all dependencies",
+      "groupSlug": "github actions all",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest",
+        "lockFileMaintenance",
+        "rollback",
+        "bump",
+        "replacement"
+      ]
+    },
     {
       "description": "Py - group boto",
       "groupName": "boto",
@@ -132,6 +148,8 @@
       ]
     },
     {
+      "groupName": "maven all non-major dependencies",
+      "groupSlug": "maven all-minor-patch",
       "matchManagers": [
         "maven"
       ],
@@ -139,28 +157,7 @@
         "minor",
         "patch",
         "lockFileMaintenance"
-      ],
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch"
-    },
-    {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "groupName": "github actions all dependencies",
-      "groupSlug": "github actions all"
+      ]
     },
     {
       "description": "JS - block eslint9",
@@ -174,10 +171,7 @@
       ]
     }
   ],
-  "ignorePresets": [
-    ":ignoreModulesAndTests"
-  ],
-  "pre-commit": {
-    "pinDigests": false
-  }
+  "platform": "github",
+  "platformAutomerge": true,
+  "prConcurrentLimit": 5
 }
