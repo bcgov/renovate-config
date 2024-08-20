@@ -23,39 +23,29 @@ concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
-# Variables
-env:
-  pr_set: '["bcgov/renovate-config", "bcgov/quickstart-openshift"]'
-
 jobs:
   run:
+    env:
+      pr_set: bcgov/renovate-config bcgov/quickstart-openshift
     permissions:
       pull-requests: write
     runs-on: ubuntu-22.04
     steps:
-      # workflow_dispatch - optional inputs
       - uses: actions/checkout@v4
-      - name: Config for manual workflows (optional)
+
+        # Run Renovate, dry run
+      - name: Renovate Dry Run
         run: |
-          # Process and reformat inputs.repos
-          IFS=', ' read -a INPUT <<< "${{ inputs.repos }}"
+          # Process repo list and add to config
+          IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
           REPOS=${REPOS%,*}
-
-          # Set target repos
           cat <<< $(jq '. | .repositories = ['${REPOS}']' renovate.json) > renovate.json
-          cat renovate.json | jq .repositories
 
-      # PRs - dry run and a small number of repos
-      - name: Config for pull requests
-        if: github.event_name == 'pull_request'
-        run: |
-          # Dry run and short repo list
+          # Dry run
           cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
-          cat <<< $(jq '. | .repositories = ${{ env.pr_set }}' renovate.json) > renovate.json
-          cat renovate.json | jq .repositories
 
       # Run Renovate
       - name: Run Renovate
