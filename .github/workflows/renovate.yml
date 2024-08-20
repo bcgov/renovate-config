@@ -60,7 +60,6 @@ jobs:
   validate:
     name: Validate
     runs-on: ubuntu-22.04
-    needs: run-renovate
     steps:
       - uses: actions/checkout@v4
       - name: Validate Config
