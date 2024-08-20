@@ -25,6 +25,7 @@ concurrency:
 
 jobs:
   run:
+    name: Dry-Run
     env:
       pr_set: bcgov/renovate-config bcgov/quickstart-openshift
     permissions:
@@ -34,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
 
         # Run Renovate, dry run
-      - name: Renovate Dry Run
+      - name: Renovate Dry-Run
         run: |
           # Process repo list and add to config
           IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
@@ -57,6 +58,7 @@ jobs:
           token: ${{ secrets.RENOVATE_TOKEN }}
 
   validate:
+    name: Validate
     runs-on: ubuntu-22.04
     needs: run-renovate
     steps:
