@@ -26,7 +26,11 @@
     ":preserveSemverRanges",
     ":rebaseStalePrs",
     ":semanticCommits",
-    ":semanticCommitScope(deps)"
+    ":semanticCommitScope(deps)",
+    "github>bcgov/renovate-config/renovate-actions.json5",
+    "github>bcgov/renovate-config/renovate-java.json5",
+    "github>bcgov/renovate-config/renovate-javascript.json5",
+    "github>bcgov/renovate-config/renovate-python.json5"
   ],
   "forkProcessing": "enabled",
   "ignorePresets": [
@@ -34,143 +38,6 @@
   ],
   "minimumReleaseAge": "7 days",
   "onboarding": true,
-  "packageRules": [
-    {
-      "groupName": "github actions all dependencies",
-      "groupSlug": "github actions all",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ]
-    },
-    {
-      "description": "Py - group boto",
-      "groupName": "boto",
-      "matchPackagePatterns": [
-        "^boto3$",
-        "^botocore$"
-      ]
-    },
-    {
-      "description": "Py - group pytest",
-      "groupName": "pytest",
-      "matchPackagePatterns": [
-        "^pytest$",
-        "^pytest-"
-      ]
-    },
-    {
-      "description": "Py - group sqlalchemy",
-      "groupName": "sqlalchemy",
-      "matchPackagePatterns": [
-        "^sqlalchemy$",
-        "^sqlmodel$",
-        "^sqlacodegen$",
-        "^mock-alchemy$"
-      ]
-    },
-    {
-      "description": "JS - group vite",
-      "groupName": "vite",
-      "matchPackagePatterns": [
-        "^vite$",
-        "^@vitejs\\/"
-      ]
-    },
-    {
-      "description": "JS - group linters",
-      "groupName": "linters",
-      "matchPackagePatterns": [
-        "eslint",
-        "^@prettier\\/",
-        "^prettier-plugin-"
-      ]
-    },
-    {
-      "description": "JS - group @angular",
-      "groupName": "angular",
-      "matchPackagePatterns": [
-        "^@angular\\/",
-        "^@angular-"
-      ]
-    },
-    {
-      "description": "JS - group aws-amplify",
-      "groupName": "aws-amplify",
-      "matchPackagePatterns": [
-        "^@aws-amplify\\/",
-        "^aws-amplify"
-      ]
-    },
-    {
-      "description": "JS - group @testing-library",
-      "groupName": "testing-library",
-      "matchPackagePatterns": [
-        "^@testing-library\\/"
-      ]
-    },
-    {
-      "description": "JS - group @nestjs",
-      "groupName": "nestjs",
-      "matchPackagePatterns": [
-        "^@nestjs\\/",
-        "nestjs-",
-        "nest-winston",
-        "reflect-metadata"
-      ]
-    },
-    {
-      "description": "JS - group @mui",
-      "groupName": "mui",
-      "matchPackagePatterns": [
-        "^@mui\\/"
-      ]
-    },
-    {
-      "description": "JS - group redux",
-      "groupName": "redux",
-      "matchPackagePatterns": [
-        "^@redux-devtools\\/",
-        "redux",
-        "react-redux",
-        "redux-thunk"
-      ]
-    },
-    {
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
-      "matchManagers": [
-        "maven"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "lockFileMaintenance"
-      ]
-    },
-    {
-      "description": "JS - block eslint9",
-      "enabled": false,
-      "groupName": "eslint9",
-      "matchManagers": [
-        "npm"
-      ],
-      "matchPackagePatterns": [
-        "eslint"
-      ]
-    }
-  ],
   "platform": "github",
   "platformAutomerge": true,
   "prConcurrentLimit": 5
