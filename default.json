@@ -27,6 +27,7 @@
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
+    "github>bcgov/renovate-config/renovate-actions.json5",
     "github>bcgov/renovate-config/renovate-java.json5",
     "github>bcgov/renovate-config/renovate-js.json5",
     "github>bcgov/renovate-config/renovate-python.json5"
@@ -37,39 +38,6 @@
   ],
   "minimumReleaseAge": "7 days",
   "onboarding": true,
-  "packageRules": [
-    {
-      "groupName": "github actions all dependencies",
-      "groupSlug": "github actions all",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ]
-    },
-    {
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
-      "matchManagers": [
-        "maven"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "lockFileMaintenance"
-      ]
-    }
-  ],
   "platform": "github",
   "platformAutomerge": true,
   "prConcurrentLimit": 5
