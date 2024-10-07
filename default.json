@@ -27,6 +27,7 @@
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
+    "github>bcgov/renovate-config/renovate-java.json5",
     "github>bcgov/renovate-config/renovate-js.json5"
   ],
   "forkProcessing": "enabled",
