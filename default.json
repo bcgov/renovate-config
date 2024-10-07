@@ -26,7 +26,8 @@
     ":preserveSemverRanges",
     ":rebaseStalePrs",
     ":semanticCommits",
-    ":semanticCommitScope(deps)"
+    ":semanticCommitScope(deps)",
+    "github>bcgov/renovate-config/renovate-js.json5"
   ],
   "forkProcessing": "enabled",
   "ignorePresets": [
@@ -81,73 +82,6 @@
       ]
     },
     {
-      "description": "JS - group vite",
-      "groupName": "vite",
-      "matchPackagePatterns": [
-        "^vite$",
-        "^@vitejs\\/"
-      ]
-    },
-    {
-      "description": "JS - group linters",
-      "groupName": "linters",
-      "matchPackagePatterns": [
-        "eslint",
-        "^@prettier\\/",
-        "^prettier-plugin-"
-      ]
-    },
-    {
-      "description": "JS - group @angular",
-      "groupName": "angular",
-      "matchPackagePatterns": [
-        "^@angular\\/",
-        "^@angular-"
-      ]
-    },
-    {
-      "description": "JS - group aws-amplify",
-      "groupName": "aws-amplify",
-      "matchPackagePatterns": [
-        "^@aws-amplify\\/",
-        "^aws-amplify"
-      ]
-    },
-    {
-      "description": "JS - group @testing-library",
-      "groupName": "testing-library",
-      "matchPackagePatterns": [
-        "^@testing-library\\/"
-      ]
-    },
-    {
-      "description": "JS - group @nestjs",
-      "groupName": "nestjs",
-      "matchPackagePatterns": [
-        "^@nestjs\\/",
-        "nestjs-",
-        "nest-winston",
-        "reflect-metadata"
-      ]
-    },
-    {
-      "description": "JS - group @mui",
-      "groupName": "mui",
-      "matchPackagePatterns": [
-        "^@mui\\/"
-      ]
-    },
-    {
-      "description": "JS - group redux",
-      "groupName": "redux",
-      "matchPackagePatterns": [
-        "^@redux-devtools\\/",
-        "redux",
-        "react-redux",
-        "redux-thunk"
-      ]
-    },
-    {
       "groupName": "maven all non-major dependencies",
       "groupSlug": "maven all-minor-patch",
       "matchManagers": [
@@ -157,17 +91,6 @@
         "minor",
         "patch",
         "lockFileMaintenance"
-      ]
-    },
-    {
-      "description": "JS - block eslint9",
-      "enabled": false,
-      "groupName": "eslint9",
-      "matchManagers": [
-        "npm"
-      ],
-      "matchPackagePatterns": [
-        "eslint"
       ]
     }
   ],
