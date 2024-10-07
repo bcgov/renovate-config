@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": "Group boto",
+      "groupName": "boto",
+      "matchPackagePatterns": [
+        "^boto3$",
+        "^botocore$"
+      ]
+    },
+    {
+      "description": "Group pytest",
+      "groupName": "pytest",
+      "matchPackagePatterns": [
+        "^pytest$",
+        "^pytest-"
+      ]
+    },
+    {
+      "description": "Group sqlalchemy",
+      "groupName": "sqlalchemy",
+      "matchPackagePatterns": [
+        "^sqlalchemy$",
+        "^sqlmodel$",
+        "^sqlacodegen$",
+        "^mock-alchemy$"
+      ]
+    }
+  ]
+}

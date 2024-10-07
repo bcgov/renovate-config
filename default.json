@@ -28,7 +28,8 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "github>bcgov/renovate-config/renovate-java.json5",
-    "github>bcgov/renovate-config/renovate-js.json5"
+    "github>bcgov/renovate-config/renovate-js.json5",
+    "github>bcgov/renovate-config/renovate-python.json5"
   ],
   "forkProcessing": "enabled",
   "ignorePresets": [
@@ -54,32 +55,6 @@
         "rollback",
         "bump",
         "replacement"
-      ]
-    },
-    {
-      "description": "Py - group boto",
-      "groupName": "boto",
-      "matchPackagePatterns": [
-        "^boto3$",
-        "^botocore$"
-      ]
-    },
-    {
-      "description": "Py - group pytest",
-      "groupName": "pytest",
-      "matchPackagePatterns": [
-        "^pytest$",
-        "^pytest-"
-      ]
-    },
-    {
-      "description": "Py - group sqlalchemy",
-      "groupName": "sqlalchemy",
-      "matchPackagePatterns": [
-        "^sqlalchemy$",
-        "^sqlmodel$",
-        "^sqlacodegen$",
-        "^mock-alchemy$"
       ]
     },
     {
