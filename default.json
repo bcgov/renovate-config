@@ -27,10 +27,10 @@
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
-    "local>bcgov/renovate-config:renovate-actions.json5",
-    "local>bcgov/renovate-config:renovate-java.json5",
-    "local>bcgov/renovate-config:renovate-javascript.json5",
-    "local>bcgov/renovate-config:renovate-python.json5"
+    "local>bcgov/renovate-config:rules-actions.json5",
+    "local>bcgov/renovate-config:rules-java.json5",
+    "local>bcgov/renovate-config:rules-javascript.json5",
+    "local>bcgov/renovate-config:rules-python.json5"
   ],
   "forkProcessing": "enabled",
   "ignorePresets": [
