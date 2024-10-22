@@ -11,7 +11,8 @@
         "minor",
         "patch",
         "lockFileMaintenance"
-      ]
+      ],
+      "minimumReleaseAge": "7 days"
     }
   ]
 }
