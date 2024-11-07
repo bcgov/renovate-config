@@ -46,6 +46,7 @@
       "groupName": "nestjs",
       "matchPackagePatterns": [
         "^@nestjs\\/",
+        "^@swc\\/"
         "nestjs-",
         "nest-winston",
         "reflect-metadata"
