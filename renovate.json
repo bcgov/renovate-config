@@ -3,5 +3,6 @@
   "description": "Default preset for use with Renovate's repos",
   "extends": [
     "github>bcgov/renovate-config"
-  ]
+  ],
+  "configMigration": true
 }
