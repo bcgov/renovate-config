@@ -40,5 +40,5 @@
   "onboarding": true,
   "platform": "github",
   "platformAutomerge": true,
-  "prConcurrentLimit": 5
+  "prConcurrentLimit": 2
 }
