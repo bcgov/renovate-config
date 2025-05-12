@@ -23,6 +23,8 @@ concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   run:
     name: Dry-Run
