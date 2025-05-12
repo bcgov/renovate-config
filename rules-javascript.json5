@@ -79,6 +79,13 @@
       "matchPackagePatterns": [
         "eslint"
       ]
+    },
+    {
+      "description": "Apply prerelease?  False = no.",
+      "enabled": false,
+      "matchUpdateTypes": [
+        "prerelease"
+      ]
     }
   ]
 }
