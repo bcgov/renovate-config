@@ -81,7 +81,7 @@
       ]
     },
     {
-      "description": "Ignore prereleases",
+      "description": "Apply prerelease?  False = no.",
       "enabled": false,
       "matchUpdateTypes": [
         "prerelease"
