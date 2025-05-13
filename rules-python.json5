@@ -4,27 +4,21 @@
     {
       "description": "Group boto",
       "groupName": "boto",
-      "matchPackagePatterns": [
-        "^boto3$",
-        "^botocore$"
-      ]
+      "matchPackageNames": ["/^boto3$/", "/^botocore$/"]
     },
     {
       "description": "Group pytest",
       "groupName": "pytest",
-      "matchPackagePatterns": [
-        "^pytest$",
-        "^pytest-"
-      ]
+      "matchPackageNames": ["/^pytest$/", "/^pytest-/"]
     },
     {
       "description": "Group sqlalchemy",
       "groupName": "sqlalchemy",
-      "matchPackagePatterns": [
-        "^sqlalchemy$",
-        "^sqlmodel$",
-        "^sqlacodegen$",
-        "^mock-alchemy$"
+      "matchPackageNames": [
+        "/^sqlalchemy$/",
+        "/^sqlmodel$/",
+        "/^sqlacodegen$/",
+        "/^mock-alchemy$/"
       ]
     }
   ]
