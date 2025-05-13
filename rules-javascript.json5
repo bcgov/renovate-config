@@ -1,100 +1,72 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-   "packageRules": [
+  "packageRules": [
     {
       "description": "Group vite",
       "groupName": "vite",
-      "matchPackagePatterns": [
-        "^vite$",
-        "^@vitejs\\/"
-      ]
+      "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
     },
     {
       "description": "Group linters",
       "groupName": "linters",
-      "matchPackagePatterns": [
-        "eslint",
-        "^@prettier\\/",
-        "^prettier-plugin-"
+      "matchPackageNames": [
+        "/eslint/",
+        "/^@prettier\\//",
+        "/^prettier-plugin-/"
       ]
     },
     {
       "description": "Group @angular",
       "groupName": "angular",
-      "matchPackagePatterns": [
-        "^@angular\\/",
-        "^@angular-"
-      ]
+      "matchPackageNames": ["/^@angular\\//", "/^@angular-/"]
     },
     {
       "description": "Group aws-amplify",
       "groupName": "aws-amplify",
-      "matchPackagePatterns": [
-        "^@aws-amplify\\/",
-        "^aws-amplify"
-      ]
+      "matchPackageNames": ["/^@aws-amplify\\//", "/^aws-amplify/"]
     },
     {
       "description": "Group @testing-library",
       "groupName": "testing-library",
-      "matchPackagePatterns": [
-        "^@testing-library\\/"
-      ]
+      "matchPackageNames": ["/^@testing-library\\//"]
     },
     {
       "description": "Group @nestjs",
       "groupName": "nestjs",
-      "matchPackagePatterns": [
-        "^@nestjs\\/",
-        "^@swc\\/",
-        "nestjs-",
-        "nest-winston",
-        "reflect-metadata"
+      "matchPackageNames": [
+        "/^@nestjs\\//",
+        "/^@swc\\//",
+        "/nestjs-/",
+        "/nest-winston/",
+        "/reflect-metadata/"
       ]
     },
     {
       "description": "Group @mui",
       "groupName": "mui",
-      "matchPackagePatterns": [
-        "^@mui\\/"
-      ]
+      "matchPackageNames": ["/^@mui\\//"]
     },
     {
       "description": "Group redux",
       "groupName": "redux",
-      "matchPackagePatterns": [
-        "^@redux-devtools\\/",
-        "redux",
-        "react-redux",
-        "redux-thunk"
+      "matchPackageNames": [
+        "/^@redux-devtools\\//",
+        "/redux/",
+        "/react-redux/",
+        "/redux-thunk/"
       ]
     },
     {
       "description": "JS - block eslint9",
       "enabled": false,
       "groupName": "eslint9",
-      "matchManagers": [
-        "npm"
-      ],
-      "matchPackagePatterns": [
-        "eslint"
-      ]
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["/eslint/"]
     },
     {
       "description": "Apply prerelease?  False = no.",
       "enabled": false,
-      "matchUpdateTypes": [
-        "prerelease"
-      ]
-    },
-    {
-      "description": "Use SHAs for updates",
-      "semanticCommits": true,
-      "semanticCommitType": "chore"
-    },
-    {
-      "description": "Use SHAs for updates",
-      "pinDigests": true
+      "matchUpdateTypes": ["prerelease"]
     }
   ]
 }

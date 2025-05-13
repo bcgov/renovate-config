@@ -45,11 +45,11 @@
   "packageRules": [
     {
       "description": "Exclude actions from actions and bcgov domains from pinDigests",
-      "matchPackagePatterns": [
-        "^@actions/",
-        "^@bcgov/"
-      ],
-      "pinDigests": false
+      "pinDigests": false,
+      "matchPackageNames": [
+        "/^@actions//",
+        "/^@bcgov//"
+      ]
     }
   ]
 }
