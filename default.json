@@ -41,5 +41,15 @@
   "platform": "github",
   "platformAutomerge": true,
   "prConcurrentLimit": 2,
-  "pinDigests": true
+  "pinDigests": true,
+  "packageRules": [
+    {
+      "description": "Exclude actions from actions and bcgov domains from pinDigests",
+      "matchPackagePatterns": [
+        "^@actions/",
+        "^@bcgov/"
+      ],
+      "pinDigests": false
+    }
+  ]
 }
