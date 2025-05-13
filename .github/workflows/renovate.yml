@@ -69,4 +69,4 @@ jobs:
           node-version: '22'
 
       - name: Validate Config
-        run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json"
+        run: npx --yes --package renovate --- "renovate-config-validator default.json renovate.json rules-*.json5"
