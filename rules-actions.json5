@@ -19,6 +19,20 @@
         "bump",
         "replacement"
       ]
+    },
+    {
+      "description": "Apply prerelease?  False = no.",
+      "enabled": false,
+      "matchUpdateTypes": ["prerelease"]
+    },
+    {
+      "description": "Block prerelease updates for Actions",
+      "enabled": false,
+      "matchCurrentVersion": [
+        ".*-alpha.*",
+        ".*-beta.*",
+        ".*-rc.*"
+      ]
     }
   ]
 }
