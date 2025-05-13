@@ -86,6 +86,15 @@
       "matchUpdateTypes": [
         "prerelease"
       ]
+    },
+    {
+      "description": "Use SHAs for updates",
+      "semanticCommits": true,
+      "semanticCommitType": "chore"
+    },
+    {
+      "description": "Use SHAs for updates",
+      "pinDigests": true
     }
   ]
 }
