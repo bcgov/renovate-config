@@ -28,11 +28,7 @@
     {
       "description": "Block prerelease updates for Actions",
       "enabled": false,
-      "matchCurrentVersion": [
-        ".*-alpha.*",
-        ".*-beta.*",
-        ".*-rc.*"
-      ]
+      "matchCurrentVersion": ".*-(alpha|beta|rc).*"
     }
   ]
 }
