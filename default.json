@@ -50,6 +50,11 @@
         "/^@actions//",
         "/^@bcgov//"
       ]
+    },
+    {
+      "description": "Apply prerelease?  False = no.",
+      "enabled": false,
+      "matchCurrentVersion": ".*-(alpha|beta|rc).*"
     }
   ]
 }
