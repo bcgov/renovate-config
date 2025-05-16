@@ -1,67 +1,101 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Group JavaScript/TypeScript dependencies for unified update PRs and easier management
   "packageRules": [
+    // Group vite dependencies
     {
       "description": "Group vite",
       "groupName": "vite",
-      "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
+      "matchPackagePatterns": [
+        "^vite$",
+        "^@vitejs\\/"
+      ]
     },
+    // Group linters
     {
       "description": "Group linters",
       "groupName": "linters",
-      "matchPackageNames": [
-        "/eslint/",
-        "/^@prettier\\//",
-        "/^prettier-plugin-/"
+      "matchPackagePatterns": [
+        "eslint",
+        "^@prettier\\/",
+        "^prettier-plugin-"
       ]
     },
+    // Group @angular dependencies
     {
       "description": "Group @angular",
       "groupName": "angular",
-      "matchPackageNames": ["/^@angular\\//", "/^@angular-/"]
+      "matchPackagePatterns": [
+        "^@angular\\/",
+        "^@angular-"
+      ]
     },
+    // Group aws-amplify dependencies
     {
       "description": "Group aws-amplify",
       "groupName": "aws-amplify",
-      "matchPackageNames": ["/^@aws-amplify\\//", "/^aws-amplify/"]
+      "matchPackagePatterns": [
+        "^@aws-amplify\\/",
+        "^aws-amplify"
+      ]
     },
+    // Group @testing-library dependencies
     {
       "description": "Group @testing-library",
       "groupName": "testing-library",
-      "matchPackageNames": ["/^@testing-library\\//"]
+      "matchPackagePatterns": [
+        "^@testing-library\\/"
+      ]
     },
+    // Group @nestjs dependencies
     {
       "description": "Group @nestjs",
       "groupName": "nestjs",
-      "matchPackageNames": [
-        "/^@nestjs\\//",
-        "/^@swc\\//",
-        "/nestjs-/",
-        "/nest-winston/",
-        "/reflect-metadata/"
+      "matchPackagePatterns": [
+        "^@nestjs\\/",
+        "^@swc\\/",
+        "nestjs-",
+        "nest-winston",
+        "reflect-metadata"
       ]
     },
+    // Group @mui dependencies
     {
       "description": "Group @mui",
       "groupName": "mui",
-      "matchPackageNames": ["/^@mui\\//"]
+      "matchPackagePatterns": [
+        "^@mui\\/"
+      ]
     },
+    // Group redux dependencies
     {
       "description": "Group redux",
       "groupName": "redux",
-      "matchPackageNames": [
-        "/^@redux-devtools\\//",
-        "/redux/",
-        "/react-redux/",
-        "/redux-thunk/"
+      "matchPackagePatterns": [
+        "^@redux-devtools\\/",
+        "redux",
+        "react-redux",
+        "redux-thunk"
       ]
     },
+    // Block eslint9 updates for JS
     {
       "description": "JS - block eslint9",
       "enabled": false,
       "groupName": "eslint9",
       "matchManagers": ["npm"],
-      "matchPackageNames": ["/eslint/"]
+      "matchPackagePatterns": ["eslint"]
+    },
+    // Block prerelease updates for JS
+    {
+      "description": "Apply prerelease?  False = no.",
+      "enabled": false,
+      "matchUpdateTypes": ["prerelease"]
+    },
+    // Use SHAs for updates in JS
+    {
+      "description": "Use SHAs for updates",
+      "pinDigests": true
     }
   ]
 }
