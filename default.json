@@ -56,10 +56,6 @@
       "pinDigests": false,
       "matchManagers": [
         "dockerfile"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "pinDigest"
       ]
     }
   ]
