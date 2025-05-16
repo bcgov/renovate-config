@@ -33,8 +33,7 @@
       "matchPackageNames": [
         "/^actions\\//",
         "/^github\\//"
-      ],
-      "matchUpdateTypes": ["digest", "pinDigest"]
+      ]
     }
     // Add additional rules below as needed
   ]
