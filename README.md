@@ -11,8 +11,7 @@
 
 ## Table of Contents
 
-- [Who Should Use This?](#who-should-use-this)
-- [Why Use Renovate?](#why-use-renovate)
+- [Purpose & Audience](#purpose--audience)
 - [Quick Start & Usage](#quick-start--usage)
 - [FAQ / Troubleshooting](#faq--troubleshooting)
 - [Customization](#customization)
@@ -25,27 +24,29 @@
 - [Releases & Change History](#releases--change-history)
 - [License](#license)
 
-## Who Should Use This?
+## Purpose & Audience
 
-This shared Mend Renovate configuration is intended for:
-- All teams and projects in the [bcgov](https://github.com/bcgov) organization who want secure, automated, and maintainable dependency updates.
-- Downstream repositories that want to adopt consistent, organization-approved Renovate rules with minimal setup.
-- Any project that values supply chain security, grouped PRs, and clear update policies for JavaScript/TypeScript, Python, Java, GitHub Actions, and Docker.
+Mend Renovate is the recommended solution for secure, automated, and maintainable dependency management across the bcgov organization and beyond. This configuration is designed for:
+- All teams and projects in the [bcgov](https://github.com/bcgov) organization
+- Downstream repositories seeking consistent, organization-approved Renovate rules with minimal setup
+- Any project that values supply chain security, grouped PRs, and clear update policies for JavaScript/TypeScript, Python, Java, GitHub Actions, and Docker
 
-## Why Use Renovate?
+**Why choose Mend Renovate and this configuration?**
+- **Security:** Proactively reduces your exposure to vulnerabilities in third-party code by keeping dependencies current and pinned where appropriate.
+- **Reliability:** Ensures your software benefits from the latest bug fixes and performance improvements.
+- **Compliance:** Helps your team meet organizational and industry requirements for patch management and supply chain security.
+- **Developer Experience:** Minimizes technical debt, streamlines upgrades, and reduces the manual burden of dependency management.
 
-Keeping dependencies up to date is essential for:
-- **Security:** Reduces your exposure to vulnerabilities in third-party code.
-- **Reliability:** Ensures you benefit from bug fixes and performance improvements.
-- **Compliance:** Helps meet organizational and industry requirements for patch management.
-- **Developer Experience:** Reduces technical debt and makes future upgrades easier.
+> **Adopting this configuration means your team is following bcgov best practices for dependency management, supply chain security, and automation.**
 
-Renovate automates the detection and updating of dependencies, saving your team time and reducing risk.
+Renovate automates the detection and updating of dependencies, saving your team time and reducing risk. By using this shared configuration, you benefit from expert-reviewed, organization-wide standards and ongoing improvements.
 
 ## Quick Start & Usage
 
-1. **Enable Mend Renovate** for your repository (see [bcgov devops-requests](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) if needed).
-2. **Add a `renovate.json` file** to your repo with:
+1. **Enable Mend Renovate** for your repository:
+   - **BCGov organization:** Must [create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) asking to join the Mend Renovate GitHub App.
+   - **Other organizations:** Options may include opt-in by `renovate.json` or the [Mend Renovate GitHub App](https://github.com/apps/renovate).
+2. **Add a `renovate.json` file** to the default branch of your repo with:
    ```json
    {
      "extends": ["github>bcgov/renovate-config"]
@@ -67,24 +68,22 @@ Renovate automates the detection and updating of dependencies, saving your team 
 - Minimum release age (7 days) to avoid just-published breaking changes
 - Language/ecosystem-specific grouping (see File Overview below)
 - GitHub Actions pinning policy: actions/github orgs unpinned, all others pinned
-- Dockerfile pinning/unpinning managed in `default.json`
 
 For more details, see the [File Overview](#file-overview) and config files.
 
 ## FAQ / Troubleshooting
 
 **Q: What if a dependency update breaks my build?**
-- You can pin, ignore, or customize rules for that dependency using Renovate’s flexible config.
+- The best practice is to adapt your code or configuration to support updated dependencies. Use pinning or ignoring only as a temporary measure, and plan to address breaking changes promptly to avoid technical debt.
 
 **Q: How do I ignore or pin a specific dependency?**
 - Add a custom rule in your repo’s `renovate.json` or open an issue for help.
 
+**Q: How do I customize the shared config for my project?**
+- You can override or extend the shared config by adding custom rules to your repo’s `renovate.json` after the `extends` line. See the [Renovate docs](https://docs.renovatebot.com/configuration-options/) for more details, or see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 **Q: How do I get help?**
 - See [CONTRIBUTING.md](CONTRIBUTING.md) or open an issue.
-
-## Customization
-
-You can override or extend the shared config by adding custom rules to your repo’s `renovate.json` after the `extends` line. See the [Renovate docs](https://docs.renovatebot.com/configuration-options/) for more details, or see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## File Overview
 
