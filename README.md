@@ -7,6 +7,32 @@
 
 # Mend Renovate Config - Automatic Dependency Updates
 
+> **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change. Please provide feedback and expect improvements over time.
+
+## Table of Contents
+
+- [Who Should Use This?](#who-should-use-this)
+- [Why Use Renovate?](#why-use-renovate)
+- [Quick Start](#quick-start)
+- [How It Works](#how-it-works)
+- [FAQ / Troubleshooting](#faq--troubleshooting)
+- [Customization](#customization)
+- [Contact / Support](#contact--support)
+- [How to Use](#how-to-use)
+- [Team Commitment](#team-commitment)
+- [File Overview](#file-overview)
+- [Example: How Pinning/Unpinning Works for GitHub Actions](#example-how-pinningunpinning-works-for-github-actions)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
+
+## Who Should Use This?
+
+This shared Mend Renovate configuration is intended for:
+- All teams and projects in the [bcgov](https://github.com/bcgov) organization who want secure, automated, and maintainable dependency updates.
+- Downstream repositories that want to adopt consistent, organization-approved Renovate rules with minimal setup.
+- Any project that values supply chain security, grouped PRs, and clear update policies for JavaScript/TypeScript, Python, Java, GitHub Actions, and Docker.
+
 ## Why Use Renovate?
 
 Keeping dependencies up to date is essential for:
@@ -27,7 +53,7 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
 
 ## Quick Start
 
-1. Ensure Renovate is enabled for your repository (see [How to Use](#how-to-use)).
+1. Ensure Mend Renovate is enabled for your repository (see [How to Use](#how-to-use)).
 2. Add a `renovate.json` file to your repo with:
 
    ```json
@@ -35,7 +61,10 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
      "extends": ["github>bcgov/renovate-config"]
    }
    ```
-3. Commit and push. Renovate will scan your repo and open PRs for any outdated dependencies.
+3. Commit and push. Mend Renovate will scan your repo and open PRs for any outdated dependencies.
+
+- **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
+- **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)
 
 ## How It Works
 
@@ -69,8 +98,8 @@ We’re excited to help you keep your dependencies secure and up to date. If you
 
 ## How to Use
 
-0. **Prerequitesites:**
-   - Repos in the [bcgov organization](https://github.com/bcgov) must request Renovate access by [creating an issue.](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
+0. **Prerequisites:**
+   - Repos in the [bcgov organization](https://github.com/bcgov) must request Mend Renovate access by [creating an issue.](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
    - Other (non-bcgov) options include opt-in by renovate.json or allow teams to enable by themselves.
   
 1. **Reference this config in your downstream repository:**
