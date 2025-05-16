@@ -91,11 +91,6 @@
       "description": "Apply prerelease?  False = no.",
       "enabled": false,
       "matchUpdateTypes": ["prerelease"]
-    },
-    // Use SHAs for updates in JS
-    {
-      "description": "Use SHAs for updates",
-      "pinDigests": true
     }
   ]
 }

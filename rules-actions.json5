@@ -24,12 +24,16 @@
         "replacement"
       ]
     },
-    // Unpin digests (remove SHAs) for all GitHub Actions dependencies
+    // Unpin digests (remove SHAs) for the actions and github orgs
     {
-      "description": "Unpin digests (remove SHAs) for all GitHub Actions dependencies",
+      "description": "Unpin digests for the actions and github orgs",
       "groupSlug": "github-actions-unpin-digests",
       "pinDigests": false,
       "matchManagers": ["github-actions"],
+      "matchPackageNames": [
+        "/^actions\\//",
+        "/^github\\//"
+      ],
       "matchUpdateTypes": ["digest", "pinDigest"]
     }
     // Add additional rules below as needed

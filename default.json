@@ -45,22 +45,6 @@
   "recreateWhen": "never",
   "packageRules": [
     {
-      "description": "Exclude GitHub Actions from pinDigests for actions and github orgs. Also unpin existing digests for these actions.",
-      "groupSlug": "github-actions-unpin-digests",
-      "pinDigests": false,
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "/^actions\\//",
-        "/^github\\//"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "pinDigest"
-      ]
-    },
-    {
       "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
       "groupSlug": "block-prerelease-globally",
       "enabled": false,
