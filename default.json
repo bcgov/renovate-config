@@ -52,9 +52,16 @@
       ]
     },
     {
-      "description": "Apply prerelease?  False = no.",
+      "description": "Apply prerelease?  false = no.",
       "enabled": false,
       "matchCurrentVersion": ".*-(alpha|beta|rc).*"
+    },
+    {
+      "description": "Pin Dockerfiles?  false = no.",
+      "pinDigests": false,
+      "matchManagers": [
+        "dockerfile"
+      ]
     }
   ]
 }
