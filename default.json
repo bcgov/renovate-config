@@ -51,7 +51,8 @@
         "github-actions"
       ],
       "matchPackageNames": [
-        "/^actions\\//"
+        "/^actions\\//",
+        "/^github\\//"
       ]
     },
     {
