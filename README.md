@@ -5,9 +5,11 @@
 [![MIT License](https://img.shields.io/github/license/bcgov/renovate-config.svg)](/LICENSE.md)
 [![Lifecycle](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 
-# Mend Renovate Config - bcgov/renovate-config
+# Mend Renovate Config - Automatic Dependency Updates
 
-This repository provides a shared, opinionated Mend Renovate configuration for use across multiple downstream repositories in the bcgov organization and beyond. It is designed to:
+**Mend Renovate is a tool that automatically scans your repositories, detects outdated dependencies, and creates pull requests to keep them up to date. Keeping dependencies current helps teams avoid security vulnerabilities, benefit from bug fixes, and maintain compatibility with the latest features and standards. Regular updates are a key part of a secure and reliable software supply chain.**
+
+This repository provides a shared, opinionated Mend Renovate configuration for use across multiple downstream repositories. It is designed to:
 
 - Enforce consistent dependency update policies
 - Group and manage updates for multiple languages and ecosystems
@@ -16,7 +18,7 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
 ## How to Use
 
 0. **Prerequitesites:**
-   - Repos in the bcgov organization must request Renovate access by [creating an issue.](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
+   - Repos in the [bcgov organization](https://github.com/bcgov) must request Renovate access by [creating an issue.](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
    - Other (non-bcgov) options include opt-in by renovate.json or allow teams to enable by themselves.
   
 1. **Reference this config in your downstream repository:**
