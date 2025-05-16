@@ -45,11 +45,14 @@
   "recreateWhen": "never",
   "packageRules": [
     {
-      "description": "Exclude actions from actions and bcgov domains from pinDigests",
+      "description": "Exclude GitHub Actions from pinDigests",
       "pinDigests": false,
+      "matchManagers": [
+        "github-actions"
+      ],
       "matchPackageNames": [
-        "/^@actions//",
-        "/^@bcgov//"
+        "/^actions\\//",
+        "/^bcgov\\//"
       ]
     },
     {
