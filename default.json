@@ -51,8 +51,7 @@
         "github-actions"
       ],
       "matchPackageNames": [
-        "/^actions\\//",
-        "/^bcgov\\//"
+        "/^actions\\//"
       ]
     },
     {
