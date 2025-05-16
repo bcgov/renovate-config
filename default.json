@@ -42,6 +42,7 @@
   "platformAutomerge": true,
   "prConcurrentLimit": 2,
   "pinDigests": true,
+  "recreateWhen": "never",
   "packageRules": [
     {
       "description": "Exclude actions from actions and bcgov domains from pinDigests",
