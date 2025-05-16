@@ -84,6 +84,7 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
 ## Security
 
 - See [SECURITY.md](SECURITY.md) for reporting vulnerabilities or concerns.
+- **Teams should follow security best practices by regularly reviewing and merging their Renovate PRs to ensure dependencies stay up to date and secure.**
 
 ## License
 
