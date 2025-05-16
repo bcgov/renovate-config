@@ -46,6 +46,7 @@
   "packageRules": [
     {
       "description": "Exclude GitHub Actions from pinDigests for actions and github orgs. Also unpin existing digests for these actions.",
+      "groupSlug": "github-actions-unpin-digests",
       "pinDigests": false,
       "matchManagers": [
         "github-actions"
@@ -61,11 +62,13 @@
     },
     {
       "description": "Block prerelease updates globally (alpha, beta, rc)",
+      "groupSlug": "block-prerelease-globally",
       "enabled": false,
       "matchCurrentVersion": ".*-(alpha|beta|rc).*"
     },
     {
       "description": "Do not pin digests for Dockerfiles, and unpin existing digests.",
+      "groupSlug": "dockerfile-unpin-digests",
       "pinDigests": false,
       "matchManagers": [
         "dockerfile"
