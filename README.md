@@ -24,6 +24,7 @@
 - [Example: How Pinning/Unpinning Works for GitHub Actions](#example-how-pinningunpinning-works-for-github-actions)
 - [Contributing](#contributing)
 - [Security](#security)
+- [Releases & Change History](#releases--change-history)
 - [License](#license)
 
 ## Who Should Use This?
@@ -177,6 +178,10 @@ By making dependency management a regular part of your workflow, you’ll maximi
 
 - See [SECURITY.md](SECURITY.md) for reporting vulnerabilities or concerns.
 - **Teams should follow security best practices by regularly reviewing and merging their Renovate PRs to ensure dependencies stay up to date and secure.**
+
+## Releases & Change History
+
+For the latest updates, changes, and release notes, please visit the [GitHub Releases page](https://github.com/bcgov/renovate-config/releases). This is the authoritative source for all version history and important changes to this configuration.
 
 ## License
 
