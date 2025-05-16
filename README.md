@@ -5,7 +5,7 @@
 [![MIT License](https://img.shields.io/github/license/bcgov/renovate-config.svg)](/LICENSE.md)
 [![Lifecycle](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 
-# Mend Renovate Config - Automatic Dependency Updates
+# Mend Renovate - Automatic Dependency Updates
 
 > **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change. Please provide feedback and expect improvements over time.
 
@@ -23,6 +23,7 @@
 - [File Overview](#file-overview)
 - [Example: How Pinning/Unpinning Works for GitHub Actions](#example-how-pinningunpinning-works-for-github-actions)
 - [Contributing](#contributing)
+- [Community & Conduct](#community--conduct)
 - [Security](#security)
 - [Releases & Change History](#releases--change-history)
 - [License](#license)
@@ -91,26 +92,17 @@ You can override or extend the shared config by adding custom rules to your repo
 
 ## Contact / Support
 
-For help, questions, or to request changes to the shared config, please contact:
-- Derek Roberts (<derek.roberts@gov.bc.ca>)
-- Omprakash Mishra (<omprakash.2.mishra@gov.bc.ca>)
-
-We’re excited to help you keep your dependencies secure and up to date. If you have questions or ideas, please reach out!
+For help, questions, or to request changes to the shared config, please open an issue or see the [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## How to Use
 
 1. **Prerequisites:**
    - Repos in the [bcgov organization](https://github.com/bcgov) must request Mend Renovate access by [creating an issue.](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
    - Other (non-bcgov) options include opt-in by renovate.json or allow teams to enable by themselves.
-  
+
 2. **Reference this config in your downstream repository:**
-   - In your repo, create a `renovate.json` with the following content:
-     ```json
-     {
-       "extends": ["github>bcgov/renovate-config"]
-     }
-     ```
-   - Or, if you want to override or extend, add your custom rules after the `extends` line.
+   - See the [Quick Start](#quick-start) section above for the required `renovate.json` content and setup instructions.
+   - If you want to override or extend, add your custom rules after the `extends` line in your `renovate.json`.
 
 3. **What you get by default:**
    - **Global pinning:** All dependencies are pinned to SHAs/digests by default for maximum supply chain security.
@@ -173,6 +165,12 @@ By making dependency management a regular part of your workflow, you’ll maximi
 
 - Please open issues or PRs if you have suggestions or need new grouping/pinning rules.
 - All config changes are validated in CI using Renovate’s config validator.
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on contributing, code of conduct, and community expectations.
+
+## Community & Conduct
+
+- By participating in this project, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+- For compliance information, see [COMPLIANCE.yaml](COMPLIANCE.yaml).
 
 ## Security
 
