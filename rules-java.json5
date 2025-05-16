@@ -1,6 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Group Java dependencies for unified update PRs and easier management
   "packageRules": [
+    // Example: Group all springframework dependencies
+    {
+      "description": "Group springframework",
+      "groupName": "springframework",
+      "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
+    },
+    // Group all non-major Maven dependencies
     {
       "groupName": "maven all non-major dependencies",
       "groupSlug": "maven all-minor-patch",
@@ -14,5 +22,6 @@
       ],
       "minimumReleaseAge": "7 days"
     }
+    // Add more grouping rules as needed for your Java ecosystem
   ]
 }

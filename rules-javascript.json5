@@ -1,35 +1,39 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Renovate packageRules for JavaScript/TypeScript dependencies.
+  // This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling.
   "packageRules": [
+    // Group vite dependencies
     {
       "description": "Group vite",
       "groupName": "vite",
       "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
     },
+    // Group linters
     {
       "description": "Group linters",
       "groupName": "linters",
-      "matchPackageNames": [
-        "/eslint/",
-        "/^@prettier\\//",
-        "/^prettier-plugin-/"
-      ]
+      "matchPackageNames": ["/eslint/", "/^@prettier\\//", "/^prettier-plugin-/"]
     },
+    // Group @angular dependencies
     {
       "description": "Group @angular",
       "groupName": "angular",
       "matchPackageNames": ["/^@angular\\//", "/^@angular-/"]
     },
+    // Group aws-amplify dependencies
     {
       "description": "Group aws-amplify",
       "groupName": "aws-amplify",
       "matchPackageNames": ["/^@aws-amplify\\//", "/^aws-amplify/"]
     },
+    // Group @testing-library dependencies
     {
       "description": "Group @testing-library",
       "groupName": "testing-library",
       "matchPackageNames": ["/^@testing-library\\//"]
     },
+    // Group @nestjs dependencies
     {
       "description": "Group @nestjs",
       "groupName": "nestjs",
@@ -41,11 +45,13 @@
         "/reflect-metadata/"
       ]
     },
+    // Group @mui dependencies
     {
       "description": "Group @mui",
       "groupName": "mui",
       "matchPackageNames": ["/^@mui\\//"]
     },
+    // Group redux dependencies
     {
       "description": "Group redux",
       "groupName": "redux",
@@ -56,6 +62,7 @@
         "/redux-thunk/"
       ]
     },
+    // Block eslint9 updates for JS
     {
       "description": "JS - block eslint9",
       "enabled": false,
@@ -63,5 +70,6 @@
       "matchManagers": ["npm"],
       "matchPackageNames": ["/eslint/"]
     }
+    // Add additional rules below as needed
   ]
 }

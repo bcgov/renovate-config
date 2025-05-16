@@ -1,9 +1,23 @@
-# How to contribute
+# Contributing to Mend Renovate Config
 
-Government employees, public and members of the private sector are encouraged to contribute to the repository by **forking and submitting a pull request**.
+Thank you for your interest in contributing! We welcome issues and pull requests for improvements, bug fixes, and new rules.
 
-(If you are new to GitHub, you might start with a [basic tutorial](https://help.github.com/articles/set-up-git) and check out a more detailed guide to [pull requests](https://help.github.com/articles/using-pull-requests/).)
+## How to Contribute
 
-Pull requests will be evaluated by the repository guardians on a schedule and if deemed beneficial will be committed to the main branch.
+- **Open an Issue:** If you have a question, suggestion, or need a new grouping/pinning rule, please [open an issue](https://github.com/bcgov/renovate-config/issues).
+- **Submit a Pull Request:** For code or config changes, fork the repo and submit a PR. All config changes are validated in CI using Renovate’s config validator.
+- **Review/Merge Cadence:** We aim to review and merge PRs regularly. Please be patient and feel free to ping if your PR is urgent.
 
-All contributors retain the original copyright to their stuff, but by contributing to this project, you grant a world-wide, royalty-free, perpetual, irrevocable, non-exclusive, transferable license to all users **under the terms of the [license](./LICENSE.md) under which this project is distributed**.
+## Community & Conduct
+
+- By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+- For security concerns, see [SECURITY.md](SECURITY.md).
+- For compliance, see [COMPLIANCE.yaml](COMPLIANCE.yaml).
+
+## Contact
+
+For help, questions, or to request changes to the shared config, please open an issue. Maintainers monitor issues and PRs regularly.
+
+---
+
+*This project is maintained by the bcgov DevOps community. For urgent matters, please use GitHub issues to ensure visibility and response.*

@@ -1,16 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Group boto3 and botocore dependencies for easier management
   "packageRules": [
+    // Group boto3 and botocore dependencies for easier management
     {
       "description": "Group boto",
       "groupName": "boto",
       "matchPackageNames": ["/^boto3$/", "/^botocore$/"]
     },
+    // Group all pytest-related dependencies for unified update PRs
     {
       "description": "Group pytest",
       "groupName": "pytest",
       "matchPackageNames": ["/^pytest$/", "/^pytest-/"]
     },
+    // Group SQLAlchemy and related tools for easier upgrades
     {
       "description": "Group sqlalchemy",
       "groupName": "sqlalchemy",

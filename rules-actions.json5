@@ -1,7 +1,11 @@
+// Renovate packageRules for GitHub Actions dependencies.
+// This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling.
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
+    // Group all GitHub Actions dependencies for unified update PRs
     {
+      "description": "Group all GitHub Actions dependencies for unified update PRs",
       "groupName": "github actions all dependencies",
       "groupSlug": "github actions all",
       "matchManagers": [
@@ -20,15 +24,18 @@
         "replacement"
       ]
     },
+    // Unpin digests (remove SHAs) for the actions and github orgs
     {
-      "description": "Apply prerelease?  False = no.",
-      "enabled": false,
-      "matchUpdateTypes": ["prerelease"]
-    },
-    {
-      "description": "Block prerelease updates for Actions",
-      "enabled": false,
-      "matchCurrentVersion": ".*-(alpha|beta|rc).*"
+      "description": "Unpin digests for the actions and github orgs",
+      "groupSlug": "github-actions-unpin-digests",
+      "pinDigests": false,
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": [
+        "/^actions\\//",
+        "/^github\\//"
+      ],
+      "matchUpdateTypes": ["digest", "pinDigest"]
     }
+    // Add additional rules below as needed
   ]
 }

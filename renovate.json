@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Default preset for use with Renovate's repos",
+  "description": "Repository-specific Renovate config. Extends the shared bcgov/renovate-config preset. Downstream repos should reference this file for consistent update management.",
   "extends": [
     "github>bcgov/renovate-config"
   ]

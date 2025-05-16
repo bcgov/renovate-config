@@ -3,7 +3,7 @@
   "automerge": true,
   "configMigration": true,
   "dependencyDashboard": true,
-  "description": "Default preset for use with Renovate's repos",
+  "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
   "extends": [
     "config:recommended",
     "docker:disableMajor",
@@ -45,23 +45,14 @@
   "recreateWhen": "never",
   "packageRules": [
     {
-      "description": "Exclude GitHub Actions from pinDigests",
-      "pinDigests": false,
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "/^actions\\//",
-        "/^github\\//"
-      ]
-    },
-    {
-      "description": "Apply prerelease?  false = no.",
+      "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
+      "groupSlug": "block-prerelease-globally",
       "enabled": false,
-      "matchCurrentVersion": ".*-(alpha|beta|rc).*"
+      "matchCurrentVersion": ".*-(alpha|beta|rc|next|preview|dev|experimental).*"
     },
     {
-      "description": "Pin Dockerfiles?  false = no.",
+      "description": "Do not pin digests for Dockerfiles, and unpin existing digests.",
+      "groupSlug": "dockerfile-unpin-digests",
       "pinDigests": false,
       "matchManagers": [
         "dockerfile"
