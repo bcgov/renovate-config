@@ -61,10 +61,10 @@
       ]
     },
     {
-      "description": "Block prerelease updates globally (alpha, beta, rc)",
+      "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
       "groupSlug": "block-prerelease-globally",
       "enabled": false,
-      "matchCurrentVersion": ".*-(alpha|beta|rc).*"
+      "matchCurrentVersion": ".*-(alpha|beta|rc|next|preview|dev|experimental).*"
     },
     {
       "description": "Do not pin digests for Dockerfiles, and unpin existing digests.",
