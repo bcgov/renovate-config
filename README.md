@@ -15,6 +15,10 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
 
 ## How to Use
 
+0. **Prerequitesites:**
+   - Repos in the bcgov organization must request Renovate access by [creating an issue.](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
+   - Other (non-bcgov) options include opt-in by renovate.json or allow teams to enable by themselves.
+  
 1. **Reference this config in your downstream repository:**
    - In your repo, create a `renovate.json` with the following content:
      ```json
