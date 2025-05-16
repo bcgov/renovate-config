@@ -7,6 +7,16 @@
 
 # Mend Renovate Config - Automatic Dependency Updates
 
+## Why Use Renovate?
+
+Keeping dependencies up to date is essential for:
+- **Security:** Reduces your exposure to vulnerabilities in third-party code.
+- **Reliability:** Ensures you benefit from bug fixes and performance improvements.
+- **Compliance:** Helps meet organizational and industry requirements for patch management.
+- **Developer Experience:** Reduces technical debt and makes future upgrades easier.
+
+Renovate automates the detection and updating of dependencies, saving your team time and reducing risk.
+
 **Mend Renovate is a tool that automatically scans your repositories, detects outdated dependencies, and creates pull requests to keep them up to date. Keeping dependencies current helps teams avoid security vulnerabilities, benefit from bug fixes, and maintain compatibility with the latest features and standards. Regular updates are a key part of a secure and reliable software supply chain.**
 
 This repository provides a shared, opinionated Mend Renovate configuration for use across multiple downstream repositories. It is designed to:
@@ -14,6 +24,48 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
 - Enforce consistent dependency update policies
 - Group and manage updates for multiple languages and ecosystems
 - Balance automation, security, and maintainability
+
+## Quick Start
+
+1. Ensure Renovate is enabled for your repository (see [How to Use](#how-to-use)).
+2. Add a `renovate.json` file to your repo with:
+
+   ```json
+   {
+     "extends": ["github>bcgov/renovate-config"]
+   }
+   ```
+3. Commit and push. Renovate will scan your repo and open PRs for any outdated dependencies.
+
+## How It Works
+
+1. Renovate scans your repo for dependencies.
+2. It checks for updates, applies your org’s rules, and opens PRs.
+3. PRs are grouped, pinned/unpinned, and automerged as configured.
+4. Teams review, test, and merge PRs to stay secure and up to date.
+
+## FAQ / Troubleshooting
+
+**Q: What if a dependency update breaks my build?**
+- You can pin, ignore, or customize rules for that dependency using Renovate’s flexible config.
+
+**Q: How do I ignore or pin a specific dependency?**
+- Add a custom rule in your repo’s `renovate.json` or open an issue for help.
+
+**Q: How do I get help?**
+- See the Contact/Support section below.
+
+## Customization
+
+You can override or extend the shared config by adding custom rules to your repo’s `renovate.json` after the `extends` line. See the [Renovate docs](https://docs.renovatebot.com/configuration-options/) for more details, or contact a maintainer for help.
+
+## Contact / Support
+
+For help, questions, or to request changes to the shared config, please contact:
+- Derek Roberts (<derek.roberts@gov.bc.ca>)
+- Omprakash Mishra (<omprakash.2.mishra@gov.bc.ca>)
+
+We’re excited to help you keep your dependencies secure and up to date. If you have questions or ideas, please reach out!
 
 ## How to Use
 
@@ -60,6 +112,15 @@ This repository provides a shared, opinionated Mend Renovate configuration for u
    - Only trusted, widely-used GitHub Actions are unpinned for convenience.
    - Prereleases are blocked to avoid unstable or breaking changes.
    - Dockerfiles are unpinned for flexibility, but you can override this if you want stricter pinning.
+
+## Team Commitment
+
+While Renovate automates much of the update process, it does require an ongoing commitment from your team:
+- **Review and merge PRs regularly:** Automated PRs will keep coming as new updates are released. Teams must review, test, and merge these PRs to stay secure and up to date.
+- **Monitor the dependency dashboard:** Use the dashboard to track outstanding updates and prioritize critical patches.
+- **Collaborate on exceptions:** If a dependency update causes issues, work with your team to pin, ignore, or otherwise manage it using Renovate’s flexible rules.
+
+By making dependency management a regular part of your workflow, you’ll maximize the benefits of Renovate and keep your software supply chain healthy.
 
 ## File Overview
 
