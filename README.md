@@ -39,6 +39,8 @@ Mend Renovate is the recommended solution for secure, automated, and maintainabl
 
 > **Adopting this configuration means your team is following bcgov best practices for dependency management, supply chain security, and automation.**
 
+> **Ignoring dependency updates is one of the most common causes of security incidents, outages, and technical debt in modern software. Proactive updates are the easiest way to protect your project, your users, and your organization.**
+
 Renovate automates the detection and updating of dependencies, saving your team time and reducing risk. By using this shared configuration, you benefit from expert-reviewed, organization-wide standards and ongoing improvements.
 
 ## Quick Start & Usage
@@ -71,10 +73,12 @@ Renovate automates the detection and updating of dependencies, saving your team 
 
 For more details, see the [File Overview](#file-overview) and config files.
 
+> **Note:** Regular dependency updates are a bcgov and NRIDS best practice, and may be required for compliance or audit readiness.
+
 ## FAQ / Troubleshooting
 
 **Q: What if a dependency update breaks my build?**
-- The best practice is to adapt your code or configuration to support updated dependencies. Use pinning or ignoring only as a temporary measure, and plan to address breaking changes promptly to avoid technical debt.
+- The best practice is to adapt your code or configuration to support updated dependencies. Ignore only as a temporary measure, and plan to address breaking changes promptly to avoid technical debt.
 
 **Q: How do I ignore or pin a specific dependency?**
 - Add a custom rule in your repo’s `renovate.json` or open an issue for help.
@@ -84,6 +88,15 @@ For more details, see the [File Overview](#file-overview) and config files.
 
 **Q: How do I get help?**
 - See [CONTRIBUTING.md](CONTRIBUTING.md) or open an issue.
+
+**Common Myths & Objections**
+
+- *"Updating dependencies will break my build."*
+  Most updates are safe, grouped, and automerged. Renovate makes it easy to review and test changes before merging. Ignoring should only be temporary—address breaking changes promptly.
+- *"It's too much work."*
+  Renovate automates the heavy lifting, so you only need to review grouped PRs. This is far less work than dealing with large, overdue upgrades or security incidents.
+- *"We don't have time."*
+  Regular small updates are much less disruptive than rare, major upgrades. Proactive maintenance saves time and reduces risk in the long run.
 
 ## File Overview
 
@@ -111,7 +124,7 @@ For more details, see the [File Overview](#file-overview) and config files.
 While Renovate automates much of the update process, it does require an ongoing commitment from your team:
 - **Review and merge PRs regularly:** Automated PRs will keep coming as new updates are released. Teams must review, test, and merge these PRs to stay secure and up to date.
 - **Monitor the dependency dashboard:** Use the dashboard to track outstanding updates and prioritize critical patches.
-- **Collaborate on exceptions:** If a dependency update causes issues, work with your team to pin, ignore, or otherwise manage it using Renovate’s flexible rules.
+- **Collaborate on exceptions:** If a dependency update causes issues, work with your team to update, ignore, or otherwise manage it using Renovate’s flexible rules.
 
 By making dependency management a regular part of your workflow, you’ll maximize the benefits of Renovate and keep your software supply chain healthy.
 
