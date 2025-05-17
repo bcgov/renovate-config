@@ -3,18 +3,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // Do not pin digests for Dockerfiles, and unpin existing digests
+    // Do not pin digests for any container managers, and unpin existing digests
     {
-      "description": "Do not pin digests for Dockerfiles, and unpin existing digests.",
-      "groupSlug": "dockerfile-unpin-digests",
+      "description": "Do not pin digests for container managers (Dockerfile, Containerfile, Docker Compose, Kubernetes, Helm, OpenShift), and unpin existing digests",
+      "matchManagers": [
+        "dockerfile",
+        "containerfile",
+        "docker-compose",
+        "kubernetes",
+        "helm-values",
+        "openshift"
+      ],
       "pinDigests": false,
-      "matchManagers": ["dockerfile"]
-    },
-    // Do not pin digests for any images in Docker Compose files
-    {
-      "description": "Do not pin digests for any images in Docker Compose files",
-      "matchManagers": ["docker-compose"],
-      "pinDigests": false
+      "unpinDigest": true
     }
     // Add additional container-related rules below as needed
   ]
