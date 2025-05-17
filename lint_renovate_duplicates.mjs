@@ -86,8 +86,8 @@ function checkExactDuplicates(allRules) {
   let duplicateCount = 0;
   const seen = new Map();
   for (const rule of allRules) {
-    // Sort managers and pkgs before joining to ensure order-insensitive duplicate detection
-    const key = `${[...rule.managers].sort().join(',')}|${[...rule.pkgs].sort().join(',')}`;
+    // Use pre-sorted arrays for key, as sorting is already done during rule collection
+    const key = `${rule.managers.join(',')}|${rule.pkgs.join(',')}`;
     if (!seen.has(key)) seen.set(key, []);
     seen.get(key).push(rule);
   }
@@ -119,11 +119,16 @@ function checkExactDuplicates(allRules) {
  */
 function checkOverlappingRules(allRules) {
   let overlapCount = 0;
+  // Precompute managersKey for each rule to avoid repeated computation
+  for (const rule of allRules) {
+    if (!rule.managersKey) {
+      rule.managersKey = rule.managers.slice().sort().join(',');
+    }
+  }
   // Group rules by their managers key for efficient overlap checking
   const groupedRules = new Map();
   for (const rule of allRules) {
-    // Sort managers before joining to ensure consistent grouping
-    const key = rule.managers.slice().sort().join(',');
+    const key = rule.managersKey;
     if (!groupedRules.has(key)) groupedRules.set(key, []);
     groupedRules.get(key).push(rule);
   }
