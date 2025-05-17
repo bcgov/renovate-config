@@ -122,28 +122,25 @@ function checkExactDuplicates(allRules) {
  */
 function checkOverlappingRules(allRules) {
   let overlapCount = 0;
-  // Precompute managersKey and pkgSet for each rule to avoid repeated computation
-  for (const rule of allRules) {
-    if (!rule.managersKey) {
-      rule.managersKey = rule.managers.slice().sort().join(',');
-    }
-    if (!rule.pkgSet) {
-      rule.pkgSet = new Set(rule.pkgs);
-    }
-  }
+  // Precompute managersKey and pkgSet for each rule in a local map to avoid mutating the original objects
+  const ruleData = allRules.map(rule => ({
+    rule,
+    managersKey: rule.managers.slice().sort().join(','),
+    pkgSet: new Set(rule.pkgs),
+  }));
+
   // Group rules by their managers key for efficient overlap checking
   const groupedRules = new Map();
-  for (const rule of allRules) {
-    const key = rule.managersKey;
-    if (!groupedRules.has(key)) groupedRules.set(key, []);
-    groupedRules.get(key).push(rule);
+  for (const { rule, managersKey } of ruleData) {
+    if (!groupedRules.has(managersKey)) groupedRules.set(managersKey, []);
+    groupedRules.get(managersKey).push(rule);
   }
   // Check for overlaps within each group
   for (const [managersKey, rules] of groupedRules.entries()) {
     for (let i = 0; i < rules.length; i++) {
-      const firstPkgSet = rules[i].pkgSet;
+      const firstPkgSet = ruleData.find(r => r.rule === rules[i]).pkgSet;
       for (let j = i + 1; j < rules.length; j++) {
-        const secondPkgSet = rules[j].pkgSet;
+        const secondPkgSet = ruleData.find(r => r.rule === rules[j]).pkgSet;
         const overlap = [...firstPkgSet].filter(x => secondPkgSet.has(x));
         if (overlap.length > 0) {
           overlapCount++;
