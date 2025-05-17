@@ -1,0 +1,21 @@
+// Renovate packageRules for container-related dependencies (Docker, Docker Compose, etc.)
+// This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling for containers.
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    // Do not pin digests for Dockerfiles, and unpin existing digests
+    {
+      "description": "Do not pin digests for Dockerfiles, and unpin existing digests.",
+      "groupSlug": "dockerfile-unpin-digests",
+      "pinDigests": false,
+      "matchManagers": ["dockerfile"]
+    },
+    // Do not pin digests for any images in Docker Compose files
+    {
+      "description": "Do not pin digests for any images in Docker Compose files",
+      "matchManagers": ["docker-compose"],
+      "pinDigests": false
+    }
+    // Add additional container-related rules below as needed
+  ]
+}
