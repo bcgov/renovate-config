@@ -9,17 +9,8 @@ Usage:
 import sys
 import re
 import json
+import json5
 from collections import defaultdict
-
-# Simple JSON5 to JSON converter (removes comments and trailing commas)
-def json5_to_json(text):
-    # Remove // comments
-    text = re.sub(r'//.*', '', text)
-    # Remove /* ... */ comments
-    text = re.sub(r'/\*.*?\*/', '', text, flags=re.DOTALL)
-    # Remove trailing commas
-    text = re.sub(r',\s*([}\]])', r'\1', text)
-    return text
 
 def normalize(val):
     if isinstance(val, list):
@@ -35,7 +26,11 @@ def main():
     path = sys.argv[1]
     with open(path) as f:
         raw = f.read()
-    data = json.loads(json5_to_json(raw))
+    try:
+        data = json5.loads(raw)
+    except Exception as e:
+        print(f"ERROR: Could not parse {path}: {e}")
+        sys.exit(1)
     rules = data.get('packageRules', [])
     seen = defaultdict(list)
     for idx, rule in enumerate(rules):
