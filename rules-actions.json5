@@ -41,14 +41,6 @@
       "matchManagers": ["github-actions"],
       "matchPackageNames": ["/^postgres$/", "/^flyway$/"],
       "pinDigests": false
-    },
-    // Do not pin digests for postgres and flyway in GitHub Actions
-    {
-      "description": "Do not pin digests for postgres and flyway in GitHub Actions workflows",
-      "matchManagers": ["github-actions"],
-      "matchPackageNames": ["/^postgres$/", "/^flyway$/"],
-      "pinDigests": false,
-      "unpinDigest": true
     }
     // Add additional rules below as needed
   ]
