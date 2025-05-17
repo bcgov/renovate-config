@@ -37,9 +37,9 @@
     },
     // Do not pin digests for trusted images in GitHub Actions (e.g., postgres)
     {
-      "description": "Do not pin digests for trusted images in GitHub Actions (e.g., postgres)",
+      "description": "Do not pin digests for postgres and flyway in GitHub Actions workflows",
       "matchManagers": ["github-actions"],
-      "matchPackageNames": ["/^postgres$/"],
+      "matchPackageNames": ["/^postgres$/", "/^flyway$/"],
       "pinDigests": false
     }
     // Add additional rules below as needed

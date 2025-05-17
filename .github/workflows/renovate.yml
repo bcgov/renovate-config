@@ -70,3 +70,4 @@ jobs:
 
       - name: Validate Config
         run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
+          
