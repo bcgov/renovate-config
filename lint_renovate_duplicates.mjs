@@ -61,7 +61,7 @@ for (const [key, rules] of seen.entries()) {
   if (rules.length > 1) {
     duplicateCount++;
     const [managers, pkgs] = key.split('|');
-    const locs = rules.map(r => `${r.file}[r.idx]`).join(', ');
+    const locs = rules.map(r => `${r.file}[${r.idx}]`).join(', ');
     console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at: ${locs}`);
   }
 }
