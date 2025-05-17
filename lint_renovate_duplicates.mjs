@@ -9,6 +9,26 @@
 //
 // Adapt or extend as needed for your org's Renovate config structure!
 
+// === USAGE & EXAMPLES ===
+//
+// Usage:
+//   node lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
+//
+// Example output:
+//   [INFO] Linting 3 files: default.json, rules-actions.json5, rules-javascript.json5
+//   [INFO] ├─ Parsing default.json ...
+//   [INFO] │   Found 1 packageRules in default.json
+//   ...
+//   [WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[npm] and matchPackageNames=[/eslint/] at: rules-javascript.json5[8], default.json[2]
+//   [WARN][OVERLAP] Overlapping matchPackageNames in rules-javascript.json5[0] and rules-javascript.json5[1] for matchManagers=[npm]: [/eslint/]
+//   [INFO] === Rule Coverage Report ===
+//   [INFO] Managers covered by rules:
+//     [MULTI] github-actions (covered by 3 rules): rules-actions.json5[0], rules-actions.json5[1], rules-actions.json5[2]
+//     [OK]    npm           (covered by 1 rule): rules-javascript.json5[8]
+//   ...
+//
+// See README.md for more details.
+
 import fs from 'fs';
 import process from 'process';
 import json5 from 'json5';
@@ -50,48 +70,92 @@ for (const path of files) {
 console.log(`[INFO] └─ Total packageRules loaded: ${totalRules}`);
 
 // Check for exact duplicate rules (same managers and package names)
-let duplicateCount = 0;
-const seen = new Map();
-for (const rule of allRules) {
-  const key = `${rule.managers.join(',')}|${rule.pkgs.join(',')}`;
-  if (!seen.has(key)) seen.set(key, []);
-  seen.get(key).push(rule);
-}
-for (const [key, rules] of seen.entries()) {
-  if (rules.length > 1) {
-    duplicateCount++;
-    const [managers, pkgs] = key.split('|');
-    const locs = rules.map(r => `${r.file}[${r.idx}]`).join(', ');
-    console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at: ${locs}`);
+/**
+ * Identifies and logs exact duplicate packageRules based on matchManagers and matchPackageNames.
+ * 
+ * @param {Array<Object>} allRules - An array of rule objects, each containing:
+ *   - {string} file: The file where the rule is defined.
+ *   - {number} idx: The index of the rule within the file.
+ *   - {Array<string>} managers: A sorted array of matchManagers for the rule.
+ *   - {Array<string>} pkgs: A sorted array of matchPackageNames for the rule.
+ * 
+ * Logs warnings for any exact duplicate rules found and provides their locations.
+ * If no duplicates are found, logs an informational message.
+ */
+function checkExactDuplicates(allRules) {
+  let duplicateCount = 0;
+  const seen = new Map();
+  for (const rule of allRules) {
+    // Use pre-sorted arrays for key, as sorting is already done during rule collection
+    const key = `${rule.managers.join(',')}|${rule.pkgs.join(',')}`;
+    if (!seen.has(key)) seen.set(key, []);
+    seen.get(key).push(rule);
   }
-}
-if (duplicateCount === 0) {
-  console.log('[INFO] No exact duplicate packageRules found.');
+  for (const [key, rules] of seen.entries()) {
+    if (rules.length > 1) {
+      duplicateCount++;
+      const [managers, pkgs] = key.split('|');
+      const locs = rules.map(r => `${r.file}[${r.idx}]`).join(', ');
+      console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at: ${locs}`);
+    }
+  }
+  if (duplicateCount === 0) {
+    console.log('[INFO] No exact duplicate packageRules found.');
+  }
 }
 
 // Check for overlapping rules (same managers, any overlapping package names)
-let overlapCount = 0;
-for (let i = 0; i < allRules.length; i++) {
-  const r1 = allRules[i];
-  const m1 = new Set(r1.managers);
-  const p1 = new Set(r1.pkgs);
-  for (let j = i + 1; j < allRules.length; j++) {
-    const r2 = allRules[j];
-    const m2 = new Set(r2.managers);
-    const p2 = new Set(r2.pkgs);
-    // Only compare rules with exactly the same managers
-    if (m1.size === m2.size && [...m1].every(x => m2.has(x))) {
-      const overlap = [...p1].filter(x => p2.has(x));
-      if (overlap.length > 0) {
-        overlapCount++;
-        console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${r1.file}[${r1.idx}] and ${r2.file}[${r2.idx}] for matchManagers=[${[...m1]}]: [${overlap}]`);
+/**
+ * Identifies and logs overlapping packageRules based on matchManagers and overlapping matchPackageNames.
+ * 
+ * @param {Array<Object>} allRules - An array of rule objects, each containing:
+ *   - {string} file: The file where the rule is defined.
+ *   - {number} idx: The index of the rule within the file.
+ *   - {Array<string>} managers: A sorted array of matchManagers for the rule.
+ *   - {Array<string>} pkgs: A sorted array of matchPackageNames for the rule.
+ *   - {string} [managersKey]: (added by this function) a cached, sorted, comma-joined string of managers for efficient grouping.
+ * 
+ * This function adds a managersKey property to each rule object for performance reasons, so that repeated sorting and joining is avoided during overlap detection.
+ * 
+ * Logs warnings for any overlapping rules found and provides their locations.
+ * If no overlaps are found, logs an informational message.
+ */
+function checkOverlappingRules(allRules) {
+  let overlapCount = 0;
+  // Precompute managersKey and pkgSet for each rule in a local map to avoid mutating the original objects
+  const ruleData = allRules.map(rule => ({
+    rule,
+    managersKey: rule.managers.slice().sort().join(','),
+    pkgSet: new Set(rule.pkgs),
+  }));
+
+  // Group rules by their managers key for efficient overlap checking
+  const groupedRules = new Map();
+  for (const { rule, managersKey } of ruleData) {
+    if (!groupedRules.has(managersKey)) groupedRules.set(managersKey, []);
+    groupedRules.get(managersKey).push(rule);
+  }
+  // Check for overlaps within each group
+  for (const [managersKey, rules] of groupedRules.entries()) {
+    for (let i = 0; i < rules.length; i++) {
+      const firstPkgSet = ruleData.find(r => r.rule === rules[i]).pkgSet;
+      for (let j = i + 1; j < rules.length; j++) {
+        const secondPkgSet = ruleData.find(r => r.rule === rules[j]).pkgSet;
+        const overlap = [...firstPkgSet].filter(x => secondPkgSet.has(x));
+        if (overlap.length > 0) {
+          overlapCount++;
+          console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${rules[i].file}[${rules[i].idx}] and ${rules[j].file}[${rules[j].idx}] for matchManagers=[${managersKey}]: [${overlap}]`);
+        }
       }
     }
   }
+  if (overlapCount === 0) {
+    console.log('[INFO] No overlapping packageRules found.');
+  }
 }
-if (overlapCount === 0) {
-  console.log('[INFO] No overlapping packageRules found.');
-}
+
+checkExactDuplicates(allRules);
+checkOverlappingRules(allRules);
 
 // === Rule Coverage/Overlap Report ===
 // Print a summary table of all managers and package names covered by rules, and highlight multiply-covered items
