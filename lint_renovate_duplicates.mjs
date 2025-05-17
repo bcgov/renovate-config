@@ -12,7 +12,7 @@
 // === USAGE & EXAMPLES ===
 //
 // Usage:
-//   node lint_renovate_duplicates.mjs file1.json file2.json5 ...
+//   node lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
 //
 // Example output:
 //   [INFO] Linting 3 files: default.json, rules-actions.json5, rules-javascript.json5
