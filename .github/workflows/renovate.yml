@@ -71,7 +71,7 @@ jobs:
       - name: Validate Config
         run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
           
-      - name: Lint Renovate Config for Duplicates
+      - name: Lint Config for Duplicates
         run: |
           npm install json5@^2.2.3 --no-save
           node lint_renovate_duplicates.mjs *.json *.json5

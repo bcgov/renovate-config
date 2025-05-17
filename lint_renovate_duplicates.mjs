@@ -93,4 +93,53 @@ if (overlapCount === 0) {
   console.log('[INFO] No overlapping packageRules found.');
 }
 
+// === Rule Coverage/Overlap Report ===
+// Print a summary table of all managers and package names covered by rules, and highlight multiply-covered items
+
+// Collect all managers and package names
+const managerCoverage = new Map(); // manager -> [ruleLocs]
+const packageCoverage = new Map(); // packageName -> [ruleLocs]
+
+for (const rule of allRules) {
+  const loc = `${rule.file}[${rule.idx}]`;
+  for (const m of rule.managers) {
+    if (!managerCoverage.has(m)) managerCoverage.set(m, []);
+    managerCoverage.get(m).push(loc);
+  }
+  for (const p of rule.pkgs) {
+    if (!packageCoverage.has(p)) packageCoverage.set(p, []);
+    packageCoverage.get(p).push(loc);
+  }
+}
+
+console.log('\n[INFO] === Rule Coverage Report ===');
+console.log('[INFO] Managers covered by rules:');
+for (const [m, locs] of managerCoverage.entries()) {
+  if (locs.length > 1) {
+    console.log(`  [MULTI] ${m} (covered by ${locs.length} rules): ${locs.join(', ')}`);
+  } else {
+    console.log(`  [OK]    ${m} (covered by 1 rule): ${locs[0]}`);
+  }
+}
+console.log('[INFO] Package names covered by rules (grouped by file):');
+const pkgsByFile = {};
+for (const [p, locs] of packageCoverage.entries()) {
+  for (const loc of locs) {
+    const [file] = loc.split('[');
+    if (!pkgsByFile[file]) pkgsByFile[file] = [];
+    pkgsByFile[file].push({ pkg: p, loc, count: locs.length });
+  }
+}
+for (const file of Object.keys(pkgsByFile)) {
+  console.log(`  File: ${file}`);
+  for (const entry of pkgsByFile[file]) {
+    if (entry.count > 1) {
+      console.log(`    [MULTI] ${entry.pkg} (covered by ${entry.count} rules): ${entry.loc}`);
+    } else {
+      console.log(`    [OK]    ${entry.pkg} (covered by 1 rule): ${entry.loc}`);
+    }
+  }
+}
+console.log('[INFO] === End Rule Coverage Report ===\n');
+
 console.log(`[INFO] Lint complete for ${files.length} files. Checked ${totalRules} packageRules.`);
