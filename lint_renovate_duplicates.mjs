@@ -50,48 +50,60 @@ for (const path of files) {
 console.log(`[INFO] └─ Total packageRules loaded: ${totalRules}`);
 
 // Check for exact duplicate rules (same managers and package names)
-let duplicateCount = 0;
-const seen = new Map();
-for (const rule of allRules) {
-  const key = `${rule.managers.join(',')}|${rule.pkgs.join(',')}`;
-  if (!seen.has(key)) seen.set(key, []);
-  seen.get(key).push(rule);
-}
-for (const [key, rules] of seen.entries()) {
-  if (rules.length > 1) {
-    duplicateCount++;
-    const [managers, pkgs] = key.split('|');
-    const locs = rules.map(r => `${r.file}[${r.idx}]`).join(', ');
-    console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at: ${locs}`);
+function checkExactDuplicates(allRules) {
+  let duplicateCount = 0;
+  const seen = new Map();
+  for (const rule of allRules) {
+    const key = `${rule.managers.join(',')}|${rule.pkgs.join(',')}`;
+    if (!seen.has(key)) seen.set(key, []);
+    seen.get(key).push(rule);
   }
-}
-if (duplicateCount === 0) {
-  console.log('[INFO] No exact duplicate packageRules found.');
+  for (const [key, rules] of seen.entries()) {
+    if (rules.length > 1) {
+      duplicateCount++;
+      const [managers, pkgs] = key.split('|');
+      const locs = rules.map(r => `${r.file}[${r.idx}]`).join(', ');
+      console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at: ${locs}`);
+    }
+  }
+  if (duplicateCount === 0) {
+    console.log('[INFO] No exact duplicate packageRules found.');
+  }
 }
 
 // Check for overlapping rules (same managers, any overlapping package names)
-let overlapCount = 0;
-for (let i = 0; i < allRules.length; i++) {
-  const r1 = allRules[i];
-  const m1 = new Set(r1.managers);
-  const p1 = new Set(r1.pkgs);
-  for (let j = i + 1; j < allRules.length; j++) {
-    const r2 = allRules[j];
-    const m2 = new Set(r2.managers);
-    const p2 = new Set(r2.pkgs);
-    // Only compare rules with exactly the same managers
-    if (m1.size === m2.size && [...m1].every(x => m2.has(x))) {
-      const overlap = [...p1].filter(x => p2.has(x));
-      if (overlap.length > 0) {
-        overlapCount++;
-        console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${r1.file}[${r1.idx}] and ${r2.file}[${r2.idx}] for matchManagers=[${[...m1]}]: [${overlap}]`);
+function checkOverlappingRules(allRules) {
+  let overlapCount = 0;
+  // Group rules by their managers key for efficient overlap checking
+  const groupedRules = new Map();
+  for (const rule of allRules) {
+    const key = rule.managers.join(',');
+    if (!groupedRules.has(key)) groupedRules.set(key, []);
+    groupedRules.get(key).push(rule);
+  }
+  // Check for overlaps within each group
+  for (const [managersKey, rules] of groupedRules.entries()) {
+    for (let i = 0; i < rules.length; i++) {
+      const r1 = rules[i];
+      const p1 = new Set(r1.pkgs);
+      for (let j = i + 1; j < rules.length; j++) {
+        const r2 = rules[j];
+        const p2 = new Set(r2.pkgs);
+        const overlap = [...p1].filter(x => p2.has(x));
+        if (overlap.length > 0) {
+          overlapCount++;
+          console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${r1.file}[${r1.idx}] and ${r2.file}[${r2.idx}] for matchManagers=[${managersKey}]: [${overlap}]`);
+        }
       }
     }
   }
+  if (overlapCount === 0) {
+    console.log('[INFO] No overlapping packageRules found.');
+  }
 }
-if (overlapCount === 0) {
-  console.log('[INFO] No overlapping packageRules found.');
-}
+
+checkExactDuplicates(allRules);
+checkOverlappingRules(allRules);
 
 // === Rule Coverage/Overlap Report ===
 // Print a summary table of all managers and package names covered by rules, and highlight multiply-covered items
