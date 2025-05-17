@@ -33,7 +33,7 @@ for (let i = 0; i < rules.length; i++) {
 for (const [key, idxs] of seen.entries()) {
   if (idxs.length > 1) {
     const [managers, pkgs] = key.split('|');
-    console.warn(`[WARN] Duplicate/overlapping packageRules in ${path} for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at indices ${idxs}`);
+    console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules in ${path} for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at indices ${idxs}`);
   }
 }
 // Warn about rules with same managers and overlapping package names
@@ -46,7 +46,7 @@ for (let i = 0; i < rules.length; i++) {
     if (m1.size === m2.size && [...m1].every(x => m2.has(x))) {
       const overlap = [...p1].filter(x => p2.has(x));
       if (overlap.length > 0) {
-        console.warn(`[WARN] Overlapping matchPackageNames in rules ${i} and ${j} for matchManagers=[${[...m1]}]: [${overlap}]`);
+        console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in rules ${i} and ${j} for matchManagers=[${[...m1]}]: [${overlap}]`);
       }
     }
   }
