@@ -86,7 +86,8 @@ function checkExactDuplicates(allRules) {
   let duplicateCount = 0;
   const seen = new Map();
   for (const rule of allRules) {
-    const key = `${rule.managers.join(',')}|${rule.pkgs.join(',')}`;
+    // Sort managers and pkgs before joining to ensure order-insensitive duplicate detection
+    const key = `${[...rule.managers].sort().join(',')}|${[...rule.pkgs].sort().join(',')}`;
     if (!seen.has(key)) seen.set(key, []);
     seen.get(key).push(rule);
   }
@@ -129,15 +130,13 @@ function checkOverlappingRules(allRules) {
   // Check for overlaps within each group
   for (const [managersKey, rules] of groupedRules.entries()) {
     for (let i = 0; i < rules.length; i++) {
-      const r1 = rules[i];
-      const p1 = new Set(r1.pkgs);
+      const firstPkgSet = new Set(rules[i].pkgs);
       for (let j = i + 1; j < rules.length; j++) {
-        const r2 = rules[j];
-        const p2 = new Set(r2.pkgs);
-        const overlap = [...p1].filter(x => p2.has(x));
+        const secondPkgSet = new Set(rules[j].pkgs);
+        const overlap = [...firstPkgSet].filter(x => secondPkgSet.has(x));
         if (overlap.length > 0) {
           overlapCount++;
-          console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${r1.file}[${r1.idx}] and ${r2.file}[${r2.idx}] for matchManagers=[${managersKey}]: [${overlap}]`);
+          console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${rules[i].file}[${rules[i].idx}] and ${rules[j].file}[${rules[j].idx}] for matchManagers=[${managersKey}]: [${overlap}]`);
         }
       }
     }
