@@ -97,7 +97,8 @@ function checkOverlappingRules(allRules) {
   // Group rules by their managers key for efficient overlap checking
   const groupedRules = new Map();
   for (const rule of allRules) {
-    const key = rule.managers.join(',');
+    // Sort managers before joining to ensure consistent grouping
+    const key = rule.managers.slice().sort().join(',');
     if (!groupedRules.has(key)) groupedRules.set(key, []);
     groupedRules.get(key).push(rule);
   }
