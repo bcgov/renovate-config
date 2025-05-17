@@ -114,11 +114,17 @@ for (const rule of allRules) {
 
 console.log('\n[INFO] === Rule Coverage Report ===');
 console.log('[INFO] Managers covered by rules:');
+const allManagerLabels = Array.from(managerCoverage.keys());
+const maxManagerLen = Math.max(...allManagerLabels.map(m => m.length));
+const labelWidth = 7; // '[MULTI]' is 7 chars
 for (const [m, locs] of managerCoverage.entries()) {
+  const label = locs.length > 1 ? '[MULTI]' : '[OK]';
+  const labelPad = ' '.repeat(labelWidth - label.length);
+  const namePad = ' '.repeat(maxManagerLen - m.length);
   if (locs.length > 1) {
-    console.log(`  [MULTI] ${m} (covered by ${locs.length} rules): ${locs.join(', ')}`);
+    console.log(`  ${label}${labelPad} ${m}${namePad} (covered by ${locs.length} rules): ${locs.join(', ')}`);
   } else {
-    console.log(`  [OK]    ${m} (covered by 1 rule): ${locs[0]}`);
+    console.log(`  ${label}${labelPad} ${m}${namePad} (covered by 1 rule): ${locs[0]}`);
   }
 }
 console.log('[INFO] Package names covered by rules (grouped by file):');
@@ -130,13 +136,18 @@ for (const [p, locs] of packageCoverage.entries()) {
     pkgsByFile[file].push({ pkg: p, loc, count: locs.length });
   }
 }
+const allPkgLabels = Object.values(pkgsByFile).flat().map(e => e.pkg);
+const maxPkgLen = Math.max(...allPkgLabels.map(p => p.length));
 for (const file of Object.keys(pkgsByFile)) {
   console.log(`  File: ${file}`);
   for (const entry of pkgsByFile[file]) {
+    const label = entry.count > 1 ? '[MULTI]' : '[OK]';
+    const labelPad = ' '.repeat(labelWidth - label.length);
+    const namePad = ' '.repeat(maxPkgLen - entry.pkg.length);
     if (entry.count > 1) {
-      console.log(`    [MULTI] ${entry.pkg} (covered by ${entry.count} rules): ${entry.loc}`);
+      console.log(`    ${label}${labelPad} ${entry.pkg}${namePad} (covered by ${entry.count} rules): ${entry.loc}`);
     } else {
-      console.log(`    [OK]    ${entry.pkg} (covered by 1 rule): ${entry.loc}`);
+      console.log(`    ${label}${labelPad} ${entry.pkg}${namePad} (covered by 1 rule): ${entry.loc}`);
     }
   }
 }
