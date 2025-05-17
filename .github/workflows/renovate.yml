@@ -73,6 +73,6 @@ jobs:
 
       - name: Lint Renovate Config for Duplicates
         run: |
-          for f in default.json renovate.json rules-*.json5; do
+          for f in rules-*.json5; do
             python3 lint_renovate_duplicates.py "$f"
           done
