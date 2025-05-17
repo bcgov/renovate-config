@@ -28,6 +28,7 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "github>bcgov/renovate-config:rules-actions.json5",
+    "github>bcgov/renovate-config:rules-containers.json5",
     "github>bcgov/renovate-config:rules-java.json5",
     "github>bcgov/renovate-config:rules-javascript.json5",
     "github>bcgov/renovate-config:rules-python.json5"
@@ -49,14 +50,6 @@
       "groupSlug": "block-prerelease-globally",
       "enabled": false,
       "matchCurrentVersion": ".*-(alpha|beta|rc|next|preview|dev|experimental).*"
-    },
-    {
-      "description": "Do not pin digests for Dockerfiles, and unpin existing digests.",
-      "groupSlug": "dockerfile-unpin-digests",
-      "pinDigests": false,
-      "matchManagers": [
-        "dockerfile"
-      ]
     }
   ]
 }
