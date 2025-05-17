@@ -113,16 +113,22 @@ function checkExactDuplicates(allRules) {
  *   - {number} idx: The index of the rule within the file.
  *   - {Array<string>} managers: A sorted array of matchManagers for the rule.
  *   - {Array<string>} pkgs: A sorted array of matchPackageNames for the rule.
+ *   - {string} [managersKey]: (added by this function) a cached, sorted, comma-joined string of managers for efficient grouping.
+ * 
+ * This function adds a managersKey property to each rule object for performance reasons, so that repeated sorting and joining is avoided during overlap detection.
  * 
  * Logs warnings for any overlapping rules found and provides their locations.
  * If no overlaps are found, logs an informational message.
  */
 function checkOverlappingRules(allRules) {
   let overlapCount = 0;
-  // Precompute managersKey for each rule to avoid repeated computation
+  // Precompute managersKey and pkgSet for each rule to avoid repeated computation
   for (const rule of allRules) {
     if (!rule.managersKey) {
       rule.managersKey = rule.managers.slice().sort().join(',');
+    }
+    if (!rule.pkgSet) {
+      rule.pkgSet = new Set(rule.pkgs);
     }
   }
   // Group rules by their managers key for efficient overlap checking
@@ -135,9 +141,9 @@ function checkOverlappingRules(allRules) {
   // Check for overlaps within each group
   for (const [managersKey, rules] of groupedRules.entries()) {
     for (let i = 0; i < rules.length; i++) {
-      const firstPkgSet = new Set(rules[i].pkgs);
+      const firstPkgSet = rules[i].pkgSet;
       for (let j = i + 1; j < rules.length; j++) {
-        const secondPkgSet = new Set(rules[j].pkgs);
+        const secondPkgSet = rules[j].pkgSet;
         const overlap = [...firstPkgSet].filter(x => secondPkgSet.has(x));
         if (overlap.length > 0) {
           overlapCount++;
