@@ -5,17 +5,14 @@
   "packageRules": [
     // Do not pin digests for any container managers, and unpin existing digests
     {
-      "description": "Do not pin digests for container managers (Dockerfile, Containerfile, Docker Compose, Kubernetes, Helm, OpenShift), and unpin existing digests",
+      "description": "Do not pin digests for container managers (Dockerfile, Docker Compose, Kubernetes, Helm), and unpin existing digests",
       "matchManagers": [
         "dockerfile",
-        "containerfile",
         "docker-compose",
         "kubernetes",
-        "helm-values",
-        "openshift"
+        "helm-values"
       ],
-      "pinDigests": false,
-      "unpinDigest": true
+      "pinDigests": false
     }
     // Add additional container-related rules below as needed
   ]
