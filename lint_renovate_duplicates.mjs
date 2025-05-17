@@ -104,6 +104,18 @@ function checkExactDuplicates(allRules) {
 }
 
 // Check for overlapping rules (same managers, any overlapping package names)
+/**
+ * Identifies and logs overlapping packageRules based on matchManagers and overlapping matchPackageNames.
+ * 
+ * @param {Array<Object>} allRules - An array of rule objects, each containing:
+ *   - {string} file: The file where the rule is defined.
+ *   - {number} idx: The index of the rule within the file.
+ *   - {Array<string>} managers: A sorted array of matchManagers for the rule.
+ *   - {Array<string>} pkgs: A sorted array of matchPackageNames for the rule.
+ * 
+ * Logs warnings for any overlapping rules found and provides their locations.
+ * If no overlaps are found, logs an informational message.
+ */
 function checkOverlappingRules(allRules) {
   let overlapCount = 0;
   // Group rules by their managers key for efficient overlap checking
