@@ -74,6 +74,4 @@ jobs:
       - name: Lint Renovate Config for Duplicates
         run: |
           npm install json5@^2.2.3 --no-save
-          for f in rules-*.json5; do
-            node lint_renovate_duplicates.mjs "$f"
-          done
+          node lint_renovate_duplicates.mjs *.json *.json5
