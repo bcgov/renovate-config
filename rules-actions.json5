@@ -33,14 +33,14 @@
       "matchPackageNames": [
         "/^actions\\//",
         "/^docker\\//",
-        "/^github\\//"
+        "/^github\\//",
       ]
     },
-    // Do not pin digests for trusted images in GitHub Actions (e.g., postgres)
+    // Do not pin digests for service containers in GitHub Actions workflows
     {
-      "description": "Do not pin digests for postgres and flyway in GitHub Actions workflows",
+      "description": "Do not pin digests for service containers (Docker images) in GitHub Actions workflows",
       "matchManagers": ["github-actions"],
-      "matchPackageNames": ["/^postgres$/", "/^flyway$/"],
+      "matchDepTypes": ["container"],
       "pinDigests": false
     }
     // Add additional rules below as needed
