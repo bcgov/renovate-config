@@ -5,12 +5,13 @@
   "packageRules": [
     // Do not pin digests for any container managers, and unpin existing digests
     {
-      "description": "Do not pin digests for container managers (Dockerfile, Docker Compose, Kubernetes, Helm), and unpin existing digests",
+      "description": "Do not pin digests for container managers (Dockerfile, Docker Compose, Kubernetes, Helm, GitHub Actions), and unpin existing digests",
       "matchManagers": [
         "dockerfile",
         "docker-compose",
         "kubernetes",
-        "helm-values"
+        "helm-values",
+        "github-actions"
       ],
       "pinDigests": false
     }
