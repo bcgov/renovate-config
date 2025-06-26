@@ -54,12 +54,16 @@
   ],
   "regexManagers": [
     {
-      "description": "Keep .github/copilot-upstream.md updated from bcgov/copilot-instructions GitHub releases.",
+      "description": "Replace entire copilot-upstream.md with content from bcgov/copilot-instructions release notes.",
       "fileMatch": [
         "^\\.github/copilot-upstream\\.md$"
       ],
       "datasourceTemplate": "github-releases",
-      "depNameTemplate": "bcgov/copilot-instructions"
+      "depNameTemplate": "bcgov/copilot-instructions",
+      "matchStrings": [
+        "(?<everything>[\\s\\S]*)"
+      ],
+      "replaceStringTemplate": "{{{releaseNotes}}}"
     }
   ]
 }
