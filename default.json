@@ -51,5 +51,15 @@
       "enabled": false,
       "matchCurrentVersion": ".*-(alpha|beta|rc|next|preview|dev|experimental).*"
     }
+  ],
+  "regexManagers": [
+    {
+      "description": "Keep .github/copilot-upstream.md updated from bcgov/copilot-instructions GitHub releases.",
+      "fileMatch": [
+        "^\\.github/copilot-upstream\\.md$"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "bcgov/copilot-instructions"
+    }
   ]
 }
