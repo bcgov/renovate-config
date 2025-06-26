@@ -51,5 +51,19 @@
       "enabled": false,
       "matchCurrentVersion": ".*-(alpha|beta|rc|next|preview|dev|experimental).*"
     }
+  ],
+  "regexManagers": [
+    {
+      "description": "Replace entire copilot-upstream.md with content from bcgov/copilot-instructions release notes.",
+      "fileMatch": [
+        "^\\.github/copilot-upstream\\.md$"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "bcgov/copilot-instructions",
+      "matchStrings": [
+        "(?<everything>[\\s\\S]*)"
+      ],
+      "replaceStringTemplate": "{{{releaseNotes}}}"
+    }
   ]
 }
