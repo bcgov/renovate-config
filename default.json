@@ -49,14 +49,14 @@
       "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
-        "npm",
-        "yarn",
-        "pnpm",
-        "pip",
         "docker",
-        "maven",
+        "github-actions",
         "gradle",
-        "github-actions"
+        "maven",
+        "npm",
+        "pip",
+        "pnpm",
+        "yarn"
       ]
     }
   ]
