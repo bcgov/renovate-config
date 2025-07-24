@@ -47,8 +47,6 @@
   "packageRules": [
     {
       "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
-      "enabled": false,
-      "groupSlug": "block-prerelease-globally",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
         "npm",
