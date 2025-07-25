@@ -96,18 +96,18 @@ For more, see the [File Overview](#file-overview) and config files.
 
 ## File Overview
 
-| File                     | Purpose                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------|
-| `renovate.json`          | Entry point for downstream repos. Extends this shared config.                                    |
-| `default.json5`          | Main shared config: global pinning, prerelease blocking, Dockerfile rules, etc.                 |
-| `rules-actions.json5`    | GitHub Actions: groups all updates, unpins for actions/github orgs, keeps others pinned.         |
+| File                  | Purpose                                                                                         |
+|-----------------------|-------------------------------------------------------------------------------------------------|
+| `renovate.json`       | Entry point for downstream repos. Extends this shared config.                                    |
+| `default.json`        | Main shared config: global pinning, prerelease blocking, Dockerfile rules, etc.                 |
+| `rules-actions.json5` | GitHub Actions: groups all updates, unpins for actions/github orgs, keeps others pinned.         |
 | `rules-javascript.json5` | JS/TS grouping and special rules.                                                            |
-| `rules-python.json5`     | Python grouping rules.                                                                          |
-| `rules-java.json5`       | Java grouping rules.                                                                            |
-| `CODE_OF_CONDUCT.md`     | Community standards and expected behavior.                                                      |
-| `CONTRIBUTING.md`        | How to contribute, get help, and contact maintainers.                                           |
-| `SECURITY.md`            | How to report vulnerabilities or security concerns.                                             |
-| `COMPLIANCE.yaml`        | Organizational or legal compliance information.                                                 |
+| `rules-python.json5`  | Python grouping rules.                                                                          |
+| `rules-java.json5`    | Java grouping rules.                                                                            |
+| `CODE_OF_CONDUCT.md`  | Community standards and expected behavior.                                                      |
+| `CONTRIBUTING.md`     | How to contribute, get help, and contact maintainers.                                           |
+| `SECURITY.md`         | How to report vulnerabilities or security concerns.                                             |
+| `COMPLIANCE.yaml`     | Organizational or legal compliance information.                                                 |
 
 ## Example: How Pinning/Unpinning Works for GitHub Actions
 

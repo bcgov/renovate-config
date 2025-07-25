@@ -1,7 +1,3 @@
-// Renovate default preset
-// This file provides shared Renovate configuration for all downstream repositories.
-// It is intended to be extended via "extends": ["github>bcgov/renovate-config"] in downstream renovate.json files.
-// Only add rules here that should apply to all downstreams by default.
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
@@ -9,7 +5,6 @@
   "dependencyDashboard": true,
   "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
   "extends": [
-    // Shared and language-specific rules to be inherited by all downstreams
     "config:recommended",
     "docker:disableMajor",
     "group:allNonMajor",
@@ -50,31 +45,19 @@
   "pinDigests": true,
   "recreateWhen": "never",
   "packageRules": [
-    // Global packageRules for all supported managers.
-    // For language- or ecosystem-specific rules, use rules-*.json5 files and add them to the extends array above.
     {
-      // Exclude updates for dependencies currently on prerelease versions (e.g., -alpha, -beta, -rc, etc.)
-      // This rule matches any dependency whose current version contains a prerelease identifier.
-      // By not specifying update actions, Renovate will skip (block) updates for these dependencies.
-      //
-      // Note: We use 'matchManagers' to explicitly list supported managers and avoid applying this regex to Terraform,
-      // which does not support regex version constraints and would otherwise generate warnings.
-      //
-      // If you add a new package manager and want this exclusion to apply, add it to the list below.
       "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
-        "docker",         // Docker images
-        "github-actions", // GitHub Actions
-        "gradle",         // Java (Gradle)
-        "maven",          // Java (Maven)
-        "npm",            // Node.js (npm)
-        "pip",            // Python (pip)
-        "pnpm",           // Node.js (pnpm)
-        "yarn"            // Node.js (Yarn)
-        // Add new managers here as needed
+        "docker",
+        "github-actions",
+        "gradle",
+        "maven",
+        "npm",
+        "pip",
+        "pnpm",
+        "yarn"
       ]
     }
   ]
 }
-// NOTE: If you add new package managers or ecosystems, review both the extends array and packageRules to ensure correct coverage and exclusions.
