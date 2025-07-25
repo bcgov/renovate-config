@@ -69,7 +69,7 @@ jobs:
           node-version: '22'
 
       - name: Validate Config
-        run: npx --yes --package renovate --- "renovate-config-validator --strict renovate.json *.json5"
+        run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
           
       - name: Lint Config for Duplicates
         run: |
