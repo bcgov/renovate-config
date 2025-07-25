@@ -65,13 +65,13 @@
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
         "docker",         // Docker images
-        "github-actions"  // GitHub Actions
+        "github-actions", // GitHub Actions
         "gradle",         // Java (Gradle)
         "maven",          // Java (Maven)
         "pip",            // Python (pip)
         "pnpm",           // Node.js (pnpm)
         "npm",            // Node.js (npm)
-        "yarn",           // Node.js (Yarn)
+        "yarn"            // Node.js (Yarn)
         // Add new managers here as needed
       ]
     }
