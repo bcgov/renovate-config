@@ -47,8 +47,17 @@
   "packageRules": [
     {
       "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
-      "groupSlug": "block-prerelease-globally",
-      "matchCurrentVersion": "!/.*-(alpha|beta|rc|next|preview|dev|experimental).*/"
+      "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
+      "matchManagers": [
+        "docker",
+        "github-actions",
+        "gradle",
+        "maven",
+        "npm",
+        "pip",
+        "pnpm",
+        "yarn"
+      ]
     }
   ]
 }
