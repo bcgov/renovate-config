@@ -68,9 +68,9 @@
         "github-actions", // GitHub Actions
         "gradle",         // Java (Gradle)
         "maven",          // Java (Maven)
+        "npm",            // Node.js (npm)
         "pip",            // Python (pip)
         "pnpm",           // Node.js (pnpm)
-        "npm",            // Node.js (npm)
         "yarn"            // Node.js (Yarn)
         // Add new managers here as needed
       ]
