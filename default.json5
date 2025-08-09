@@ -46,6 +46,8 @@
   "onboarding": true,
   "platform": "github",
   "platformAutomerge": true,
+  "timezone": "America/Vancouver",
+  "schedule": ["before 6am every weekday"],
   "prConcurrentLimit": 2,
   "pinDigests": true,
   "recreateWhen": "never",
