@@ -60,7 +60,7 @@ jobs:
           token: ${{ secrets.RENOVATE_TOKEN }}
 
   validate:
-    name: Validate
+    name: Validate Config
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
@@ -70,7 +70,7 @@ jobs:
 
       - name: Validate Config
         run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
-          
+
       - name: Lint Config for Duplicates
         run: |
           npm install json5@^2.2.3 --no-save
