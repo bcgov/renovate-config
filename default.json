@@ -76,6 +76,16 @@
       "pinDigests": false
     },
     {
+      "description": "Unpin service containers in GitHub Actions: Docker images used as service containers in workflows are handled by image tags. These are runtime dependencies, not build dependencies.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepTypes": [
+        "container"
+      ],
+      "pinDigests": false
+    },
+    {
       "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
       "matchPackageNames": [
         "bcgov/renovate-config"
