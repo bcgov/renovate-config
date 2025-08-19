@@ -71,11 +71,13 @@
       "platformAutomerge": true
     },
     {
-      "description": "Group infrastructure providers (Terraform, Docker, K8s)",
+      "description": "Group infrastructure providers (Terraform, Docker, K8s, Helm, Docker Compose)",
       "matchManagers": [
         "terraform",
         "docker",
-        "kubernetes"
+        "kubernetes",
+        "helm",
+        "docker-compose"
       ],
       "matchUpdateTypes": [
         "minor",
