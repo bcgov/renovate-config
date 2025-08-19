@@ -1,0 +1,17 @@
+name: PR - Validate
+
+on:
+  pull_request:
+    types: [edited, opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-edit-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  validate:
+    name: Validate PR
+    if: (! github.event.pull_request.draft)
+    uses: bcgov/quickstart-openshift-helpers/.github/workflows/.pr-validate.yml@d9b3d32fb3f03c4699c2dce83ddfff042cd31a1f # v1.0.0

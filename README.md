@@ -50,11 +50,34 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 2. **Add a `renovate.json` file** to your default branch:
    ```json
    {
-     "extends": ["github>bcgov/renovate-config"]
+     "extends": ["github>bcgov/renovate-config#v1"]
    }
    ```
 3. **Commit and push.** Mend Renovate will scan your repo and open PRs for outdated dependencies.
 4. **To customize:** Add your own rules after the `extends` line in your `renovate.json`.
+
+### **For Existing Teams (Migration)**
+If you're already using Renovate, consider upgrading to versioned configs for better stability:
+
+**Current (main branch):**
+```json
+{
+  "extends": ["github>bcgov/renovate-config"]
+}
+```
+
+**Recommended (stable v1.x.x):**
+```json
+{
+  "extends": ["github>bcgov/renovate-config#v1"]
+}
+```
+
+**Benefits of versioning:**
+- ✅ **Stable updates** - get tested releases, not development changes
+- ✅ **Automatic upgrades** - get new v1.x.x releases automatically
+- ✅ **No breaking changes** - won't get v2+ breaking changes
+- ✅ **Easy rollback** - can pin to specific version if needed
 
 - **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
 - **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)

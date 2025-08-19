@@ -38,6 +38,11 @@
   ],
   "minimumReleaseAge": "7 days",
   "onboarding": true,
+  "onboardingConfig": {
+    "extends": [
+      "github>bcgov/renovate-config#v1"
+    ]
+  },
   "platform": "github",
   "platformAutomerge": true,
   "timezone": "America/Vancouver",
@@ -69,7 +74,6 @@
         "yarn"
       ]
     },
-
     {
       "description": "Group infrastructure providers (Terraform, Docker, K8s, Helm, Docker Compose)",
       "matchManagers": [
