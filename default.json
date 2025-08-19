@@ -51,11 +51,11 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Pin all digests globally for security",
+      "description": "Global pinning policy: Pin all digests/SHAs globally for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
       "pinDigests": true
     },
     {
-      "description": "Unpin allowlisted GitHub Actions (trusted orgs)",
+      "description": "Unpin allowlisted GitHub Actions: Trusted orgs (actions/, docker/, github/) are unpinned for easier maintenance. These are official GitHub/Docker actions with high security standards.",
       "matchManagers": [
         "github-actions"
       ],
@@ -67,7 +67,7 @@
       "pinDigests": false
     },
     {
-      "description": "Unpin containers (handled by image tags)",
+      "description": "Unpin containers: Docker images are handled by image tags rather than digests. Container registries provide their own security guarantees through signed tags.",
       "matchManagers": [
         "dockerfile",
         "docker-compose",
@@ -76,7 +76,7 @@
       "pinDigests": false
     },
     {
-      "description": "Prevent pinning of config presets",
+      "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
       "matchPackageNames": [
         "bcgov/renovate-config"
       ],
@@ -86,7 +86,7 @@
       "enabled": false
     },
     {
-      "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
+      "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
         "docker",
@@ -107,7 +107,7 @@
       ]
     },
     {
-      "description": "Group infrastructure providers (Terraform, Docker, K8s, Helm, Docker Compose)",
+      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
         "terraform",
         "docker",
@@ -123,7 +123,7 @@
       "groupSlug": "infra"
     },
     {
-      "description": "Group Node.js ecosystem (npm, yarn, pnpm)",
+      "description": "Group Node.js ecosystem: Combine npm, yarn, and pnpm updates into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
       "matchManagers": [
         "npm",
         "yarn",
@@ -137,7 +137,7 @@
       "groupSlug": "node"
     },
     {
-      "description": "Group Java ecosystem (Maven, Gradle)",
+      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
       "matchManagers": [
         "maven",
         "gradle"
@@ -150,7 +150,7 @@
       "groupSlug": "java"
     },
     {
-      "description": "Group Python ecosystem (pip, pipenv, poetry, conda, uv)",
+      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, conda, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
       "matchManagers": [
         "pip",
         "pipenv",
@@ -166,7 +166,7 @@
       "groupSlug": "python"
     },
     {
-      "description": "Group CI/CD tools (GitHub Actions)",
+      "description": "Group CI/CD tools: Combine GitHub Actions updates into single PRs. CI/CD changes should be reviewed together to ensure workflow compatibility and avoid breaking builds.",
       "matchManagers": [
         "github-actions"
       ],
