@@ -40,9 +40,6 @@
   "onboarding": true,
   "platform": "github",
   "platformAutomerge": true,
-  "repositories": [
-    "bcgov/*"
-  ],
   "timezone": "America/Vancouver",
   "schedule": [
     "before 6am every weekday"
