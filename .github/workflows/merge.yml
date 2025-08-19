@@ -35,7 +35,7 @@ jobs:
           skip-version-file: 'true'
           skip-commit: 'true'
           skip-on-empty: 'true'
-          git-push: 'true'
+          git-push: 'false'
 
       - name: Create Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
