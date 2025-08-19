@@ -42,15 +42,15 @@ jobs:
         run: |
           set -e
           echo "Creating tag: ${{ steps.changelog.outputs.tag }}"
-          
+
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
           # Create tag
           git tag ${{ steps.changelog.outputs.tag }}
           echo "✅ Tag created locally: ${{ steps.changelog.outputs.tag }}"
-          
+
           # Push tag with error handling
           if git push origin ${{ steps.changelog.outputs.tag }}; then
             echo "✅ Tag pushed successfully: ${{ steps.changelog.outputs.tag }}"
