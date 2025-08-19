@@ -4,8 +4,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     // Group all GitHub Actions dependencies for unified update PRs
+    // Also unpin digests for the actions and github orgs
     {
-      "description": "Group all GitHub Actions dependencies for unified update PRs",
+      "description": "Group all GitHub Actions dependencies and unpin digests for actions/github orgs",
       "groupName": "github actions all dependencies",
       "groupSlug": "github actions all",
       "matchManagers": [
@@ -22,18 +23,12 @@
         "rollback",
         "bump",
         "replacement"
-      ]
-    },
-    // Unpin digests (remove SHAs) for the actions and github orgs
-    {
-      "description": "Unpin digests for the actions and github orgs",
-      "groupSlug": "github-actions-unpin-digests",
+      ],
       "pinDigests": false,
-      "matchManagers": ["github-actions"],
       "matchPackageNames": [
         "/^actions\\//",
         "/^docker\\//",
-        "/^github\\//",
+        "/^github\\//"
       ]
     },
     // Do not pin digests for service containers in GitHub Actions workflows
