@@ -42,6 +42,8 @@ jobs:
           skip-commit: 'true'
           skip-on-empty: 'true'
           git-push: 'false'
+          preset: 'angular'
+          release-count: 0
 
       - name: Create Git Tag
         if: steps.changelog.outputs.version != ''
