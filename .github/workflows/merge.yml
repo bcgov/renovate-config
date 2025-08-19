@@ -40,11 +40,25 @@ jobs:
       - name: Create Git Tag
         if: steps.changelog.outputs.version != ''
         run: |
+          set -e
+          echo "Creating tag: ${{ steps.changelog.outputs.tag }}"
+          
+          # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          
+          # Create tag
           git tag ${{ steps.changelog.outputs.tag }}
-          git push origin ${{ steps.changelog.outputs.tag }}
-          echo "✅ Created tag: ${{ steps.changelog.outputs.tag }}"
+          echo "✅ Tag created locally: ${{ steps.changelog.outputs.tag }}"
+          
+          # Push tag with error handling
+          if git push origin ${{ steps.changelog.outputs.tag }}; then
+            echo "✅ Tag pushed successfully: ${{ steps.changelog.outputs.tag }}"
+          else
+            echo "❌ Failed to push tag: ${{ steps.changelog.outputs.tag }}"
+            echo "Check GITHUB_TOKEN permissions for contents:write"
+            exit 1
+          fi
 
       - name: Create Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
@@ -81,6 +95,7 @@ jobs:
       - name: Create Major/Minor Version Tags
         if: steps.changelog.outputs.version != ''
         run: |
+          set -e
           # Get the version that was just created
           VERSION="${{ steps.changelog.outputs.tag }}"
           echo "Creating major/minor tags for version: $VERSION"
@@ -95,12 +110,20 @@ jobs:
 
           # Create/update major version tag (e.g., v1)
           git tag -f $MAJOR_VERSION
-          git push origin $MAJOR_VERSION --force
-          echo "✅ Updated $MAJOR_VERSION tag"
+          if git push origin $MAJOR_VERSION --force; then
+            echo "✅ Updated $MAJOR_VERSION tag"
+          else
+            echo "❌ Failed to push $MAJOR_VERSION tag"
+            exit 1
+          fi
 
           # Create/update minor version tag (e.g., v1.1)
           git tag -f $MINOR_VERSION
-          git push origin $MINOR_VERSION --force
-          echo "✅ Updated $MINOR_VERSION tag"
+          if git push origin $MINOR_VERSION --force; then
+            echo "✅ Updated $MINOR_VERSION tag"
+          else
+            echo "❌ Failed to push $MINOR_VERSION tag"
+            exit 1
+          fi
 
           echo "🎉 All version tags created: $VERSION, $MINOR_VERSION, $MAJOR_VERSION"
