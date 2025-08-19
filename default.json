@@ -69,14 +69,7 @@
         "yarn"
       ]
     },
-    {
-      "description": "Force automerge for DefinitelyTyped group",
-      "matchPackageNames": [
-        "/^@types\\//"
-      ],
-      "automerge": true,
-      "platformAutomerge": true
-    },
+
     {
       "description": "Group infrastructure providers (Terraform, Docker, K8s, Helm, Docker Compose)",
       "matchManagers": [
