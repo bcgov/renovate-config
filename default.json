@@ -40,6 +40,9 @@
   "onboarding": true,
   "platform": "github",
   "platformAutomerge": true,
+  "repositories": [
+    "bcgov/*"
+  ],
   "timezone": "America/Vancouver",
   "schedule": [
     "before 6am every weekday"
@@ -69,7 +72,6 @@
         "yarn"
       ]
     },
-
     {
       "description": "Group infrastructure providers (Terraform, Docker, K8s, Helm, Docker Compose)",
       "matchManagers": [
@@ -140,6 +142,24 @@
       ],
       "groupName": "ci/cd tools",
       "groupSlug": "cicd"
+    },
+    {
+      "description": "Track Renovate config updates for downstream repos",
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "renovate config updates",
+      "groupSlug": "renovate-config",
+      "automerge": true,
+      "platformAutomerge": true,
+      "schedule": [
+        "monthly"
+      ]
     }
   ]
 }

@@ -1,0 +1,34 @@
+name: Auto-tag Latest Version
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  tag-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get latest version
+        id: version
+        run: |
+          # Get the latest version tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create/Update latest tag
+        run: |
+          # Create or update the 'latest' tag to point to current commit
+          git tag -f latest
+          git push origin latest --force
+
+      - name: Create/Update stable tag
+        run: |
+          # Create or update the 'stable' tag to point to current commit
+          git tag -f stable
+          git push origin stable --force
