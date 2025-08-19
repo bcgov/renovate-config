@@ -3,6 +3,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
+    // ALLOWLISTED_ORGS: actions/, docker/, github/
+    // These trusted orgs are unpinned (no SHA digests) for easier maintenance
     // Group and unpin digests for the allowlisted actions and github orgs
     {
       "description": "Group and unpin digests for allowlisted orgs (actions/, docker/, github/)",
@@ -25,12 +27,13 @@
       ],
       "pinDigests": false,
       "matchPackageNames": [
-        "/^actions\\//",
-        "/^docker\\//",
-        "/^github\\//"
+        "/^actions\\//",  // GitHub's official actions
+        "/^docker\\//",   // Docker's official actions
+        "/^github\\//"    // GitHub's other official actions
       ]
     },
-    // Group all other GitHub Actions dependencies (pinned)
+    // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
+    // Uses negative lookahead to exclude the allowlisted orgs above
     {
       "description": "Group all other GitHub Actions dependencies (pinned)",
       "groupName": "github actions other dependencies",
@@ -51,7 +54,7 @@
         "replacement"
       ],
       "matchPackageNames": [
-        "/^(?!actions\\/|docker\\/|github\\/).*/"
+        "/^(?!actions\\/|docker\\/|github\\/).*/"  // Everything except allowlisted orgs
       ]
     },
     // Do not pin digests for service containers in GitHub Actions workflows
