@@ -114,12 +114,13 @@
       "groupSlug": "java"
     },
     {
-      "description": "Group Python ecosystem (pip, pipenv, poetry, conda)",
+      "description": "Group Python ecosystem (pip, pipenv, poetry, conda, uv)",
       "matchManagers": [
         "pip",
         "pipenv",
         "poetry",
-        "conda"
+        "conda",
+        "uv"
       ],
       "matchUpdateTypes": [
         "minor",
