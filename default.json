@@ -144,6 +144,13 @@
       ],
       "groupName": "ci/cd tools",
       "groupSlug": "cicd"
+    },
+    {
+      "description": "Disable updates for config preset dependencies",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "enabled": false
     }
   ]
 }
