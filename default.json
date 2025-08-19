@@ -62,6 +62,14 @@
         "pnpm",
         "yarn"
       ]
+    },
+    {
+      "description": "Force automerge for DefinitelyTyped group",
+      "matchPackageNames": [
+        "/^@types\\//"
+      ],
+      "automerge": true,
+      "platformAutomerge": true
     }
   ]
 }
