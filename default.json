@@ -7,7 +7,6 @@
   "extends": [
     "config:recommended",
     "docker:disableMajor",
-
     "group:definitelyTyped",
     "group:linters",
     "group:monorepos",
@@ -73,36 +72,66 @@
     },
     {
       "description": "Group infrastructure providers (Terraform, Docker, K8s)",
-      "matchManagers": ["terraform", "docker", "kubernetes"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "terraform",
+        "docker",
+        "kubernetes"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
     },
     {
       "description": "Group Node.js ecosystem (npm, yarn, pnpm)",
-      "matchManagers": ["npm", "yarn", "pnpm"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "node dependencies",
       "groupSlug": "node"
     },
     {
       "description": "Group Java ecosystem (Maven, Gradle)",
-      "matchManagers": ["maven", "gradle"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "java dependencies",
       "groupSlug": "java"
     },
     {
       "description": "Group Python ecosystem (pip)",
-      "matchManagers": ["pip"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "pip"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "python dependencies",
       "groupSlug": "python"
     },
     {
       "description": "Group CI/CD tools (GitHub Actions)",
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "ci/cd tools",
       "groupSlug": "cicd"
     }
