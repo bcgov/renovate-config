@@ -146,9 +146,12 @@
       "groupSlug": "cicd"
     },
     {
-      "description": "Disable updates for config preset dependencies",
+      "description": "Prevent pinning of config preset references",
       "matchPackageNames": [
         "bcgov/renovate-config"
+      ],
+      "matchUpdateTypes": [
+        "pin"
       ],
       "enabled": false
     }
