@@ -139,24 +139,6 @@
       ],
       "groupName": "ci/cd tools",
       "groupSlug": "cicd"
-    },
-    {
-      "description": "Track Renovate config updates for downstream repos",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch"
-      ],
-      "groupName": "renovate config updates",
-      "groupSlug": "renovate-config",
-      "automerge": true,
-      "platformAutomerge": true,
-      "schedule": [
-        "monthly"
-      ]
     }
   ]
 }
