@@ -14,21 +14,18 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get latest version
-        id: version
+      - name: Update latest tag
         run: |
-          # Get the latest version tag
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-
-      - name: Create/Update latest tag
-        run: |
-          # Create or update the 'latest' tag to point to current commit
+          # Update 'latest' tag to always point to main branch (development)
           git tag -f latest
           git push origin latest --force
+          echo "✓ Updated 'latest' tag to point to main branch (development)"
 
-      - name: Create/Update stable tag
+      - name: Note about stable releases
         run: |
-          # Create or update the 'stable' tag to point to current commit
-          git tag -f stable
-          git push origin stable --force
+          echo "ℹ️  Stable releases are maintainer-controlled"
+          echo "   To create a stable release:"
+          echo "   1. git tag v1.0.0"
+          echo "   2. git tag stable -f"
+          echo "   3. git push origin v1.0.0 stable"
+          echo "   This ensures stable is only updated when ready"
