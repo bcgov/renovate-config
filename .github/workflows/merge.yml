@@ -37,6 +37,15 @@ jobs:
           skip-on-empty: 'true'
           git-push: 'false'
 
+      - name: Create Git Tag
+        if: steps.changelog.outputs.version != ''
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag ${{ steps.changelog.outputs.tag }}
+          git push origin ${{ steps.changelog.outputs.tag }}
+          echo "✅ Created tag: ${{ steps.changelog.outputs.tag }}"
+
       - name: Create Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
         if: steps.changelog.outputs.version != ''
