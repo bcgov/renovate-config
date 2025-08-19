@@ -1,13 +1,13 @@
 // Renovate packageRules for GitHub Actions dependencies.
-// This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling.
+// This file is intended to be referenced by downstream repositories for consistent update grouping.
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     // ALLOWLISTED_ORGS: actions/, docker/, github/
-    // These trusted orgs are unpinned (no SHA digests) for easier maintenance
-    // Group and unpin digests for the allowlisted actions and github orgs
+    // These trusted orgs are grouped for easier maintenance
+    // Group allowlisted actions and github orgs
     {
-      "description": "Group and unpin digests for allowlisted orgs (actions/, docker/, github/)",
+      "description": "Group allowlisted orgs (actions/, docker/, github/)",
       "groupName": "github actions allowlisted orgs",
       "groupSlug": "github-actions-allowlisted",
       "matchManagers": [
@@ -25,7 +25,6 @@
         "bump",
         "replacement"
       ],
-      "pinDigests": false,
       "matchPackageNames": [
         "/^actions\\//",  // GitHub's official actions
         "/^docker\\//",   // Docker's official actions
@@ -58,13 +57,6 @@
         "!/^docker\\//",   // Exclude allowlisted orgs
         "!/^github\\//"    // Exclude allowlisted orgs
       ]
-    },
-    // Do not pin digests for service containers in GitHub Actions workflows
-    {
-      "description": "Do not pin digests for service containers (Docker images) in GitHub Actions workflows",
-      "matchManagers": ["github-actions"],
-      "matchDepTypes": ["container"],
-      "pinDigests": false
     }
     // Add additional rules below as needed
   ]
