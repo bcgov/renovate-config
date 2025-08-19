@@ -27,7 +27,6 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "github>bcgov/renovate-config:rules-actions.json5",
-    "github>bcgov/renovate-config:rules-containers.json5",
     "github>bcgov/renovate-config:rules-java.json5",
     "github>bcgov/renovate-config:rules-javascript.json5",
     "github>bcgov/renovate-config:rules-python.json5"
@@ -50,9 +49,42 @@
     "before 6am every weekday"
   ],
   "prConcurrentLimit": 2,
-  "pinDigests": true,
-  "recreateWhen": "never",
   "packageRules": [
+    {
+      "description": "Pin all digests globally for security",
+      "pinDigests": true
+    },
+    {
+      "description": "Unpin allowlisted GitHub Actions (trusted orgs)",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "/^actions\\//",
+        "/^docker\\//",
+        "/^github\\//"
+      ],
+      "pinDigests": false
+    },
+    {
+      "description": "Unpin containers (handled by image tags)",
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose",
+        "kubernetes"
+      ],
+      "pinDigests": false
+    },
+    {
+      "description": "Prevent pinning of config presets",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "matchUpdateTypes": [
+        "pin"
+      ],
+      "enabled": false
+    },
     {
       "description": "Block prerelease updates globally (alpha, beta, rc, next, preview, dev, experimental)",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
@@ -144,16 +176,6 @@
       ],
       "groupName": "ci/cd tools",
       "groupSlug": "cicd"
-    },
-    {
-      "description": "Prevent pinning of config preset references",
-      "matchPackageNames": [
-        "bcgov/renovate-config"
-      ],
-      "matchUpdateTypes": [
-        "pin"
-      ],
-      "enabled": false
     }
   ]
 }
