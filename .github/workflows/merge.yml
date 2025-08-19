@@ -60,6 +60,15 @@ jobs:
             }
             ```
 
+            ### Migration for Existing Teams
+            If you're using the main branch, consider upgrading to versioned configs:
+            ```json
+            {
+              "extends": ["github>bcgov/renovate-config#v1"]
+            }
+            ```
+            Benefits: stable updates, automatic upgrades, no breaking changes.
+
       - name: Create Major/Minor Version Tags
         if: steps.changelog.outputs.version != ''
         run: |
