@@ -53,12 +53,19 @@
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
         "docker",
+        "docker-compose",
         "github-actions",
         "gradle",
+        "helm",
+        "kubernetes",
         "maven",
         "npm",
         "pip",
+        "pipenv",
         "pnpm",
+        "poetry",
+        "terraform",
+        "uv",
         "yarn"
       ]
     },
