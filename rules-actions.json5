@@ -33,7 +33,7 @@
       ]
     },
     // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
-    // Uses negative lookahead to exclude the allowlisted orgs above
+    // Excludes the allowlisted orgs above
     {
       "description": "Group all other GitHub Actions dependencies (pinned)",
       "groupName": "github actions other dependencies",
@@ -53,8 +53,10 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": [
-        "/^(?!actions\\/|docker\\/|github\\/).*/"  // Everything except allowlisted orgs
+      "excludePackageNames": [
+        "/^actions\\//",
+        "/^docker\\//",
+        "/^github\\//"
       ]
     },
     // Do not pin digests for service containers in GitHub Actions workflows
