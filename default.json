@@ -216,11 +216,7 @@
       ],
       "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.\\d+$/",
       "allowedVersions": "/^v?\\d+\\.\\d+\\.\\d+$/",
-      "enabled": true,
-      "automerge": false,
-      "commitMessageAction": "block",
-      "commitMessageTopic": "decimal precision change blocked",
-      "prBody": "## Decimal Precision Change Blocked\n\nThis update was blocked because it would change the decimal precision.\n\n### Issue:\n- **Current version**: $currentVersion (3 decimals)\n- **Requested upgrade**: $newVersion (different precision)\n- **Problem**: This would change the decimal precision, which is not allowed.\n\n### Solution:\nTeams using 3-decimal versions must stay on 3-decimal versions:\n- **Allowed**: v1.0.0 → v1.0.1 (3 decimals → 3 decimals)\n- **Allowed**: v1.0.0 → v1.1.0 (3 decimals → 3 decimals)\n- **Allowed**: v1.0.0 → v2.0.0 (3 decimals → 3 decimals)\n- **Blocked**: v1.0.0 → v1.2 (3 decimals → 2 decimals)\n\nThis prevents unexpected version format changes."
+      "enabled": true
     },
     {
       "description": "Suggest upgrading to versioned config: Encourage teams using main branch to upgrade to stable v1 version for better stability and automatic updates.",
