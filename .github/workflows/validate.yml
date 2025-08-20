@@ -1,0 +1,52 @@
+name: Enhanced Renovate Validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'default.json'
+      - 'renovate.json'
+      - 'rules-*.json5'
+      - 'scripts/validate-renovate.sh'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'default.json'
+      - 'renovate.json'
+      - 'rules-*.json5'
+      - 'scripts/validate-renovate.sh'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Enhanced Renovate Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Run enhanced validation
+        run: |
+          chmod +x scripts/validate-renovate.sh
+          ./scripts/validate-renovate.sh
+
+      - name: Validate script syntax
+        run: |
+          # Check for bash syntax errors
+          bash -n scripts/validate-renovate.sh
+          echo "✅ Script syntax is valid"
+
+      - name: Check script permissions
+        run: |
+          if [ -x scripts/validate-renovate.sh ]; then
+            echo "✅ Script is executable"
+          else
+            echo "❌ Script is not executable"
+            exit 1
+          fi
