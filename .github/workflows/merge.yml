@@ -2,6 +2,17 @@ name: Manual Release
 
 on:
   workflow_dispatch:
+    inputs:
+      version_override:
+        description: 'Optional version override (e.g., v1.2.3) - leave empty for automatic calculation'
+        required: false
+        type: string
+        default: ''
+      force_update_tag:
+        description: 'Force update existing tags (use with caution)'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}
@@ -33,7 +44,7 @@ jobs:
 
       - name: Install conventional-changelog tools
         run: |
-          npm install -g conventional-changelog-cli conventional-recommended-bump conventional-changelog-angular
+          npm install -g conventional-changelog-cli@4.1.0 conventional-recommended-bump@6.1.0 conventional-changelog-angular@5.0.12
 
       - name: Calculate Next Version
         id: version
@@ -41,27 +52,52 @@ jobs:
           set -e
           echo "🔍 Calculating next version based on conventional commits..."
           
+          # Check if manual version override is provided
+          if [ -n "${{ github.event.inputs.version_override }}" ]; then
+            echo "📋 Using manual version override: ${{ github.event.inputs.version_override }}"
+            VERSION_OVERRIDE="${{ github.event.inputs.version_override }}"
+            
+            # Validate version format (should start with 'v' and be semantic)
+            if [[ ! "$VERSION_OVERRIDE" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "❌ Invalid version format: $VERSION_OVERRIDE"
+              echo "Expected format: vX.Y.Z (e.g., v1.2.3)"
+              exit 1
+            fi
+            
+            # Extract version numbers from override
+            VERSION_NUM=${VERSION_OVERRIDE#v}
+            TAG_NAME="$VERSION_OVERRIDE"
+            
+            echo "📋 Manual version: $TAG_NAME"
+            echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
+            echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+ 
+          # Automatic version calculation
+          echo "📋 Calculating automatic version..."
+          
           # Get the recommended bump type (major, minor, patch)
           BUMP_TYPE=$(npx conventional-recommended-bump --preset angular)
           echo "📋 Recommended bump type: $BUMP_TYPE"
-          
+ 
           if [ -z "$BUMP_TYPE" ]; then
             echo "❌ No new version to release"
             echo "version=" >> $GITHUB_OUTPUT
             echo "tag=" >> $GITHUB_OUTPUT
             exit 0
           fi
-          
+ 
           # Get the latest version from git tags
           LATEST_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           echo "📋 Latest version: $LATEST_VERSION"
-          
+ 
           # Extract version numbers
           LATEST_NUM=${LATEST_VERSION#v}
           MAJOR=$(echo "$LATEST_NUM" | cut -d. -f1)
           MINOR=$(echo "$LATEST_NUM" | cut -d. -f2)
           PATCH=$(echo "$LATEST_NUM" | cut -d. -f3)
-          
+ 
           # Calculate next version based on bump type
           case "$BUMP_TYPE" in
             "major")
@@ -81,13 +117,13 @@ jobs:
               exit 1
               ;;
           esac
-          
+ 
           # Create new version and tag
           VERSION_NUM="$MAJOR.$MINOR.$PATCH"
           TAG_NAME="v$VERSION_NUM"
-          
+ 
           echo "📋 Next version: $TAG_NAME"
-          
+ 
           # Output for other steps
           echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
@@ -97,10 +133,17 @@ jobs:
         run: |
           set -e
           echo "📝 Generating changelog for version ${{ steps.version.outputs.tag }}..."
-          
-          # Generate changelog for latest release only
-          npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.md
-          
+
+          # Generate changelog for latest release only, and prepend to existing CHANGELOG.md
+          npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.latest.md
+          if [ -f CHANGELOG.md ]; then
+            cat CHANGELOG.latest.md CHANGELOG.md > CHANGELOG.new.md
+          else
+            cat CHANGELOG.latest.md > CHANGELOG.new.md
+          fi
+          mv CHANGELOG.new.md CHANGELOG.md
+          rm CHANGELOG.latest.md
+
           echo "✅ Changelog generated successfully"
 
       - name: Create Git Tag
@@ -130,9 +173,15 @@ jobs:
             echo "❌ Failed to push tag: $TAG_NAME"
             echo "🔍 Checking if tag already exists remotely..."
             if git ls-remote --tags origin "$TAG_NAME" | grep -q "$TAG_NAME"; then
-              echo "⚠️  Tag already exists remotely, forcing update..."
-              git push origin "$TAG_NAME" --force
-              echo "✅ Tag force-updated successfully: $TAG_NAME"
+              if [ "${{ github.event.inputs.force_update_tag }}" = "true" ]; then
+                echo "⚠️ WARNING: Force-updating an existing remote tag. This may cause data loss or confusion for users who have already pulled the previous tag."
+                git push origin "$TAG_NAME" --force
+                echo "✅ Tag force-updated successfully: $TAG_NAME"
+              else
+                echo "🚫 Tag '$TAG_NAME' already exists remotely. Refusing to force-update."
+                echo "If you really want to overwrite the remote tag, re-run this workflow with 'force_update_tag' set to true."
+                exit 1
+              fi
             else
               echo "❌ Tag push failed and doesn't exist remotely"
               echo "Check GITHUB_TOKEN permissions for contents:write"
@@ -180,6 +229,10 @@ jobs:
         if: steps.version.outputs.version != ''
         run: |
           set -e
+          # Configure git for tag operations
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
           # Get the version that was just created
           VERSION="${{ steps.version.outputs.tag }}"
           echo "🏷️  Creating major/minor tags for version: $VERSION"
@@ -199,6 +252,9 @@ jobs:
             echo "✅ Updated $MAJOR_VERSION tag"
           else
             echo "❌ Failed to push $MAJOR_VERSION tag"
+            if [ "${{ github.event.inputs.force_update_tag }}" != "true" ]; then
+              echo "💡 Try running with 'force_update_tag: true' if you need to overwrite existing tags"
+            fi
             exit 1
           fi
 
@@ -209,6 +265,9 @@ jobs:
             echo "✅ Updated $MINOR_VERSION tag"
           else
             echo "❌ Failed to push $MINOR_VERSION tag"
+            if [ "${{ github.event.inputs.force_update_tag }}" != "true" ]; then
+              echo "💡 Try running with 'force_update_tag: true' if you need to overwrite existing tags"
+            fi
             exit 1
           fi
 
