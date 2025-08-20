@@ -223,8 +223,6 @@
       "matchUpdateTypes": [
         "config"
       ],
-      "matchCurrentValue": "github>bcgov/renovate-config",
-      "matchNewValue": "github>bcgov/renovate-config#v1",
       "enabled": true,
       "automerge": false,
       "commitMessageAction": "upgrade",
