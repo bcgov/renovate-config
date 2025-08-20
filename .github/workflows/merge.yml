@@ -43,7 +43,7 @@ jobs:
           # Get the next version using conventional-changelog-cli
           NEXT_VERSION=$(npx conventional-changelog --preset angular --release-count 0 --dry-run | head -1 | sed 's/^# \[\([^]]*\)\].*/\1/')
           
-          if [ -z "$NEXT_VERSION" ] || [ "$NEXT_VERSION" = "" ]; then
+          if [ -z "$NEXT_VERSION" ]; then
             echo "❌ No new version to release"
             echo "version=" >> $GITHUB_OUTPUT
             echo "tag=" >> $GITHUB_OUTPUT
@@ -67,8 +67,8 @@ jobs:
           set -e
           echo "📝 Generating changelog for version ${{ steps.version.outputs.tag }}..."
           
-          # Generate changelog
-          npx conventional-changelog --preset angular --release-count 0 --output-file CHANGELOG.md
+          # Generate changelog for latest release only
+          npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.md
           
           echo "✅ Changelog generated successfully"
 
