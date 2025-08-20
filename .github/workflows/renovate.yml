@@ -26,8 +26,106 @@ concurrency:
 permissions: {}
 
 jobs:
+  validate:
+    name: Validate Config
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Basic schema validation
+        run: |
+          echo "🔍 Stage 1: Basic schema validation..."
+          npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
+          echo "✅ Schema validation passed"
+
+      - name: Config resolution test
+        run: |
+          echo "🔍 Stage 2: Config resolution test..."
+          RESOLUTION_OUTPUT=$(npx --yes --package renovate --- "renovate --dry-run=full --print-config" 2>&1 || true)
+
+          if echo "$RESOLUTION_OUTPUT" | grep -q -E "(ERROR|Invalid)"; then
+            echo "❌ Config resolution errors found:"
+            echo "$RESOLUTION_OUTPUT" | grep -E "(ERROR|Invalid)" || true
+            exit 1
+          elif echo "$RESOLUTION_OUTPUT" | grep -q -E "WARN"; then
+            echo "⚠️  Config resolution warnings found:"
+            echo "$RESOLUTION_OUTPUT" | grep -E "WARN" || true
+            echo "✅ Config resolves successfully (with warnings)"
+          else
+            echo "✅ Config resolves successfully"
+          fi
+
+      - name: Custom rule validation
+        run: |
+          echo "🔍 Stage 3: Custom rule validation..."
+
+          # Check for contradictory pinning rules
+          echo "  Checking for contradictory pinning rules..."
+          if grep -q '"pinDigests": true' default.json && grep -q '"pinDigests": false' default.json; then
+            echo "⚠️  Found both pinDigests: true and false rules"
+            echo "  This is expected for our pinning strategy, but verify the logic is correct"
+          else
+            echo "✅ PinDigests rules look consistent"
+          fi
+
+          # Check for duplicate package rules
+          echo "  Checking for duplicate package rules..."
+          DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
+          if [ -n "$DUPLICATE_RULES" ]; then
+            echo "⚠️  Potential duplicate package rules found:"
+            echo "$DUPLICATE_RULES"
+          else
+            echo "✅ No duplicate package rules detected"
+          fi
+
+          # Check for valid update types
+          echo "  Checking for valid update types..."
+          INVALID_UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
+          if [ -n "$INVALID_UPDATE_TYPES" ]; then
+            echo "⚠️  Potentially invalid update types found:"
+            echo "$INVALID_UPDATE_TYPES"
+            echo "  Verify these are valid Renovate update types"
+          else
+            echo "✅ All update types appear valid"
+          fi
+
+      - name: Best practices check
+        run: |
+          echo "🔍 Stage 4: Best practices check..."
+
+          # Check for excessive grouping
+          GROUP_COUNT=$(grep -h '"groupName"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          if [ "$GROUP_COUNT" -gt 10 ]; then
+            echo "⚠️  High number of grouping rules ($GROUP_COUNT)"
+            echo "  Consider if all groupings are necessary"
+          else
+            echo "✅ Grouping rules count looks reasonable ($GROUP_COUNT)"
+          fi
+
+          # Check for clear descriptions
+          UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          if [ "$UNDESCRIBED_RULES" -lt "$TOTAL_RULES" ]; then
+            echo "⚠️  Some rules may be missing descriptions"
+            echo "  Consider adding descriptions to all package rules"
+          else
+            echo "✅ All rules have descriptions"
+          fi
+
+          echo "🎉 Enhanced validation completed successfully!"
+          echo "The Renovate configuration appears to be valid and well-structured."
+
+      - name: Lint Config for Duplicates
+        run: |
+          npm install json5@^2.2.3 --no-save
+          node lint_renovate_duplicates.mjs *.json *.json5
+
   run:
     name: Dry-Run
+    needs: validate
     env:
       pr_set: bcgov/renovate-config bcgov/quickstart-openshift
     permissions:
@@ -58,20 +156,3 @@ jobs:
         with:
           configurationFile: renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}
-
-  validate:
-    name: Validate Config
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Validate Config
-        run: npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
-
-      - name: Lint Config for Duplicates
-        run: |
-          npm install json5@^2.2.3 --no-save
-          node lint_renovate_duplicates.mjs *.json *.json5

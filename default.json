@@ -53,10 +53,10 @@
     {
       "description": "Global pinning policy: Pin all digests/SHAs globally for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
-        "docker",
+        "dockerfile",
         "docker-compose",
         "gradle",
-        "helm",
+        "helmv3",
         "kubernetes",
         "maven",
         "npm",
@@ -127,11 +127,11 @@
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": [
-        "docker",
+        "dockerfile",
         "docker-compose",
         "github-actions",
         "gradle",
-        "helm",
+        "helmv3",
         "kubernetes",
         "maven",
         "npm",
@@ -148,9 +148,9 @@
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
         "terraform",
-        "docker",
+        "dockerfile",
         "kubernetes",
-        "helm",
+        "helmv3",
         "docker-compose"
       ],
       "matchUpdateTypes": [
@@ -188,12 +188,11 @@
       "groupSlug": "java"
     },
     {
-      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, conda, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
+      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
       "matchManagers": [
         "pip",
         "pipenv",
         "poetry",
-        "conda",
         "uv"
       ],
       "matchUpdateTypes": [
