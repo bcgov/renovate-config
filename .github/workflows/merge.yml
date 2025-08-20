@@ -31,19 +31,6 @@ jobs:
           echo "Available tags:"
           git tag -l
 
-      - name: Create initial v1.0.0 tag if no tags exist
-        run: |
-          if [ -z "$(git tag -l)" ]; then
-            echo "No tags found, creating initial v1.0.0 tag"
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git tag v1.0.0
-            git push origin v1.0.0
-            echo "✅ Created initial v1.0.0 tag"
-          else
-            echo "Tags exist, skipping initial tag creation"
-          fi
-
       - name: Conventional Changelog Update
         uses: TriPSs/conventional-changelog-action@67139193614f5b9e8db87da1bd4240922b34d765 # v6
         id: changelog
@@ -56,7 +43,6 @@ jobs:
           skip-on-empty: 'true'
           git-push: 'false'
           preset: 'angular'
-          release-count: 0
 
       - name: Create Git Tag
         if: steps.changelog.outputs.version != ''
