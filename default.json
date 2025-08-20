@@ -80,9 +80,6 @@
         "!/^docker\\//",
         "!/^github\\//"
       ],
-      "matchDepTypes": [
-        "action"
-      ],
       "pinDigests": true
     },
     {
