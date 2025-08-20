@@ -210,19 +210,49 @@
       "groupSlug": "cicd"
     },
     {
-      "description": "Prevent invalid version upgrades for renovate-config: Block updates that would violate semantic versioning rules (e.g., v1.0.0 → v1.2.0). This prevents teams from getting unexpected minor/major updates when they expect patch updates.",
+      "description": "Prevent patch → minor upgrades for renovate-config: Block teams using patch versions from getting minor updates. This prevents unexpected version type changes.",
       "matchPackageNames": [
         "bcgov/renovate-config"
       ],
+      "matchCurrentVersion": "/^v?\\d+\\.0\\.\\d+$/",
       "matchUpdateTypes": [
-        "minor",
+        "minor"
+      ],
+      "enabled": false,
+      "automerge": false,
+      "commitMessageAction": "block",
+      "commitMessageTopic": "patch to minor upgrade blocked",
+      "prBody": "## Patch → Minor Upgrade Blocked\n\nThis update was blocked because it would change from patch to minor version.\n\n### Issue:\n- **Current version**: $currentVersion (patch version)\n- **Requested upgrade**: $newVersion (minor version)\n- **Problem**: This would change from patch to minor, which is not allowed.\n\n### Solution:\nTeams using patch versions must stay on patch versions:\n- **Allowed**: v1.0.0 → v1.0.1 (patch → patch)\n- **Blocked**: v1.0.0 → v1.1.0 (patch → minor)\n\nThis prevents unexpected breaking changes for teams that demand patch-level versioning."
+    },
+    {
+      "description": "Prevent patch → major upgrades for renovate-config: Block teams using patch versions from getting major updates. This prevents unexpected version type changes.",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+\\.0\\.\\d+$/",
+      "matchUpdateTypes": [
         "major"
       ],
       "enabled": false,
       "automerge": false,
       "commitMessageAction": "block",
-      "commitMessageTopic": "invalid version upgrade",
-      "prBody": "## Invalid Version Upgrade Blocked\n\nThis update was blocked because it would violate semantic versioning rules.\n\n### Issue:\n- **Current version**: $currentVersion\n- **Requested upgrade**: $newVersion\n- **Problem**: This would be a $updateType upgrade, which is not allowed for renovate-config.\n\n### Solution:\nRenovate config updates must follow strict semantic versioning:\n- **Patch updates** (v1.0.0 → v1.0.1): Allowed\n- **Minor updates** (v1.0.0 → v1.1.0): Blocked\n- **Major updates** (v1.0.0 → v2.0.0): Blocked\n\nThis prevents teams from getting unexpected breaking changes."
+      "commitMessageTopic": "patch to major upgrade blocked",
+      "prBody": "## Patch → Major Upgrade Blocked\n\nThis update was blocked because it would change from patch to major version.\n\n### Issue:\n- **Current version**: $currentVersion (patch version)\n- **Requested upgrade**: $newVersion (major version)\n- **Problem**: This would change from patch to major, which is not allowed.\n\n### Solution:\nTeams using patch versions must stay on patch versions:\n- **Allowed**: v1.0.0 → v1.0.1 (patch → patch)\n- **Blocked**: v1.0.0 → v2.0.0 (patch → major)\n\nThis prevents unexpected breaking changes for teams that demand patch-level versioning."
+    },
+    {
+      "description": "Prevent minor → major upgrades for renovate-config: Block teams using minor versions from getting major updates. This prevents unexpected version type changes.",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.0$/",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false,
+      "automerge": false,
+      "commitMessageAction": "block",
+      "commitMessageTopic": "minor to major upgrade blocked",
+      "prBody": "## Minor → Major Upgrade Blocked\n\nThis update was blocked because it would change from minor to major version.\n\n### Issue:\n- **Current version**: $currentVersion (minor version)\n- **Requested upgrade**: $newVersion (major version)\n- **Problem**: This would change from minor to major, which is not allowed.\n\n### Solution:\nTeams using minor versions must stay on minor versions:\n- **Allowed**: v1.1.0 → v1.2.0 (minor → minor)\n- **Blocked**: v1.1.0 → v2.0.0 (minor → major)\n\nThis prevents unexpected breaking changes for teams that expect minor-level versioning."
     },
     {
       "description": "Suggest upgrading to versioned config: Encourage teams using main branch to upgrade to stable v1 version for better stability and automatic updates.",
