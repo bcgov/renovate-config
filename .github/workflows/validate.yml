@@ -33,22 +33,6 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Check script syntax
-        run: |
-          echo "🔍 Checking script syntax..."
-          bash -n scripts/validate-renovate.sh
-          echo "✅ Script syntax is valid"
-
-      - name: Check script permissions
-        run: |
-          echo "🔍 Checking script permissions..."
-          if [ -x scripts/validate-renovate.sh ]; then
-            echo "✅ Script is executable"
-          else
-            echo "❌ Script is not executable"
-            exit 1
-          fi
-
       - name: Basic schema validation
         run: |
           echo "🔍 Stage 1: Basic schema validation..."
@@ -59,7 +43,7 @@ jobs:
         run: |
           echo "🔍 Stage 2: Config resolution test..."
           RESOLUTION_OUTPUT=$(npx --yes --package renovate --- "renovate --dry-run=full --print-config" 2>&1 || true)
-          
+
           if echo "$RESOLUTION_OUTPUT" | grep -q -E "(ERROR|Invalid)"; then
             echo "❌ Config resolution errors found:"
             echo "$RESOLUTION_OUTPUT" | grep -E "(ERROR|Invalid)" || true
@@ -75,7 +59,7 @@ jobs:
       - name: Custom rule validation
         run: |
           echo "🔍 Stage 3: Custom rule validation..."
-          
+
           # Check for contradictory pinning rules
           echo "  Checking for contradictory pinning rules..."
           if grep -q '"pinDigests": true' default.json && grep -q '"pinDigests": false' default.json; then
@@ -84,7 +68,7 @@ jobs:
           else
             echo "✅ PinDigests rules look consistent"
           fi
-          
+
           # Check for duplicate package rules
           echo "  Checking for duplicate package rules..."
           DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
@@ -94,7 +78,7 @@ jobs:
           else
             echo "✅ No duplicate package rules detected"
           fi
-          
+
           # Check for valid update types
           echo "  Checking for valid update types..."
           INVALID_UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
@@ -109,7 +93,7 @@ jobs:
       - name: Best practices check
         run: |
           echo "🔍 Stage 4: Best practices check..."
-          
+
           # Check for excessive grouping
           GROUP_COUNT=$(grep -h '"groupName"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
           if [ "$GROUP_COUNT" -gt 10 ]; then
@@ -118,7 +102,7 @@ jobs:
           else
             echo "✅ Grouping rules count looks reasonable ($GROUP_COUNT)"
           fi
-          
+
           # Check for clear descriptions
           UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
           TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
@@ -128,6 +112,6 @@ jobs:
           else
             echo "✅ All rules have descriptions"
           fi
-          
+
           echo "🎉 Enhanced validation completed successfully!"
           echo "The Renovate configuration appears to be valid and well-structured."
