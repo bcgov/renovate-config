@@ -31,8 +31,9 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install conventional-changelog-cli
-        run: npm install -g conventional-changelog-cli
+      - name: Install conventional-changelog tools
+        run: |
+          npm install -g conventional-changelog-cli conventional-recommended-bump conventional-changelog-angular
 
       - name: Calculate Next Version
         id: version
@@ -40,22 +41,52 @@ jobs:
           set -e
           echo "🔍 Calculating next version based on conventional commits..."
           
-          # Get the next version using conventional-changelog-cli
-          NEXT_VERSION=$(npx conventional-changelog --preset angular --release-count 0 --dry-run | head -1 | sed 's/^# \[\([^]]*\)\].*/\1/')
+          # Get the recommended bump type (major, minor, patch)
+          BUMP_TYPE=$(npx conventional-recommended-bump --preset angular)
+          echo "📋 Recommended bump type: $BUMP_TYPE"
           
-          if [ -z "$NEXT_VERSION" ]; then
+          if [ -z "$BUMP_TYPE" ]; then
             echo "❌ No new version to release"
             echo "version=" >> $GITHUB_OUTPUT
             echo "tag=" >> $GITHUB_OUTPUT
             exit 0
           fi
           
-          # Extract version number and create tag
-          VERSION_NUM=$(echo "$NEXT_VERSION" | sed 's/^v//')
+          # Get the latest version from git tags
+          LATEST_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "📋 Latest version: $LATEST_VERSION"
+          
+          # Extract version numbers
+          LATEST_NUM=${LATEST_VERSION#v}
+          MAJOR=$(echo "$LATEST_NUM" | cut -d. -f1)
+          MINOR=$(echo "$LATEST_NUM" | cut -d. -f2)
+          PATCH=$(echo "$LATEST_NUM" | cut -d. -f3)
+          
+          # Calculate next version based on bump type
+          case "$BUMP_TYPE" in
+            "major")
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            "minor")
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            "patch")
+              PATCH=$((PATCH + 1))
+              ;;
+            *)
+              echo "❌ Unknown bump type: $BUMP_TYPE"
+              exit 1
+              ;;
+          esac
+          
+          # Create new version and tag
+          VERSION_NUM="$MAJOR.$MINOR.$PATCH"
           TAG_NAME="v$VERSION_NUM"
           
-          echo "📋 Next version: $NEXT_VERSION"
-          echo "🏷️  Tag name: $TAG_NAME"
+          echo "📋 Next version: $TAG_NAME"
           
           # Output for other steps
           echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
