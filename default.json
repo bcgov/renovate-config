@@ -188,11 +188,12 @@
       "groupSlug": "java"
     },
     {
-      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, conda, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
+      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
       "matchManagers": [
         "pip",
         "pipenv",
-        "poetry"
+        "poetry",
+        "uv"
       ],
       "matchUpdateTypes": [
         "minor",
