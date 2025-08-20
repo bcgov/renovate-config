@@ -220,9 +220,6 @@
       "matchFileNames": [
         "renovate.json"
       ],
-      "matchUpdateTypes": [
-        "config"
-      ],
       "enabled": true,
       "automerge": false,
       "commitMessageAction": "upgrade",
