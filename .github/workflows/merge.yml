@@ -1,12 +1,6 @@
-name: Merge and Release
+name: Manual Release
 
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - '*.md'
-      - '.github/graphics/**'
-      - '!.github/workflows/**'
   workflow_dispatch:
 
 concurrency:
