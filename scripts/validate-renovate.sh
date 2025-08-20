@@ -88,7 +88,7 @@ cat > test-integration.json << EOF
 }
 EOF
 
-INTEGRATION_OUTPUT=$(npx --yes --package renovate --- "renovate --dry-run=full extract" --config test-integration.json 2>&1 || true)
+INTEGRATION_OUTPUT=$(npx --yes --package renovate --- "renovate --config test-integration.json --dry-run=full extract" 2>&1 || true)
 
 # Clean up test file
 rm -f test-integration.json
@@ -105,7 +105,7 @@ fi
 echo -e "\n${BLUE}Stage 5: Best practices check...${NC}"
 
 # Check for excessive grouping
-GROUP_COUNT=$(grep -c '"groupName"' default.json rules-*.json5 2>/dev/null | awk '{sum += $1} END {print sum+0}' || echo "0")
+GROUP_COUNT=$(grep -h '"groupName"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
 if [ "$GROUP_COUNT" -gt 10 ]; then
     echo -e "${YELLOW}⚠️  High number of grouping rules ($GROUP_COUNT)${NC}"
     echo "  Consider if all groupings are necessary"
@@ -114,8 +114,8 @@ else
 fi
 
 # Check for clear descriptions
-UNDESCRIBED_RULES=$(grep -c '"description"' default.json rules-*.json5 2>/dev/null | awk '{sum += $1} END {print sum+0}' || echo "0")
-TOTAL_RULES=$(grep -c '"packageRules"' default.json rules-*.json5 2>/dev/null | awk '{sum += $1} END {print sum+0}' || echo "0")
+UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
 if [ "$UNDESCRIBED_RULES" -lt "$TOTAL_RULES" ]; then
     echo -e "${YELLOW}⚠️  Some rules may be missing descriptions${NC}"
     echo "  Consider adding descriptions to all package rules"
