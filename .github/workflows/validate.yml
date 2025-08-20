@@ -1,23 +1,13 @@
-permissions:
-  contents: read
 name: Enhanced Renovate Validation
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'default.json'
-      - 'renovate.json'
-      - 'rules-*.json5'
-      - 'scripts/validate-renovate.sh'
   pull_request:
-    branches: [main]
-    paths:
-      - 'default.json'
-      - 'renovate.json'
-      - 'rules-*.json5'
-      - 'scripts/validate-renovate.sh'
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   validate:
