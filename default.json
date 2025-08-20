@@ -55,7 +55,6 @@
       "matchManagers": [
         "docker",
         "docker-compose",
-        "github-actions",
         "gradle",
         "helm",
         "kubernetes",
@@ -68,6 +67,21 @@
         "terraform",
         "uv",
         "yarn"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Pin GitHub Actions (excluding allowlisted orgs and service containers): Pin GitHub Actions for security, but exclude trusted orgs and service containers which are handled separately.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "!/^actions\\//",
+        "!/^docker\\//",
+        "!/^github\\//"
+      ],
+      "matchDepTypes": [
+        "action"
       ],
       "pinDigests": true
     },
