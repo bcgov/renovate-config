@@ -26,62 +26,110 @@ jobs:
           echo "Available tags:"
           git tag -l
 
-      - name: Conventional Changelog Update
-        uses: TriPSs/conventional-changelog-action@67139193614f5b9e8db87da1bd4240922b34d765 # v6
-        id: changelog
-        continue-on-error: true
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          github-token: ${{ github.token }}
-          output-file: 'CHANGELOG.md'
-          skip-version-file: 'true'
-          skip-commit: 'true'
-          skip-on-empty: 'true'
-          git-push: 'false'
-          preset: 'angular'
+          node-version: '22'
 
-      - name: Create Git Tag
-        if: steps.changelog.outputs.version != ''
+      - name: Install conventional-changelog-cli
+        run: npm install -g conventional-changelog-cli
+
+      - name: Calculate Next Version
+        id: version
         run: |
           set -e
-          echo "Creating tag: ${{ steps.changelog.outputs.tag }}"
+          echo "🔍 Calculating next version based on conventional commits..."
+          
+          # Get the next version using conventional-changelog-cli
+          NEXT_VERSION=$(npx conventional-changelog --preset angular --release-count 0 --dry-run | head -1 | sed 's/^# \[\([^]]*\)\].*/\1/')
+          
+          if [ -z "$NEXT_VERSION" ] || [ "$NEXT_VERSION" = "" ]; then
+            echo "❌ No new version to release"
+            echo "version=" >> $GITHUB_OUTPUT
+            echo "tag=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Extract version number and create tag
+          VERSION_NUM=$(echo "$NEXT_VERSION" | sed 's/^v//')
+          TAG_NAME="v$VERSION_NUM"
+          
+          echo "📋 Next version: $NEXT_VERSION"
+          echo "🏷️  Tag name: $TAG_NAME"
+          
+          # Output for other steps
+          echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
+          echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Generate Changelog
+        if: steps.version.outputs.version != ''
+        run: |
+          set -e
+          echo "📝 Generating changelog for version ${{ steps.version.outputs.tag }}..."
+          
+          # Generate changelog
+          npx conventional-changelog --preset angular --release-count 0 --output-file CHANGELOG.md
+          
+          echo "✅ Changelog generated successfully"
+
+      - name: Create Git Tag
+        if: steps.version.outputs.version != ''
+        run: |
+          set -e
+          TAG_NAME="${{ steps.version.outputs.tag }}"
+          echo "🏷️  Creating tag: $TAG_NAME"
 
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Create tag
-          git tag ${{ steps.changelog.outputs.tag }}
-          echo "✅ Tag created locally: ${{ steps.changelog.outputs.tag }}"
+          # Clean up any existing local tag to avoid conflicts
+          echo "🧹 Cleaning up any existing local tag..."
+          git tag -d "$TAG_NAME" 2>/dev/null || echo "No existing local tag to remove"
 
-          # Push tag with error handling
-          if git push origin ${{ steps.changelog.outputs.tag }}; then
-            echo "✅ Tag pushed successfully: ${{ steps.changelog.outputs.tag }}"
+          # Create new tag
+          git tag "$TAG_NAME"
+          echo "✅ Tag created locally: $TAG_NAME"
+
+          # Push tag with robust error handling
+          echo "📤 Pushing tag to remote..."
+          if git push origin "$TAG_NAME"; then
+            echo "✅ Tag pushed successfully: $TAG_NAME"
           else
-            echo "❌ Failed to push tag: ${{ steps.changelog.outputs.tag }}"
-            echo "Check GITHUB_TOKEN permissions for contents:write"
-            exit 1
+            echo "❌ Failed to push tag: $TAG_NAME"
+            echo "🔍 Checking if tag already exists remotely..."
+            if git ls-remote --tags origin "$TAG_NAME" | grep -q "$TAG_NAME"; then
+              echo "⚠️  Tag already exists remotely, forcing update..."
+              git push origin "$TAG_NAME" --force
+              echo "✅ Tag force-updated successfully: $TAG_NAME"
+            else
+              echo "❌ Tag push failed and doesn't exist remotely"
+              echo "Check GITHUB_TOKEN permissions for contents:write"
+              exit 1
+            fi
           fi
 
       - name: Create Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
-        if: steps.changelog.outputs.version != ''
+        if: steps.version.outputs.version != ''
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           token: ${{ github.token }}
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          name: ${{ steps.changelog.outputs.tag }}
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
           body: |
             ## Renovate Config Release
 
-            ${{ steps.changelog.outputs.clean_changelog }}
+            ### What's New
+            This release includes the latest improvements and fixes to the BCGov Renovate configuration.
 
             ### Usage
             Teams can now use:
             ```json
             {
-              "extends": ["github>bcgov/renovate-config#${{ steps.changelog.outputs.tag }}"]
+              "extends": ["github>bcgov/renovate-config#${{ steps.version.outputs.tag }}"]
             }
             ```
 
@@ -94,23 +142,27 @@ jobs:
             ```
             Benefits: stable updates, automatic upgrades, no breaking changes.
 
+            ### Changelog
+            See the [CHANGELOG.md](https://github.com/bcgov/renovate-config/blob/main/CHANGELOG.md) for detailed changes.
+
       - name: Create Major/Minor Version Tags
-        if: steps.changelog.outputs.version != ''
+        if: steps.version.outputs.version != ''
         run: |
           set -e
           # Get the version that was just created
-          VERSION="${{ steps.changelog.outputs.tag }}"
-          echo "Creating major/minor tags for version: $VERSION"
+          VERSION="${{ steps.version.outputs.tag }}"
+          echo "🏷️  Creating major/minor tags for version: $VERSION"
 
           # Extract major and minor versions
           VERSION_NUM=${VERSION#v}
           MAJOR_VERSION="v${VERSION_NUM%%.*}"
           MINOR_VERSION="v${VERSION_NUM%.*}"
 
-          echo "Major version: $MAJOR_VERSION"
-          echo "Minor version: $MINOR_VERSION"
+          echo "📋 Major version: $MAJOR_VERSION"
+          echo "📋 Minor version: $MINOR_VERSION"
 
           # Create/update major version tag (e.g., v1)
+          echo "🔄 Updating $MAJOR_VERSION tag..."
           git tag -f $MAJOR_VERSION
           if git push origin $MAJOR_VERSION --force; then
             echo "✅ Updated $MAJOR_VERSION tag"
@@ -120,6 +172,7 @@ jobs:
           fi
 
           # Create/update minor version tag (e.g., v1.1)
+          echo "🔄 Updating $MINOR_VERSION tag..."
           git tag -f $MINOR_VERSION
           if git push origin $MINOR_VERSION --force; then
             echo "✅ Updated $MINOR_VERSION tag"
