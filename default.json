@@ -210,6 +210,21 @@
       "groupSlug": "cicd"
     },
     {
+      "description": "Prevent invalid version upgrades for renovate-config: Block updates that would violate semantic versioning rules (e.g., v1.0.0 → v1.2.0). This prevents teams from getting unexpected minor/major updates when they expect patch updates.",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "major"
+      ],
+      "enabled": false,
+      "automerge": false,
+      "commitMessageAction": "block",
+      "commitMessageTopic": "invalid version upgrade",
+      "prBody": "## Invalid Version Upgrade Blocked\n\nThis update was blocked because it would violate semantic versioning rules.\n\n### Issue:\n- **Current version**: $currentVersion\n- **Requested upgrade**: $newVersion\n- **Problem**: This would be a $updateType upgrade, which is not allowed for renovate-config.\n\n### Solution:\nRenovate config updates must follow strict semantic versioning:\n- **Patch updates** (v1.0.0 → v1.0.1): Allowed\n- **Minor updates** (v1.0.0 → v1.1.0): Blocked\n- **Major updates** (v1.0.0 → v2.0.0): Blocked\n\nThis prevents teams from getting unexpected breaking changes."
+    },
+    {
       "description": "Suggest upgrading to versioned config: Encourage teams using main branch to upgrade to stable v1 version for better stability and automatic updates.",
       "matchFileNames": [
         "renovate.json"
