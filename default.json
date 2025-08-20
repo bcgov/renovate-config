@@ -192,8 +192,7 @@
       "matchManagers": [
         "pip",
         "pipenv",
-        "poetry",
-        "uv"
+        "poetry"
       ],
       "matchUpdateTypes": [
         "minor",
