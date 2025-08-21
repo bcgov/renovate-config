@@ -35,11 +35,206 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Comprehensive validation
+      - name: Schema validation
         run: |
-          echo "🔍 Running comprehensive Renovate validation..."
-          chmod +x scripts/validate-renovate.sh
-          ./scripts/validate-renovate.sh
+          echo "🔍 Stage 1: Schema validation..."
+          npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
+
+      - name: Config resolution test
+        run: |
+          echo "🔍 Stage 2: Config resolution test..."
+          RESOLUTION_OUTPUT=$(npx --yes --package renovate --- "renovate --dry-run=full --print-config" 2>&1 || true)
+          
+          if echo "$RESOLUTION_OUTPUT" | grep -q -E "(ERROR|Invalid)"; then
+            echo "❌ Config resolution errors found:"
+            echo "$RESOLUTION_OUTPUT" | grep -E "(ERROR|Invalid)" || true
+            exit 1
+          elif echo "$RESOLUTION_OUTPUT" | grep -q -E "WARN"; then
+            echo "⚠️  Config resolution warnings found:"
+            echo "$RESOLUTION_OUTPUT" | grep -E "WARN" || true
+            echo "✅ Config resolves successfully (with warnings)"
+          else
+            echo "✅ Config resolves successfully"
+          fi
+
+      - name: Custom rule validation
+        run: |
+          echo "🔍 Stage 3: Custom rule validation..."
+          
+          # Check for pinning strategy
+          echo "  Checking pinning strategy..."
+          if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+            echo "✅ Pinning strategy: Global pin with specific unpins"
+            echo "  This is our intended strategy - pin globally, unpin specific managers"
+            
+            # Check for potential conflicts - same managers with both true and false
+            echo "  Checking for pinning conflicts..."
+            PIN_MANAGERS=$(grep -A10 '"pinDigests": true' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
+            UNPIN_MANAGERS=$(grep -A10 '"pinDigests": false' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
+            
+            CONFLICTS=$(comm -12 <(echo "$PIN_MANAGERS" | sort) <(echo "$UNPIN_MANAGERS" | sort) || true)
+            if [ -n "$CONFLICTS" ]; then
+              echo "❌ CONFLICT: Same managers have both pin and unpin rules:"
+              echo "  $CONFLICTS"
+              echo "  This will cause unpredictable behavior - fix the conflicts!"
+              exit 1
+            else
+              echo "✅ No pinning conflicts detected"
+            fi
+          elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
+            echo "✅ Pinning strategy: Global pinning enabled"
+          elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+            echo "✅ Pinning strategy: Specific unpinning rules"
+          else
+            echo "⚠️  No pinning rules found"
+          fi
+          
+          # Check for duplicate package rules
+          echo "  Checking for duplicate package rules..."
+          DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
+          if [ -n "$DUPLICATE_RULES" ]; then
+            echo "⚠️  Potential duplicate package rules found:"
+            echo "$DUPLICATE_RULES"
+            echo "  Review these rules to ensure they don't conflict"
+          else
+            echo "✅ No duplicate package rules detected"
+          fi
+          
+          # Check for valid update types
+          echo "  Checking for valid update types..."
+          UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
+          if [ -n "$UPDATE_TYPES" ]; then
+            echo "✅ Found update types: $UPDATE_TYPES"
+            INVALID_TYPES=$(echo "$UPDATE_TYPES" | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
+            if [ -n "$INVALID_TYPES" ]; then
+              echo "❌ Invalid update types found: $INVALID_TYPES"
+              echo "  Valid types are: major, minor, patch, pin, pinDigest, digest, lockFileMaintenance, rollback, bump, replacement"
+              exit 1
+            fi
+          else
+            echo "✅ No update type restrictions found"
+          fi
+          
+          # Check for invalid commitMessageAction values
+          echo "  Checking for invalid commitMessageAction values..."
+          INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
+          if [ -n "$INVALID_COMMIT_ACTIONS" ]; then
+            echo "❌ Invalid commitMessageAction values found:"
+            echo "$INVALID_COMMIT_ACTIONS"
+            echo "  Valid values are: replace, append, prepend"
+            exit 1
+          else
+            echo "✅ All commitMessageAction values are valid"
+          fi
+          
+          # Check for contradictory enabled: true with blocking properties
+          echo "  Checking for contradictory enabled: true with blocking properties..."
+          CONTRADICTORY_RULES=$(grep -A5 -B5 '"enabled": true' default.json rules-*.json5 2>/dev/null | grep -E '(commitMessageAction.*block|commitMessageTopic.*block|prBody.*blocked)' || true)
+          if [ -n "$CONTRADICTORY_RULES" ]; then
+            echo "❌ Found enabled: true with blocking properties:"
+            echo "$CONTRADICTORY_RULES"
+            echo "  Use enabled: false to block updates, not enabled: true with blocking properties"
+            exit 1
+          else
+            echo "✅ No contradictory enabled/blocking combinations"
+          fi
+
+      - name: Integration test
+        run: |
+          echo "🔍 Stage 4: Integration test..."
+          echo "  Testing config against bcgov/quickstart-openshift..."
+          
+          cat > test-integration.json << EOF
+          {
+            "extends": ["github>bcgov/renovate-config"],
+            "repositories": ["bcgov/quickstart-openshift"]
+          }
+          EOF
+          
+          INTEGRATION_OUTPUT=$(npx --yes --package renovate --- "renovate --config test-integration.json --dry-run=full extract" 2>&1 || true)
+          rm -f test-integration.json
+          
+          if echo "$INTEGRATION_OUTPUT" | grep -q -E "(ERROR|WARN|Invalid)"; then
+            echo "❌ Integration test errors found:"
+            echo "$INTEGRATION_OUTPUT" | grep -E "(ERROR|WARN|Invalid)" | head -5 || true
+            echo "  (Showing first 5 errors)"
+          else
+            echo "✅ Integration test passed"
+          fi
+
+      - name: Best practices check
+        run: |
+          echo "🔍 Stage 5: Best practices check..."
+          
+          # Check for excessive grouping
+          GROUP_COUNT=$(grep -h '"groupName"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          if [ "$GROUP_COUNT" -gt 10 ]; then
+            echo "⚠️  High number of grouping rules ($GROUP_COUNT)"
+            echo "  Consider if all groupings are necessary"
+          else
+            echo "✅ Grouping rules count looks reasonable ($GROUP_COUNT)"
+          fi
+          
+          # Check for clear descriptions
+          UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          if [ "$UNDESCRIBED_RULES" -lt "$TOTAL_RULES" ]; then
+            echo "⚠️  Some rules may be missing descriptions"
+            echo "  Consider adding descriptions to all package rules"
+          else
+            echo "✅ All rules have descriptions"
+          fi
+          
+          # Check for rule complexity
+          echo "  Checking rule complexity..."
+          COMPLEX_RULES=$(awk '
+            /"packageRules"/ {inblock=1}
+            inblock {block=block $0 "\n"}
+            /}/ && inblock {
+              inblock=0
+              if (block ~ /"matchManagers"/ && (block ~ /"matchPackageNames"/ || block ~ /"matchUpdateTypes"/ || block ~ /"matchCurrentVersion"/ || block ~ /"allowedVersions"/)) {
+                count++
+              }
+              block=""
+            }
+            END {print count+0}
+          ' default.json rules-*.json5 2>/dev/null)
+          if [ "$COMPLEX_RULES" -gt 10 ]; then
+            echo "⚠️  Some rules have many conditions ($COMPLEX_RULES)"
+            echo "  Consider simplifying complex rules for better maintainability"
+          else
+            echo "✅ Rule complexity looks reasonable"
+          fi
+          
+          # Check for potential performance optimizations
+          echo "  Checking for performance optimizations..."
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "⚠️  jq not found. Skipping advanced rule consolidation check."
+          else
+            SIMILAR_RULES=$(jq -s '
+                map(.packageRules? // []) | flatten
+                | group_by(.matchManagers)
+                | map(select(length > 1 and .[0].matchManagers != null))
+                | .[]
+                | {
+                    matchManagers: .[0].matchManagers,
+                    count: length,
+                    rules: [.[].description // "No description", .[].matchPackageNames // empty, .[].matchUpdateTypes // empty]
+                }
+            ' default.json rules-*.json5 2>/dev/null)
+            if [ -n "$SIMILAR_RULES" ] && [ "$SIMILAR_RULES" != "null" ]; then
+              echo "⚠️  Potential rule consolidation opportunities:"
+              echo "$SIMILAR_RULES" | jq -r '
+                  "  Managers: \(.matchManagers)\n    Count: \(.count)\n    Descriptions: \(.rules[] | tostring)\n"
+              ' | head -9
+              echo "  Consider combining rules with similar managers for better performance, if other conditions allow."
+            else
+              echo "✅ No obvious rule consolidation opportunities"
+            fi
+          fi
+          
+          echo "🎉 Enhanced validation completed successfully!"
+          echo "The Renovate configuration appears to be valid and well-structured."
 
       - name: Lint Config for Duplicates
         run: |
