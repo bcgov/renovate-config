@@ -78,7 +78,7 @@ fi
 
 # Check for invalid commitMessageAction values
 echo "  Checking for invalid commitMessageAction values..."
-INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | grep -v -E '"(replace|append|prepend)"' || true)
+INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
 if [ -n "$INVALID_COMMIT_ACTIONS" ]; then
     echo -e "${RED}❌ Invalid commitMessageAction values found:${NC}"
     echo "$INVALID_COMMIT_ACTIONS"
@@ -102,13 +102,13 @@ fi
 
 # Check for invalid allowedVersions regex patterns
 echo "  Checking for invalid allowedVersions regex patterns..."
-ALLOWED_VERSIONS=$(grep -h '"allowedVersions"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | sed 's/^"//;s/"$//' || true)
+ALLOWED_VERSIONS=$(grep -h '"allowedVersions"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"allowedVersions"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' || true)
 for regex in $ALLOWED_VERSIONS; do
     if [[ "$regex" =~ ^/.*/$ ]]; then
         # Remove leading/trailing slashes for testing
         test_regex="${regex#/}"
         test_regex="${test_regex%/}"
-        if ! echo "test" | grep -q "$test_regex" 2>/dev/null; then
+        if ! grep -E "$test_regex" <<< "" 2>/dev/null; then
             echo -e "${RED}❌ Invalid allowedVersions regex: $regex${NC}"
             exit 1
         fi
