@@ -38,8 +38,8 @@ jobs:
       - name: Enhanced config validation
         run: |
           echo "🔍 Enhanced config validation..."
-          npm install json5@^2.2.3 --no-save
-          node validate_renovate_config.mjs default.json rules-*.json5
+          chmod +x scripts/validate-renovate.sh
+          ./scripts/validate-renovate.sh
           echo "✅ Enhanced validation passed"
 
       - name: Basic schema validation

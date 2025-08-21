@@ -76,6 +76,46 @@ else
     echo -e "${GREEN}✅ All update types appear valid${NC}"
 fi
 
+# Check for invalid commitMessageAction values
+echo "  Checking for invalid commitMessageAction values..."
+INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | grep -v -E '"(replace|append|prepend)"' || true)
+if [ -n "$INVALID_COMMIT_ACTIONS" ]; then
+    echo -e "${RED}❌ Invalid commitMessageAction values found:${NC}"
+    echo "$INVALID_COMMIT_ACTIONS"
+    echo "  Valid values are: replace, append, prepend"
+    exit 1
+else
+    echo -e "${GREEN}✅ All commitMessageAction values are valid${NC}"
+fi
+
+# Check for contradictory enabled: true with blocking properties
+echo "  Checking for contradictory enabled: true with blocking properties..."
+CONTRADICTORY_RULES=$(grep -A5 -B5 '"enabled": true' default.json rules-*.json5 2>/dev/null | grep -E '(commitMessageAction.*block|commitMessageTopic.*block|prBody.*blocked)' || true)
+if [ -n "$CONTRADICTORY_RULES" ]; then
+    echo -e "${RED}❌ Found enabled: true with blocking properties:${NC}"
+    echo "$CONTRADICTORY_RULES"
+    echo "  Use enabled: false to block updates, not enabled: true with blocking properties"
+    exit 1
+else
+    echo -e "${GREEN}✅ No contradictory enabled/blocking combinations${NC}"
+fi
+
+# Check for invalid allowedVersions regex patterns
+echo "  Checking for invalid allowedVersions regex patterns..."
+ALLOWED_VERSIONS=$(grep -h '"allowedVersions"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | sed 's/^"//;s/"$//' || true)
+for regex in $ALLOWED_VERSIONS; do
+    if [[ "$regex" =~ ^/.*/$ ]]; then
+        # Remove leading/trailing slashes for testing
+        test_regex="${regex#/}"
+        test_regex="${test_regex%/}"
+        if ! echo "test" | grep -q "$test_regex" 2>/dev/null; then
+            echo -e "${RED}❌ Invalid allowedVersions regex: $regex${NC}"
+            exit 1
+        fi
+    fi
+done
+echo -e "${GREEN}✅ All allowedVersions regex patterns are valid${NC}"
+
 # Stage 4: Integration test with real repository
 echo -e "\n${BLUE}Stage 4: Integration test...${NC}"
 echo "  Testing config against bcgov/quickstart-openshift..."
