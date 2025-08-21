@@ -58,7 +58,36 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 3. **Commit and push.** Mend Renovate will scan your repo and open PRs for outdated dependencies.
 4. **To customize:** Add your own rules after the `extends` line in your `renovate.json`.
 
+**By default, you get:**
+- Global pinning to SHAs/digests for supply chain security
+- Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
+- Automerge for safe updates (minor, patch, linters, etc.)
+- Prerelease blocking (e.g., `-alpha`, `-beta`, `-rc`, etc.)
+- No immortal PRs (closed PRs are not recreated)
+- Dependency dashboard for tracking
+- Minimum release age (7 days) to avoid just-published breaking changes
+- Language/ecosystem-specific grouping (see File Overview)
+- GitHub Actions pinning policy: actions/github orgs unpinned, all others pinned
 
+- **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
+- **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)
+
+**By default, you get:**
+- Global pinning to SHAs/digests for supply chain security
+- Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
+- Automerge for safe updates (minor, patch, linters, etc.)
+- Prerelease blocking (e.g., `-alpha`, `-beta`, `-rc`, etc.)
+- No immortal PRs (closed PRs are not recreated)
+- Dependency dashboard for tracking
+- Minimum release age (7 days) to avoid just-published breaking changes
+- Language/ecosystem-specific grouping (see File Overview)
+- GitHub Actions pinning policy: actions/github orgs unpinned, all others pinned
+
+For more, see the [File Overview](#file-overview) and config files.
+
+> **Note:** Regular dependency updates are a bcgov and NRIDS best practice, and may be required for compliance or audit readiness.
+
+## Versioning & Migration
 
 ### **For Existing Teams (Migration)**
 If you're already using Renovate, consider upgrading to versioned configs for better stability:
@@ -86,28 +115,10 @@ If you're already using Renovate, consider upgrading to versioned configs for be
 - ✅ **Easy rollback** - can pin to specific version if needed
 - ✅ **Production ready** - safe for production environments
 
-**Version Control Options:**
+### **Version Control Options**
 - `#v1` - Get all v1.x.x updates (recommended for production teams)
 - `main` - Get latest development changes (for testing teams)
 - `#v1.2.0` - Pin to exact version (for teams requiring maximum stability)
-
-- **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
-- **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)
-
-**By default, you get:**
-- Global pinning to SHAs/digests for supply chain security
-- Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
-- Automerge for safe updates (minor, patch, linters, etc.)
-- Prerelease blocking (e.g., `-alpha`, `-beta`, `-rc`, etc.)
-- No immortal PRs (closed PRs are not recreated)
-- Dependency dashboard for tracking
-- Minimum release age (7 days) to avoid just-published breaking changes
-- Language/ecosystem-specific grouping (see File Overview)
-- GitHub Actions pinning policy: actions/github orgs unpinned, all others pinned
-
-For more, see the [File Overview](#file-overview) and config files.
-
-> **Note:** Regular dependency updates are a bcgov and NRIDS best practice, and may be required for compliance or audit readiness.
 
 ## FAQ / Troubleshooting
 
