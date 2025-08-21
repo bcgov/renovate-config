@@ -84,7 +84,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. By participating, you agr
 
 ## Security
 
-See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
+Please report any security vulnerabilities or concerns by opening an [issue](https://github.com/bcgov/renovate-config/issues).
+
+**Note:** This configuration is experimental and currently has no formal support, but security issues will be addressed promptly.
 
 ## License
 
