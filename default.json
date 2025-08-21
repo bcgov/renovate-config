@@ -66,30 +66,6 @@
       "pinDigests": true
     },
     {
-      "description": "Pin GitHub Actions (excluding allowlisted orgs and service containers): Pin GitHub Actions for security, but exclude trusted orgs and service containers which are handled separately.",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "!/^actions\\//",
-        "!/^docker\\//",
-        "!/^github\\//"
-      ],
-      "pinDigests": true
-    },
-    {
-      "description": "Unpin allowlisted GitHub Actions: Trusted orgs (actions/, docker/, github/) are unpinned for easier maintenance. These are official GitHub/Docker actions with high security standards.",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "/^actions\\//",
-        "/^docker\\//",
-        "/^github\\//"
-      ],
-      "pinDigests": false
-    },
-    {
       "description": "Unpin containers: Docker images are handled by image tags rather than digests. Container registries provide their own security guarantees through signed tags.",
       "matchManagers": [
         "dockerfile",
@@ -102,16 +78,6 @@
       "description": "Unpin service containers: Service containers (like postgres, redis, etc.) are handled by image tags rather than digests. These are runtime dependencies that should use stable tags.",
       "matchDepTypes": [
         "service"
-      ],
-      "pinDigests": false
-    },
-    {
-      "description": "Unpin service containers in GitHub Actions: Docker images used as service containers in workflows are handled by image tags. These are runtime dependencies, not build dependencies.",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchDepTypes": [
-        "container"
       ],
       "pinDigests": false
     },
@@ -203,18 +169,6 @@
       ],
       "groupName": "python dependencies",
       "groupSlug": "python"
-    },
-    {
-      "description": "Group CI/CD tools: Combine GitHub Actions updates into single PRs. CI/CD changes should be reviewed together to ensure workflow compatibility and avoid breaking builds.",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "ci/cd tools",
-      "groupSlug": "cicd"
     },
     {
       "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level (e.g., v1.0.0 stays as 3 decimals, v1.2 stays as 2 decimals). This prevents unexpected version format changes.",
