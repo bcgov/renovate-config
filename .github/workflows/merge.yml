@@ -42,9 +42,9 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install conventional-changelog tools
+      - name: Setup Node.js (for version calculation only)
         run: |
-          npm install -g conventional-changelog-cli@4.1.0 conventional-recommended-bump@6.1.0 conventional-changelog-angular@5.0.12
+          echo "Node.js setup complete - using for version calculation only"
 
       - name: Calculate Next Version
         id: version
@@ -128,36 +128,11 @@ jobs:
           echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
 
-      - name: Generate Changelog
+      - name: Skip Changelog Generation
         if: steps.version.outputs.version != ''
         run: |
-          set -e
-          echo "📝 Generating changelog for version ${{ steps.version.outputs.tag }}..."
-
-          # Generate changelog for latest release only
-          npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.latest.md
-          
-          # Check if changelog was generated successfully
-          echo "Checking if changelog was generated..."
-          if [ ! -f CHANGELOG.latest.md ] || [ ! -s CHANGELOG.latest.md ]; then
-            echo "⚠️  No conventional commits found, creating minimal changelog"
-            echo "# [${{ steps.version.outputs.tag }}] - $(date -u +%Y-%m-%d)" > CHANGELOG.latest.md
-            echo "" >> CHANGELOG.latest.md
-            echo "### Changes" >> CHANGELOG.latest.md
-            echo "" >> CHANGELOG.latest.md
-            echo "- Manual release" >> CHANGELOG.latest.md
-          fi
-          
-          # Prepend to existing CHANGELOG.md or create new one
-          if [ -f CHANGELOG.md ]; then
-            cat CHANGELOG.latest.md CHANGELOG.md > CHANGELOG.new.md
-          else
-            cat CHANGELOG.latest.md > CHANGELOG.new.md
-          fi
-          mv CHANGELOG.new.md CHANGELOG.md
-          rm -f CHANGELOG.latest.md
-
-          echo "✅ Changelog generated successfully"
+          echo "📝 Skipping changelog generation - GitHub releases provide changelog automatically"
+          echo "✅ Release workflow focuses on versioning and tagging only"
 
       - name: Create Git Tag
         if: steps.version.outputs.version != ''
