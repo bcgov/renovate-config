@@ -58,26 +58,7 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 3. **Commit and push.** Mend Renovate will scan your repo and open PRs for outdated dependencies.
 4. **To customize:** Add your own rules after the `extends` line in your `renovate.json`.
 
-### **Choose Your Channel**
 
-**For Production Teams (Recommended):**
-```json
-{
-  "extends": ["github>bcgov/renovate-config#v1"]
-}
-```
-✅ **Stable channel** - tested releases, safe for production
-
-**For Testing/Development Teams:**
-```json
-{
-  "extends": ["github>bcgov/renovate-config"]
-}
-```
-⚠️ **Development channel** - latest changes, may include breaking updates
-
-**For Advanced Control:**
-If you need patch-level control (e.g., `#v1.2.0` for exact version), see the [Version Control Options](#version-control-options) section below.
 
 ### **For Existing Teams (Migration)**
 If you're already using Renovate, consider upgrading to versioned configs for better stability:
