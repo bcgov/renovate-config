@@ -9,20 +9,7 @@
 
 > **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change. Please provide feedback and expect improvements over time.
 
-## Table of Contents
 
-- [Purpose & Audience](#purpose--audience)
-- [Quick Start & Usage](#quick-start--usage)
-- [FAQ / Troubleshooting](#faq--troubleshooting)
-- [Customization](#customization)
-- [File Overview](#file-overview)
-- [Example: How Pinning/Unpinning Works for GitHub Actions](#example-how-pinningunpinning-works-for-github-actions)
-- [Team Commitment](#team-commitment)
-- [Contributing](#contributing)
-- [Community & Conduct](#community--conduct)
-- [Security](#security)
-- [Releases & Change History](#releases--change-history)
-- [License](#license)
 
 ## Purpose & Audience
 
