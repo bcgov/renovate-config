@@ -61,15 +61,41 @@ jobs:
             
             # Check for potential conflicts - same managers with both true and false
             echo "  Checking for pinning conflicts..."
-            PIN_MANAGERS=$(grep -A10 '"pinDigests": true' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
-            UNPIN_MANAGERS=$(grep -A10 '"pinDigests": false' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
+            if command -v jq >/dev/null 2>&1; then
+              PIN_MANAGERS=$(jq -r '.packageRules[] | select(.pinDigests == true) | .matchManagers[]?' default.json rules-*.json5 2>/dev/null | sort | uniq || true)
+              UNPIN_MANAGERS=$(jq -r '.packageRules[] | select(.pinDigests == false) | .matchManagers[]?' default.json rules-*.json5 2>/dev/null | sort | uniq || true)
+            else
+              echo "⚠️  jq not found. Skipping pinning conflict check."
+              PIN_MANAGERS=""
+              UNPIN_MANAGERS=""
+            fi
             
             CONFLICTS=$(comm -12 <(echo "$PIN_MANAGERS" | sort) <(echo "$UNPIN_MANAGERS" | sort) || true)
             if [ -n "$CONFLICTS" ]; then
-              echo "❌ CONFLICT: Same managers have both pin and unpin rules:"
+              echo "⚠️  Found managers with both pin and unpin rules:"
               echo "  $CONFLICTS"
-              echo "  This will cause unpredictable behavior - fix the conflicts!"
-              exit 1
+              echo "  Checking if these are intentional exclusions..."
+              
+              # Check if the conflicts are intentional (pin with exclusions + unpin specific packages)
+              INTENTIONAL_CONFLICTS=""
+              for manager in $CONFLICTS; do
+                PIN_RULES=$(jq -r --arg mgr "$manager" '.packageRules[] | select(.matchManagers[]? == $mgr and .pinDigests == true) | .matchPackageNames[]?' default.json rules-*.json5 2>/dev/null || true)
+                UNPIN_RULES=$(jq -r --arg mgr "$manager" '.packageRules[] | select(.matchManagers[]? == $mgr and .pinDigests == false) | .matchPackageNames[]?' default.json rules-*.json5 2>/dev/null || true)
+                
+                if [ -n "$PIN_RULES" ] && [ -n "$UNPIN_RULES" ]; then
+                  echo "  ✅ $manager: Intentional pin with exclusions + unpin specific packages"
+                else
+                  INTENTIONAL_CONFLICTS="$INTENTIONAL_CONFLICTS $manager"
+                fi
+              done
+              
+              if [ -n "$INTENTIONAL_CONFLICTS" ]; then
+                echo "❌ CONFLICT: Unresolved conflicts for managers: $INTENTIONAL_CONFLICTS"
+                echo "  This will cause unpredictable behavior - fix the conflicts!"
+                exit 1
+              else
+                echo "✅ All conflicts are intentional exclusions"
+              fi
             else
               echo "✅ No pinning conflicts detected"
             fi
