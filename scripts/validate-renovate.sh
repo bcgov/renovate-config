@@ -51,6 +51,24 @@ echo "  Checking pinning strategy..."
 if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
     echo -e "${GREEN}✅ Pinning strategy: Global pin with specific unpins${NC}"
     echo "  This is our intended strategy - pin globally, unpin specific managers"
+    
+    # Check for potential conflicts - same managers with both true and false
+    echo "  Checking for pinning conflicts..."
+    # Extract managers from pin rules
+    PIN_MANAGERS=$(grep -A10 '"pinDigests": true' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
+    # Extract managers from unpin rules  
+    UNPIN_MANAGERS=$(grep -A10 '"pinDigests": false' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
+    
+    # Find conflicts
+    CONFLICTS=$(comm -12 <(echo "$PIN_MANAGERS" | sort) <(echo "$UNPIN_MANAGERS" | sort) || true)
+    if [ -n "$CONFLICTS" ]; then
+        echo -e "${RED}❌ CONFLICT: Same managers have both pin and unpin rules:${NC}"
+        echo "  $CONFLICTS"
+        echo "  This will cause unpredictable behavior - fix the conflicts!"
+        exit 1
+    else
+        echo -e "${GREEN}✅ No pinning conflicts detected${NC}"
+    fi
 elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
     echo -e "${GREEN}✅ Pinning strategy: Global pinning enabled${NC}"
 elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
