@@ -32,7 +32,7 @@ jobs:
 
       - name: Fetch all tags
         run: |
-          # Fetch all tags to ensure changelog generation and version comparison have access to the complete tag history
+          # Fetch all tags to ensure version comparison has access to the complete tag history
           git fetch --tags --force
           echo "Available tags:"
           git tag -l
@@ -210,8 +210,8 @@ jobs:
             ```
             Benefits: stable updates, automatic upgrades, no breaking changes.
 
-            ### Changelog
-            See the [CHANGELOG.md](https://github.com/bcgov/renovate-config/blob/main/CHANGELOG.md) for detailed changes.
+                        ### Changes
+            See the [GitHub releases](https://github.com/bcgov/renovate-config/releases) for detailed changes.
 
       - name: Create Major/Minor Version Tags
         if: steps.version.outputs.version != ''
