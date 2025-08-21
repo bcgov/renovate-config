@@ -134,15 +134,27 @@ jobs:
           set -e
           echo "📝 Generating changelog for version ${{ steps.version.outputs.tag }}..."
 
-          # Generate changelog for latest release only, and prepend to existing CHANGELOG.md
+          # Generate changelog for latest release only
           npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.latest.md
+          
+          # Check if changelog was generated successfully
+          if [ ! -f CHANGELOG.latest.md ] || [ ! -s CHANGELOG.latest.md ]; then
+            echo "⚠️  No conventional commits found, creating minimal changelog"
+            echo "# [${{ steps.version.outputs.tag }}] - $(date +%Y-%m-%d)" > CHANGELOG.latest.md
+            echo "" >> CHANGELOG.latest.md
+            echo "### Changes" >> CHANGELOG.latest.md
+            echo "" >> CHANGELOG.latest.md
+            echo "- Manual release" >> CHANGELOG.latest.md
+          fi
+          
+          # Prepend to existing CHANGELOG.md or create new one
           if [ -f CHANGELOG.md ]; then
             cat CHANGELOG.latest.md CHANGELOG.md > CHANGELOG.new.md
           else
             cat CHANGELOG.latest.md > CHANGELOG.new.md
           fi
           mv CHANGELOG.new.md CHANGELOG.md
-          rm CHANGELOG.latest.md
+          rm -f CHANGELOG.latest.md
 
           echo "✅ Changelog generated successfully"
 
