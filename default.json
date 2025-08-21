@@ -99,6 +99,13 @@
       "pinDigests": false
     },
     {
+      "description": "Unpin service containers: Service containers (like postgres, redis, etc.) are handled by image tags rather than digests. These are runtime dependencies that should use stable tags.",
+      "matchDepTypes": [
+        "service"
+      ],
+      "pinDigests": false
+    },
+    {
       "description": "Unpin service containers in GitHub Actions: Docker images used as service containers in workflows are handled by image tags. These are runtime dependencies, not build dependencies.",
       "matchManagers": [
         "github-actions"
