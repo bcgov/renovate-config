@@ -51,53 +51,53 @@ jobs:
         run: |
           set -e
           echo "🔍 Calculating next version based on conventional commits..."
-          
+
           # Check if manual version override is provided
           if [ -n "${{ github.event.inputs.version_override }}" ]; then
             echo "📋 Using manual version override: ${{ github.event.inputs.version_override }}"
             VERSION_OVERRIDE="${{ github.event.inputs.version_override }}"
-            
+
             # Validate version format (should start with 'v' and be semantic)
             if [[ ! "$VERSION_OVERRIDE" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "❌ Invalid version format: $VERSION_OVERRIDE"
               echo "Expected format: vX.Y.Z (e.g., v1.2.3)"
               exit 1
             fi
-            
+
             # Extract version numbers from override
             VERSION_NUM=${VERSION_OVERRIDE#v}
             TAG_NAME="$VERSION_OVERRIDE"
-            
+
             echo "📋 Manual version: $TAG_NAME"
             echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
             echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
             exit 0
           fi
- 
+
           # Automatic version calculation
           echo "📋 Calculating automatic version..."
-          
+
           # Get the recommended bump type (major, minor, patch)
           BUMP_TYPE=$(npx conventional-recommended-bump --preset angular)
           echo "📋 Recommended bump type: $BUMP_TYPE"
- 
+
           if [ -z "$BUMP_TYPE" ]; then
             echo "❌ No new version to release"
             echo "version=" >> $GITHUB_OUTPUT
             echo "tag=" >> $GITHUB_OUTPUT
             exit 0
           fi
- 
+
           # Get the latest version from git tags
           LATEST_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           echo "📋 Latest version: $LATEST_VERSION"
- 
+
           # Extract version numbers
           LATEST_NUM=${LATEST_VERSION#v}
           MAJOR=$(echo "$LATEST_NUM" | cut -d. -f1)
           MINOR=$(echo "$LATEST_NUM" | cut -d. -f2)
           PATCH=$(echo "$LATEST_NUM" | cut -d. -f3)
- 
+
           # Calculate next version based on bump type
           case "$BUMP_TYPE" in
             "major")
@@ -117,18 +117,16 @@ jobs:
               exit 1
               ;;
           esac
- 
+
           # Create new version and tag
           VERSION_NUM="$MAJOR.$MINOR.$PATCH"
           TAG_NAME="v$VERSION_NUM"
- 
+
           echo "📋 Next version: $TAG_NAME"
- 
+
           # Output for other steps
           echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
-
-      
 
       - name: Create Git Tag
         if: steps.version.outputs.version != ''
@@ -206,7 +204,7 @@ jobs:
             ```
             Benefits: stable updates, automatic upgrades, no breaking changes.
 
-                        ### Changes
+            ### Changes
             See the [GitHub releases](https://github.com/bcgov/renovate-config/releases) for detailed changes.
 
       - name: Create Major/Minor Version Tags
