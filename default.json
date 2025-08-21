@@ -184,6 +184,15 @@
       "matchFileNames": [
         "renovate.json"
       ],
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^github>bcgov\\/renovate-config$/",
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
       "enabled": true,
       "automerge": false,
       "commitMessageAction": "upgrade",
