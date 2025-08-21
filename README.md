@@ -44,6 +44,20 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 
 ## Quick Start & Usage
 
+### **Setup Steps**
+
+1. **Enable Mend Renovate** for your repository:
+   - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) to join the Mend Renovate GitHub App.
+   - **Other orgs:** Options may include opt-in by `renovate.json` or the [Mend Renovate GitHub App](https://github.com/apps/renovate).
+2. **Add a `renovate.json` file** to your default branch:
+   ```json
+   {
+     "extends": ["github>bcgov/renovate-config#v1"]
+   }
+   ```
+3. **Commit and push.** Mend Renovate will scan your repo and open PRs for outdated dependencies.
+4. **To customize:** Add your own rules after the `extends` line in your `renovate.json`.
+
 ### **Choose Your Channel**
 
 **For Production Teams (Recommended):**
@@ -76,20 +90,6 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 }
 ```
 🔒 **Patch version** - get exactly v1.2.0, no updates
-
-### **Setup Steps**
-
-1. **Enable Mend Renovate** for your repository:
-   - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) to join the Mend Renovate GitHub App.
-   - **Other orgs:** Options may include opt-in by `renovate.json` or the [Mend Renovate GitHub App](https://github.com/apps/renovate).
-2. **Add a `renovate.json` file** to your default branch:
-   ```json
-   {
-     "extends": ["github>bcgov/renovate-config#v1"]
-   }
-   ```
-3. **Commit and push.** Mend Renovate will scan your repo and open PRs for outdated dependencies.
-4. **To customize:** Add your own rules after the `extends` line in your `renovate.json`.
 
 ### **For Existing Teams (Migration)**
 If you're already using Renovate, consider upgrading to versioned configs for better stability:
