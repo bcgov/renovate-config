@@ -138,9 +138,10 @@ jobs:
           npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.latest.md
           
           # Check if changelog was generated successfully
+          echo "Checking if changelog was generated..."
           if [ ! -f CHANGELOG.latest.md ] || [ ! -s CHANGELOG.latest.md ]; then
             echo "⚠️  No conventional commits found, creating minimal changelog"
-            echo "# [${{ steps.version.outputs.tag }}] - $(date +%Y-%m-%d)" > CHANGELOG.latest.md
+            echo "# [${{ steps.version.outputs.tag }}] - $(date -u +%Y-%m-%d)" > CHANGELOG.latest.md
             echo "" >> CHANGELOG.latest.md
             echo "### Changes" >> CHANGELOG.latest.md
             echo "" >> CHANGELOG.latest.md
