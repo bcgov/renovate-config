@@ -44,6 +44,41 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 
 ## Quick Start & Usage
 
+### **Choose Your Channel**
+
+**For Production Teams (Recommended):**
+```json
+{
+  "extends": ["github>bcgov/renovate-config#v1"]
+}
+```
+✅ **Stable channel** - tested releases, safe for production
+
+**For Testing/Development Teams:**
+```json
+{
+  "extends": ["github>bcgov/renovate-config"]
+}
+```
+⚠️ **Development channel** - latest changes, may include breaking updates
+
+**For Fine-Grained Control:**
+```json
+{
+  "extends": ["github>bcgov/renovate-config#v1.2"]
+}
+```
+📌 **Minor version** - get v1.2.x updates only
+
+```json
+{
+  "extends": ["github>bcgov/renovate-config#v1.2.0"]
+}
+```
+🔒 **Patch version** - get exactly v1.2.0, no updates
+
+### **Setup Steps**
+
 1. **Enable Mend Renovate** for your repository:
    - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) to join the Mend Renovate GitHub App.
    - **Other orgs:** Options may include opt-in by `renovate.json` or the [Mend Renovate GitHub App](https://github.com/apps/renovate).
@@ -59,12 +94,13 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 ### **For Existing Teams (Migration)**
 If you're already using Renovate, consider upgrading to versioned configs for better stability:
 
-**Current (main branch):**
+**Current (main branch - unstable):**
 ```json
 {
   "extends": ["github>bcgov/renovate-config"]
 }
 ```
+⚠️ **Development channel** - gets latest changes, may include breaking updates
 
 **Recommended (stable v1.x.x):**
 ```json
@@ -72,12 +108,20 @@ If you're already using Renovate, consider upgrading to versioned configs for be
   "extends": ["github>bcgov/renovate-config#v1"]
 }
 ```
+✅ **Production channel** - gets tested, stable releases
 
 **Benefits of versioning:**
 - ✅ **Stable updates** - get tested releases, not development changes
 - ✅ **Automatic upgrades** - get new v1.x.x releases automatically
 - ✅ **No breaking changes** - won't get v2+ breaking changes
 - ✅ **Easy rollback** - can pin to specific version if needed
+- ✅ **Production ready** - safe for production environments
+
+**Version Control Options:**
+- `#v1` - Get all v1.x.x updates (recommended for most teams)
+- `#v1.2` - Get only v1.2.x updates (more conservative)
+- `#v1.2.0` - Pin to exact version (maximum stability)
+- `main` - Get latest development changes (for testing)
 
 - **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
 - **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)
