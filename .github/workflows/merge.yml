@@ -209,30 +209,45 @@ jobs:
           echo "📋 Major version: $MAJOR_VERSION"
           echo "📋 Minor version: $MINOR_VERSION"
 
-          # Create/update major version tag
-          echo "🔄 Updating $MAJOR_VERSION tag..."
-          git tag -f $MAJOR_VERSION
-          if git push origin $MAJOR_VERSION --force; then
-            echo "✅ Updated $MAJOR_VERSION tag"
-          else
-            echo "❌ Failed to push $MAJOR_VERSION tag"
-            if [ "${{ github.event.inputs.force_update_tag }}" != "true" ]; then
-              echo "💡 Try running with 'force_update_tag: true' if you need to overwrite existing tags"
+          # Update major version tag (preserves all existing patch tags)
+          echo "🔄 Updating $MAJOR_VERSION tag to point to $VERSION..."
+          if git tag -f $MAJOR_VERSION $VERSION; then
+            echo "✅ Tag created locally: $MAJOR_VERSION -> $VERSION"
+            if git push origin $MAJOR_VERSION --force; then
+              echo "✅ Updated $MAJOR_VERSION tag to point to $VERSION"
+            else
+              echo "❌ Failed to push $MAJOR_VERSION tag"
+              if [ "${{ github.event.inputs.force_update_tag }}" != "true" ]; then
+                echo "💡 Try running with 'force_update_tag: true' if you need to overwrite existing tags"
+              fi
+              exit 1
             fi
+          else
+            echo "❌ Failed to create tag $MAJOR_VERSION"
             exit 1
           fi
 
-          # Create/update minor version tag
-          echo "🔄 Updating $MINOR_VERSION tag..."
-          git tag -f $MINOR_VERSION
-          if git push origin $MINOR_VERSION --force; then
-            echo "✅ Updated $MINOR_VERSION tag"
-          else
-            echo "❌ Failed to push $MINOR_VERSION tag"
-            if [ "${{ github.event.inputs.force_update_tag }}" != "true" ]; then
-              echo "💡 Try running with 'force_update_tag: true' if you need to overwrite existing tags"
+          # Update minor version tag (preserves all existing patch tags)
+          echo "🔄 Updating $MINOR_VERSION tag to point to $VERSION..."
+          if git tag -f $MINOR_VERSION $VERSION; then
+            echo "✅ Tag created locally: $MINOR_VERSION -> $VERSION"
+            if git push origin $MINOR_VERSION --force; then
+              echo "✅ Updated $MINOR_VERSION tag to point to $VERSION"
+            else
+              echo "❌ Failed to push $MINOR_VERSION tag"
+              if [ "${{ github.event.inputs.force_update_tag }}" != "true" ]; then
+                echo "💡 Try running with 'force_update_tag: true' if you need to overwrite existing tags"
+              fi
+              exit 1
             fi
+          else
+            echo "❌ Failed to create tag $MINOR_VERSION"
             exit 1
           fi
 
-          echo "🎉 All version tags created: $VERSION, $MINOR_VERSION, $MAJOR_VERSION"
+          echo "🎉 All version tags updated:"
+          echo "  - $VERSION (patch tag - preserved)"
+          echo "  - $MINOR_VERSION (minor tag - now points to $VERSION)"
+          echo "  - $MAJOR_VERSION (major tag - now points to $VERSION)"
+          echo ""
+          echo "📋 All existing patch tags (v1.0.0, v1.1.0, etc.) are preserved!"
