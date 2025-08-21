@@ -211,7 +211,7 @@ jobs:
 
           # Update major version tag (preserves all existing patch tags)
           echo "🔄 Updating $MAJOR_VERSION tag to point to $VERSION..."
-          if git tag -f $MAJOR_VERSION $VERSION; then
+          if git tag -f $MAJOR_VERSION $(git rev-parse $VERSION); then
             echo "✅ Tag created locally: $MAJOR_VERSION -> $VERSION"
             if git push origin $MAJOR_VERSION --force; then
               echo "✅ Updated $MAJOR_VERSION tag to point to $VERSION"
@@ -229,7 +229,7 @@ jobs:
 
           # Update minor version tag (preserves all existing patch tags)
           echo "🔄 Updating $MINOR_VERSION tag to point to $VERSION..."
-          if git tag -f $MINOR_VERSION $VERSION; then
+          if git tag -f $MINOR_VERSION $(git rev-parse $VERSION); then
             echo "✅ Tag created locally: $MINOR_VERSION -> $VERSION"
             if git push origin $MINOR_VERSION --force; then
               echo "✅ Updated $MINOR_VERSION tag to point to $VERSION"
