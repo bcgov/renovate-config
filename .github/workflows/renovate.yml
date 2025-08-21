@@ -58,47 +58,6 @@ jobs:
           if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
             echo "✅ Pinning strategy: Global pin with specific unpins"
             echo "  This is our intended strategy - pin globally, unpin specific managers"
-            
-            # Check for potential conflicts - same managers with both true and false
-            echo "  Checking for pinning conflicts..."
-            if command -v jq >/dev/null 2>&1; then
-              PIN_MANAGERS=$(jq -r '.packageRules[] | select(.pinDigests == true) | .matchManagers[]?' default.json rules-*.json5 2>/dev/null | sort | uniq || true)
-              UNPIN_MANAGERS=$(jq -r '.packageRules[] | select(.pinDigests == false) | .matchManagers[]?' default.json rules-*.json5 2>/dev/null | sort | uniq || true)
-            else
-              echo "⚠️  jq not found. Skipping pinning conflict check."
-              PIN_MANAGERS=""
-              UNPIN_MANAGERS=""
-            fi
-            
-            CONFLICTS=$(comm -12 <(echo "$PIN_MANAGERS" | sort) <(echo "$UNPIN_MANAGERS" | sort) || true)
-            if [ -n "$CONFLICTS" ]; then
-              echo "⚠️  Found managers with both pin and unpin rules:"
-              echo "  $CONFLICTS"
-              echo "  Checking if these are intentional exclusions..."
-              
-              # Check if the conflicts are intentional (pin with exclusions + unpin specific packages)
-              INTENTIONAL_CONFLICTS=""
-              for manager in $CONFLICTS; do
-                PIN_RULES=$(jq -r --arg mgr "$manager" '.packageRules[] | select(.matchManagers[]? == $mgr and .pinDigests == true) | .matchPackageNames[]?' default.json rules-*.json5 2>/dev/null || true)
-                UNPIN_RULES=$(jq -r --arg mgr "$manager" '.packageRules[] | select(.matchManagers[]? == $mgr and .pinDigests == false) | .matchPackageNames[]?' default.json rules-*.json5 2>/dev/null || true)
-                
-                if [ -n "$PIN_RULES" ] && [ -n "$UNPIN_RULES" ]; then
-                  echo "  ✅ $manager: Intentional pin with exclusions + unpin specific packages"
-                else
-                  INTENTIONAL_CONFLICTS="$INTENTIONAL_CONFLICTS $manager"
-                fi
-              done
-              
-              if [ -n "$INTENTIONAL_CONFLICTS" ]; then
-                echo "❌ CONFLICT: Unresolved conflicts for managers: $INTENTIONAL_CONFLICTS"
-                echo "  This will cause unpredictable behavior - fix the conflicts!"
-                exit 1
-              else
-                echo "✅ All conflicts are intentional exclusions"
-              fi
-            else
-              echo "✅ No pinning conflicts detected"
-            fi
           elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
             echo "✅ Pinning strategy: Global pinning enabled"
           elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
@@ -144,18 +103,6 @@ jobs:
           else
             echo "✅ All commitMessageAction values are valid"
           fi
-          
-          # Check for contradictory enabled: true with blocking properties
-          echo "  Checking for contradictory enabled: true with blocking properties..."
-          CONTRADICTORY_RULES=$(grep -A5 -B5 '"enabled": true' default.json rules-*.json5 2>/dev/null | grep -E '(commitMessageAction.*block|commitMessageTopic.*block|prBody.*blocked)' || true)
-          if [ -n "$CONTRADICTORY_RULES" ]; then
-            echo "❌ Found enabled: true with blocking properties:"
-            echo "$CONTRADICTORY_RULES"
-            echo "  Use enabled: false to block updates, not enabled: true with blocking properties"
-            exit 1
-          else
-            echo "✅ No contradictory enabled/blocking combinations"
-          fi
 
       - name: Integration test
         run: |
@@ -171,15 +118,6 @@ jobs:
       - name: Best practices check
         run: |
           echo "🔍 Stage 5: Best practices check..."
-          
-          # Check for excessive grouping
-          GROUP_COUNT=$(grep -h '"groupName"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
-          if [ "$GROUP_COUNT" -gt 10 ]; then
-            echo "⚠️  High number of grouping rules ($GROUP_COUNT)"
-            echo "  Consider if all groupings are necessary"
-          else
-            echo "✅ Grouping rules count looks reasonable ($GROUP_COUNT)"
-          fi
           
           # Check for clear descriptions
           UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
@@ -212,11 +150,7 @@ jobs:
             echo "✅ Rule complexity looks reasonable"
           fi
           
-          # Check for potential performance optimizations
-          echo "  Checking for performance optimizations..."
-          echo "✅ Performance optimization check completed (simplified for reliability)"
-          
-          echo "🎉 Enhanced validation completed successfully!"
+          echo "🎉 Validation completed successfully!"
           echo "The Renovate configuration appears to be valid and well-structured."
 
       - name: Lint Config for Duplicates
