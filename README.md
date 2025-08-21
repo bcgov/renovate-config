@@ -76,20 +76,8 @@ Renovate automates dependency updates, saving your team time and reducing risk. 
 ```
 ⚠️ **Development channel** - latest changes, may include breaking updates
 
-**For Fine-Grained Control:**
-```json
-{
-  "extends": ["github>bcgov/renovate-config#v1.2"]
-}
-```
-📌 **Minor version** - get v1.2.x updates only
-
-```json
-{
-  "extends": ["github>bcgov/renovate-config#v1.2.0"]
-}
-```
-🔒 **Patch version** - get exactly v1.2.0, no updates
+**For Advanced Control:**
+If you need patch-level control (e.g., `#v1.2.0` for exact version), see the [Version Control Options](#version-control-options) section below.
 
 ### **For Existing Teams (Migration)**
 If you're already using Renovate, consider upgrading to versioned configs for better stability:
@@ -118,10 +106,9 @@ If you're already using Renovate, consider upgrading to versioned configs for be
 - ✅ **Production ready** - safe for production environments
 
 **Version Control Options:**
-- `#v1` - Get all v1.x.x updates (recommended for most teams)
-- `#v1.2` - Get only v1.2.x updates (more conservative)
-- `#v1.2.0` - Pin to exact version (maximum stability)
-- `main` - Get latest development changes (for testing)
+- `#v1` - Get all v1.x.x updates (recommended for production teams)
+- `main` - Get latest development changes (for testing teams)
+- `#v1.2.0` - Pin to exact version (for teams requiring maximum stability)
 
 - **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
 - **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)
