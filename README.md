@@ -58,22 +58,16 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 ## Version Control
 
 **Recommended (Production):**
-```json
-{
-  "extends": ["github>bcgov/renovate-config#v1"]
-}
+```
+"extends": ["github>bcgov/renovate-config#v1"]
 ```
 ✅ Stable releases, safe for production
 
 **Testing (Unstable):**
-```json
-{
-  "extends": ["github>bcgov/renovate-config"]
-}
+```
+"extends": ["github>bcgov/renovate-config"]
 ```
 ⚠️ Latest changes, may include breaking updates
-
-For other versioning options, see the [Renovate documentation](https://docs.renovatebot.com/configuration-options/).
 
 ## Files
 
