@@ -210,6 +210,15 @@
       "groupSlug": "cicd"
     },
     {
+      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level (e.g., v1.0.0 stays as 3 decimals, v1.2 stays as 2 decimals). This prevents unexpected version format changes.",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.\\d+$/",
+      "allowedVersions": "/^v?\\d+\\.\\d+\\.\\d+$/",
+      "enabled": true
+    },
+    {
       "description": "Suggest upgrading to versioned config: Encourage teams using main branch to upgrade to stable v1 version for better stability and automatic updates.",
       "matchFileNames": [
         "renovate.json"
