@@ -180,5 +180,27 @@ else
     echo -e "${GREEN}✅ All rules have descriptions${NC}"
 fi
 
+# Check for rule complexity (rules with many conditions)
+echo "  Checking rule complexity..."
+COMPLEX_RULES=$(grep -A20 '"packageRules"' default.json rules-*.json5 2>/dev/null | grep -B20 -A20 '"matchManagers"' | grep -c '"matchPackageNames\|matchUpdateTypes\|matchCurrentVersion\|allowedVersions"' || echo "0")
+if [ "$COMPLEX_RULES" -gt 10 ]; then
+    echo -e "${YELLOW}⚠️  Some rules have many conditions ($COMPLEX_RULES)${NC}"
+    echo "  Consider simplifying complex rules for better maintainability"
+else
+    echo -e "${GREEN}✅ Rule complexity looks reasonable${NC}"
+fi
+
+# Check for potential performance optimizations
+echo "  Checking for performance optimizations..."
+# Look for rules that could be combined
+SIMILAR_RULES=$(grep -h '"matchManagers"' default.json rules-*.json5 2>/dev/null | sort | uniq -c | grep -v "^[[:space:]]*1 " || true)
+if [ -n "$SIMILAR_RULES" ]; then
+    echo -e "${YELLOW}⚠️  Potential rule consolidation opportunities:${NC}"
+    echo "$SIMILAR_RULES" | head -3
+    echo "  Consider combining rules with similar managers for better performance"
+else
+    echo -e "${GREEN}✅ No obvious rule consolidation opportunities${NC}"
+fi
+
 echo -e "\n${GREEN}🎉 Enhanced validation completed successfully!${NC}"
 echo -e "${BLUE}The Renovate configuration appears to be valid and well-structured.${NC}"
