@@ -32,14 +32,9 @@
    - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) to join the Mend Renovate GitHub App.
    - **Other orgs:** Use the [Mend Renovate GitHub App](https://github.com/apps/renovate).
 
-2. **Add `renovate.json`** to your default branch:
-   ```json
-   {
-     "extends": ["github>bcgov/renovate-config#v1"]
-   }
-   ```
+2. Once approved a **PR will be sent with a configuration file** like the [one in this repo](./renovate.json).
 
-3. **Commit and push.** Renovate will scan your repo and open PRs for outdated dependencies.
+3. **Merge the PR or create your own renovate.json file.** Renovate will scan your repo and open PRs for outdated dependencies.
 
 That's it! Renovate will automatically keep your dependencies up to date and secure.
 
