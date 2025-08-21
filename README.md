@@ -9,8 +9,6 @@
 
 > **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change. Please provide feedback and expect improvements over time.
 
-
-
 ## Purpose & Audience
 
 Mend Renovate is the recommended solution for secure, automated, and maintainable dependency management across bcgov and beyond. This configuration is for:
@@ -63,38 +61,33 @@ For more, see the [File Overview](#file-overview) and config files.
 
 > **Note:** Regular dependency updates are a bcgov and NRIDS best practice, and may be required for compliance or audit readiness.
 
-## Versioning & Migration
+## Version Control Options
 
-### **For Existing Teams (Migration)**
-If you're already using Renovate, consider upgrading to versioned configs for better stability:
+Choose the versioning level that fits your team's needs:
 
-**Current (main branch - unstable):**
-```json
-{
-  "extends": ["github>bcgov/renovate-config"]
-}
-```
-⚠️ **Development channel** - gets latest changes, may include breaking updates
-
-**Recommended (stable v1.x.x):**
+**For Production Teams (Recommended):**
 ```json
 {
   "extends": ["github>bcgov/renovate-config#v1"]
 }
 ```
-✅ **Production channel** - gets tested, stable releases
+✅ **Stable channel** - tested releases, safe for production
 
-**Benefits of versioning:**
-- ✅ **Stable updates** - get tested releases, not development changes
-- ✅ **Automatic upgrades** - get new v1.x.x releases automatically
-- ✅ **No breaking changes** - won't get v2+ breaking changes
-- ✅ **Easy rollback** - can pin to specific version if needed
-- ✅ **Production ready** - safe for production environments
+**For Testing/Development Teams:**
+```json
+{
+  "extends": ["github>bcgov/renovate-config"]
+}
+```
+⚠️ **Development channel** - latest changes, may include breaking updates
 
-### **Version Control Options**
-- `#v1` - Get all v1.x.x updates (recommended for production teams)
-- `main` - Get latest development changes (for testing teams)
-- `#v1.2.0` - Pin to exact version (for teams requiring maximum stability)
+**For Maximum Stability:**
+```json
+{
+  "extends": ["github>bcgov/renovate-config#v1.2.0"]
+}
+```
+🔒 **Exact version** - pin to specific version, no updates
 
 ## FAQ / Troubleshooting
 
