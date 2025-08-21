@@ -35,15 +35,22 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Enhanced config validation
+        run: |
+          echo "🔍 Enhanced config validation..."
+          npm install json5@^2.2.3 --no-save
+          node validate_renovate_config.mjs default.json rules-*.json5
+          echo "✅ Enhanced validation passed"
+
       - name: Basic schema validation
         run: |
-          echo "🔍 Stage 1: Basic schema validation..."
+          echo "🔍 Basic schema validation..."
           npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
           echo "✅ Schema validation passed"
 
       - name: Config resolution test
         run: |
-          echo "🔍 Stage 2: Config resolution test..."
+          echo "🔍 Config resolution test..."
           RESOLUTION_OUTPUT=$(npx --yes --package renovate --- "renovate --dry-run=full --print-config" 2>&1 || true)
 
           if echo "$RESOLUTION_OUTPUT" | grep -q -E "(ERROR|Invalid)"; then
@@ -60,7 +67,7 @@ jobs:
 
       - name: Custom rule validation
         run: |
-          echo "🔍 Stage 3: Custom rule validation..."
+          echo "🔍 Custom rule validation..."
 
           # Check for contradictory pinning rules
           echo "  Checking for contradictory pinning rules..."
@@ -94,7 +101,7 @@ jobs:
 
       - name: Best practices check
         run: |
-          echo "🔍 Stage 4: Best practices check..."
+          echo "🔍 Best practices check..."
 
           # Check for excessive grouping
           GROUP_COUNT=$(grep -h '"groupName"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
