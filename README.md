@@ -7,155 +7,84 @@
 
 # Mend Renovate - Automatic Dependency Updates
 
-> **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change. Please provide feedback and expect improvements over time.
+> **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change.
 
-## Purpose & Audience
-
-Mend Renovate is the recommended solution for secure, automated, and maintainable dependency management across bcgov and beyond. This configuration is for:
-- All bcgov teams and projects
-- Downstream repos seeking consistent, organization-approved Renovate rules
-- Any project that values supply chain security, grouped PRs, and clear update policies for JS/TS, Python, Java, GitHub Actions, and Docker
-
-**Why choose Mend Renovate and this configuration?**
-- **Security:** Reduces your exposure to vulnerabilities by keeping dependencies current and pinned where appropriate.
-- **Reliability:** Ensures your software benefits from the latest bug fixes and improvements.
-- **Compliance:** Helps meet organizational and industry requirements for patch management and supply chain security.
-- **Developer Experience:** Minimizes technical debt and reduces the manual burden of dependency management.
-
-> **Adopting this configuration means your team is following bcgov and NRIDS best practices for dependency management, supply chain security, and automation.**
-> **Ignoring dependency updates is a leading cause of security incidents, outages, and technical debt. Proactive updates are the easiest way to protect your project, your users, and your organization.**
-
-Renovate automates dependency updates, saving your team time and reducing risk. This shared config is expert-reviewed and organization-wide.
-
-## Quick Start & Usage
-
-### **Setup Steps**
+## Quick Start
 
 1. **Enable Mend Renovate** for your repository:
-   - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) to join the Mend Renovate GitHub App.
-   - **Other orgs:** Options may include opt-in by `renovate.json` or the [Mend Renovate GitHub App](https://github.com/apps/renovate).
-2. **Add a `renovate.json` file** to your default branch:
+   - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md)
+   - **Other orgs:** Use the [Mend Renovate GitHub App](https://github.com/apps/renovate)
+
+2. **Add `renovate.json`** to your default branch:
    ```json
    {
      "extends": ["github>bcgov/renovate-config#v1"]
    }
    ```
-3. **Commit and push.** Mend Renovate will scan your repo and open PRs for outdated dependencies.
-4. **To customize:** Add your own rules after the `extends` line in your `renovate.json`.
 
-**By default, you get:**
-- Global pinning to SHAs/digests for supply chain security
-- Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
-- Automerge for safe updates (minor, patch, linters, etc.)
-- Prerelease blocking (e.g., `-alpha`, `-beta`, `-rc`, etc.)
-- No immortal PRs (closed PRs are not recreated)
-- Dependency dashboard for tracking
-- Minimum release age (7 days) to avoid just-published breaking changes
-- Language/ecosystem-specific grouping (see File Overview)
-- GitHub Actions pinning policy: actions/github orgs unpinned, all others pinned
-
-- **Example PR:** [bcgov/quickstart-openshift#2340](https://github.com/bcgov/quickstart-openshift/pull/2340)
-- **Dependency Dashboard Example:** [bcgov/quickstart-openshift#1557](https://github.com/bcgov/quickstart-openshift/issues/1557)
-
-For more, see the [File Overview](#file-overview) and config files.
-
-> **Note:** Regular dependency updates are a bcgov and NRIDS best practice, and may be required for compliance or audit readiness.
+3. **Commit and push.** Renovate will scan your repo and open PRs for outdated dependencies.
 
 ## Version Control Options
 
-Choose the versioning level that fits your team's needs:
-
-**For Production Teams (Recommended):**
+**Production (Recommended):**
 ```json
 {
   "extends": ["github>bcgov/renovate-config#v1"]
 }
 ```
-✅ **Stable channel** - tested releases, safe for production
+✅ Stable releases, safe for production
 
-**For Testing/Development Teams:**
+**Testing/Development:**
 ```json
 {
   "extends": ["github>bcgov/renovate-config"]
 }
 ```
-⚠️ **Development channel** - latest changes, may include breaking updates
+⚠️ Latest changes, may include breaking updates
 
-**For Maximum Stability:**
+**Maximum Stability:**
 ```json
 {
   "extends": ["github>bcgov/renovate-config#v1.2.0"]
 }
 ```
-🔒 **Exact version** - pin to specific version, no updates
+🔒 Exact version, no updates
 
-## FAQ / Troubleshooting
+## What You Get
+
+- **Security:** Global pinning to SHAs/digests
+- **Efficiency:** Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker)
+- **Safety:** Automerge for minor/patch updates
+- **Stability:** Prerelease blocking, 7-day minimum release age
+- **Management:** Dependency dashboard for tracking
+
+## FAQ
 
 **Q: What if a dependency update breaks my build?**
-- Best practice: adapt your code/config to support updated dependencies. Ignore only as a temporary measure, and address breaking changes promptly to avoid technical debt.
+Adapt your code to support updated dependencies. Ignore only temporarily.
 
-**Q: How do I ignore or pin a specific dependency?**
-- Add a custom rule in your repo’s `renovate.json` or open an issue for help.
-
-**Q: How do I customize the shared config for my project?**
-- Add custom rules to your `renovate.json` after the `extends` line. See the [Renovate docs](https://docs.renovatebot.com/configuration-options/) or [CONTRIBUTING.md](CONTRIBUTING.md).
+**Q: How do I customize the config?**
+Add custom rules after the `extends` line in your `renovate.json`.
 
 **Q: How do I get help?**
-- See [CONTRIBUTING.md](CONTRIBUTING.md) or open an issue.
+See [CONTRIBUTING.md](CONTRIBUTING.md) or open an issue.
 
-**Common Myths & Objections**
+## Files
 
-- *"Updating dependencies will break my build."* Most updates are safe, grouped, and automerged. Renovate makes it easy to review and test changes before merging. Ignoring should only be temporary—address breaking changes promptly.
-- *"It's too much work."* Renovate automates the heavy lifting, so you only need to review grouped PRs. This is far less work than dealing with large, overdue upgrades or security incidents.
-- *"We don't have time."* Regular small updates are much less disruptive than rare, major upgrades. Proactive maintenance saves time and reduces risk in the long run.
-
-## File Overview
-
-| File                  | Purpose                                                                                         |
-|-----------------------|-------------------------------------------------------------------------------------------------|
-| `renovate.json`       | Entry point for downstream repos. Extends this shared config.                                    |
-| `default.json`        | Main shared config: global pinning, prerelease blocking, Dockerfile rules, etc.                 |
-| `rules-actions.json5` | GitHub Actions: groups all updates, unpins for actions/github orgs, keeps others pinned.         |
-| `rules-javascript.json5` | JS/TS grouping and special rules.                                                            |
-| `rules-python.json5`  | Python grouping rules.                                                                          |
-| `rules-java.json5`    | Java grouping rules.                                                                            |
-| `CODE_OF_CONDUCT.md`  | Community standards and expected behavior.                                                      |
-| `CONTRIBUTING.md`     | How to contribute, get help, and contact maintainers.                                           |
-| `SECURITY.md`         | How to report vulnerabilities or security concerns.                                             |
-| `COMPLIANCE.yaml`     | Organizational or legal compliance information.                                                 |
-
-## Example: How Pinning/Unpinning Works for GitHub Actions
-
-- **actions/checkout@v4** → Unpinned (SHA removed)
-- **github/super-linter@v5** → Unpinned (SHA removed)
-- **bcgov/my-action@v1** → Pinned (SHA required)
-
-## Team Commitment
-
-While Renovate automates much of the update process, it does require an ongoing commitment from your team:
-- **Review and merge PRs regularly:** Automated PRs will keep coming as new updates are released. Teams must review, test, and merge these PRs to stay secure and up to date.
-- **Monitor the dependency dashboard:** Use the dashboard to track outstanding updates and prioritize critical patches.
-- **Collaborate on exceptions:** If a dependency update causes issues, work with your team to update, ignore, or otherwise manage it using Renovate’s flexible rules.
-
-By making dependency management a regular part of your workflow, you’ll maximize the benefits of Renovate and keep your software supply chain healthy.
+| File | Purpose |
+|------|---------|
+| `renovate.json` | Entry point for downstream repos |
+| `default.json` | Main shared config |
+| `rules-*.json5` | Language-specific rules |
+| `CONTRIBUTING.md` | How to contribute and get help |
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on contributing, code of conduct, and community expectations.
-
-## Community & Conduct
-
-By participating in this project, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
-For compliance information, see [COMPLIANCE.yaml](COMPLIANCE.yaml).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Security
 
-See [SECURITY.md](SECURITY.md) for reporting vulnerabilities or concerns.
-**Teams should follow security best practices by regularly reviewing and merging their Renovate PRs to ensure dependencies stay up to date and secure.**
-
-## Releases & Change History
-
-For the latest updates, changes, and release notes, please visit the [GitHub Releases page](https://github.com/bcgov/renovate-config/releases). This is the authoritative source for all version history and important changes to this configuration.
+See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
 
 ## License
 
