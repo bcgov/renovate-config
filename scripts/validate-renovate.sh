@@ -46,13 +46,17 @@ fi
 # Stage 3: Custom rule validation
 echo -e "\n${BLUE}Stage 3: Custom rule validation...${NC}"
 
-# Check for contradictory pinning rules
-echo "  Checking for contradictory pinning rules..."
-if grep -q '"pinDigests": true' default.json && grep -q '"pinDigests": false' default.json; then
-    echo -e "${YELLOW}⚠️  Found both pinDigests: true and false rules${NC}"
-    echo "  This is expected for our pinning strategy, but verify the logic is correct"
+# Check for pinning strategy
+echo "  Checking pinning strategy..."
+if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+    echo -e "${GREEN}✅ Pinning strategy: Global pin with specific unpins${NC}"
+    echo "  This is our intended strategy - pin globally, unpin specific managers"
+elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
+    echo -e "${GREEN}✅ Pinning strategy: Global pinning enabled${NC}"
+elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+    echo -e "${GREEN}✅ Pinning strategy: Specific unpinning rules${NC}"
 else
-    echo -e "${GREEN}✅ PinDigests rules look consistent${NC}"
+    echo -e "${YELLOW}⚠️  No pinning rules found${NC}"
 fi
 
 # Check for duplicate package rules
@@ -61,19 +65,25 @@ DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/de
 if [ -n "$DUPLICATE_RULES" ]; then
     echo -e "${YELLOW}⚠️  Potential duplicate package rules found:${NC}"
     echo "$DUPLICATE_RULES"
+    echo "  Review these rules to ensure they don't conflict"
 else
     echo -e "${GREEN}✅ No duplicate package rules detected${NC}"
 fi
 
 # Check for valid update types
 echo "  Checking for valid update types..."
-INVALID_UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
-if [ -n "$INVALID_UPDATE_TYPES" ]; then
-    echo -e "${YELLOW}⚠️  Potentially invalid update types found:${NC}"
-    echo "$INVALID_UPDATE_TYPES"
-    echo "  Verify these are valid Renovate update types"
+UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
+if [ -n "$UPDATE_TYPES" ]; then
+    echo -e "${GREEN}✅ Found update types: $UPDATE_TYPES${NC}"
+    # Check for any invalid types
+    INVALID_TYPES=$(echo "$UPDATE_TYPES" | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
+    if [ -n "$INVALID_TYPES" ]; then
+        echo -e "${RED}❌ Invalid update types found: $INVALID_TYPES${NC}"
+        echo "  Valid types are: major, minor, patch, pin, pinDigest, digest, lockFileMaintenance, rollback, bump, replacement"
+        exit 1
+    fi
 else
-    echo -e "${GREEN}✅ All update types appear valid${NC}"
+    echo -e "${GREEN}✅ No update type restrictions found${NC}"
 fi
 
 # Check for invalid commitMessageAction values
