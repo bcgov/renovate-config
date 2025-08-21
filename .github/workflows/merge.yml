@@ -32,7 +32,7 @@ jobs:
 
       - name: Fetch all tags
         run: |
-          # Fetch all tags to ensure changelog generation and version comparison have access to the complete tag history
+          # Fetch all tags to ensure version comparison has access to the complete tag history
           git fetch --tags --force
           echo "Available tags:"
           git tag -l
@@ -42,62 +42,52 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install conventional-changelog tools
-        run: |
-          npm install -g conventional-changelog-cli@4.1.0 conventional-recommended-bump@6.1.0 conventional-changelog-angular@5.0.12
-
       - name: Calculate Next Version
         id: version
         run: |
           set -e
           echo "🔍 Calculating next version based on conventional commits..."
-          
+
           # Check if manual version override is provided
           if [ -n "${{ github.event.inputs.version_override }}" ]; then
-            echo "📋 Using manual version override: ${{ github.event.inputs.version_override }}"
             VERSION_OVERRIDE="${{ github.event.inputs.version_override }}"
-            
-            # Validate version format (should start with 'v' and be semantic)
+
+            # Validate version format
             if [[ ! "$VERSION_OVERRIDE" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "❌ Invalid version format: $VERSION_OVERRIDE"
               echo "Expected format: vX.Y.Z (e.g., v1.2.3)"
               exit 1
             fi
-            
-            # Extract version numbers from override
+
             VERSION_NUM=${VERSION_OVERRIDE#v}
             TAG_NAME="$VERSION_OVERRIDE"
-            
+
             echo "📋 Manual version: $TAG_NAME"
             echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
             echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
             exit 0
           fi
- 
-          # Automatic version calculation
-          echo "📋 Calculating automatic version..."
-          
-          # Get the recommended bump type (major, minor, patch)
+
+          # Get the recommended bump type
           BUMP_TYPE=$(npx conventional-recommended-bump --preset angular)
           echo "📋 Recommended bump type: $BUMP_TYPE"
- 
+
           if [ -z "$BUMP_TYPE" ]; then
             echo "❌ No new version to release"
             echo "version=" >> $GITHUB_OUTPUT
             echo "tag=" >> $GITHUB_OUTPUT
             exit 0
           fi
- 
+
           # Get the latest version from git tags
           LATEST_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           echo "📋 Latest version: $LATEST_VERSION"
- 
-          # Extract version numbers
+
           LATEST_NUM=${LATEST_VERSION#v}
           MAJOR=$(echo "$LATEST_NUM" | cut -d. -f1)
           MINOR=$(echo "$LATEST_NUM" | cut -d. -f2)
           PATCH=$(echo "$LATEST_NUM" | cut -d. -f3)
- 
+
           # Calculate next version based on bump type
           case "$BUMP_TYPE" in
             "major")
@@ -117,34 +107,13 @@ jobs:
               exit 1
               ;;
           esac
- 
-          # Create new version and tag
+
           VERSION_NUM="$MAJOR.$MINOR.$PATCH"
           TAG_NAME="v$VERSION_NUM"
- 
+
           echo "📋 Next version: $TAG_NAME"
- 
-          # Output for other steps
           echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
-
-      - name: Generate Changelog
-        if: steps.version.outputs.version != ''
-        run: |
-          set -e
-          echo "📝 Generating changelog for version ${{ steps.version.outputs.tag }}..."
-
-          # Generate changelog for latest release only, and prepend to existing CHANGELOG.md
-          npx conventional-changelog --preset angular --release-count 1 --output-file CHANGELOG.latest.md
-          if [ -f CHANGELOG.md ]; then
-            cat CHANGELOG.latest.md CHANGELOG.md > CHANGELOG.new.md
-          else
-            cat CHANGELOG.latest.md > CHANGELOG.new.md
-          fi
-          mv CHANGELOG.new.md CHANGELOG.md
-          rm CHANGELOG.latest.md
-
-          echo "✅ Changelog generated successfully"
 
       - name: Create Git Tag
         if: steps.version.outputs.version != ''
@@ -157,15 +126,12 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Clean up any existing local tag to avoid conflicts
-          echo "🧹 Cleaning up any existing local tag..."
+          # Clean up any existing local tag
           git tag -d "$TAG_NAME" 2>/dev/null || echo "No existing local tag to remove"
 
-          # Create new tag
+          # Create and push tag
           git tag "$TAG_NAME"
           echo "✅ Tag created locally: $TAG_NAME"
-
-          # Push tag with robust error handling
           echo "📤 Pushing tag to remote..."
           if git push origin "$TAG_NAME"; then
             echo "✅ Tag pushed successfully: $TAG_NAME"
@@ -222,8 +188,8 @@ jobs:
             ```
             Benefits: stable updates, automatic upgrades, no breaking changes.
 
-            ### Changelog
-            See the [CHANGELOG.md](https://github.com/bcgov/renovate-config/blob/main/CHANGELOG.md) for detailed changes.
+            ### Changes
+            See the [GitHub releases](https://github.com/bcgov/renovate-config/releases) for detailed changes.
 
       - name: Create Major/Minor Version Tags
         if: steps.version.outputs.version != ''
@@ -233,11 +199,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Get the version that was just created
           VERSION="${{ steps.version.outputs.tag }}"
           echo "🏷️  Creating major/minor tags for version: $VERSION"
 
-          # Extract major and minor versions
           VERSION_NUM=${VERSION#v}
           MAJOR_VERSION="v${VERSION_NUM%%.*}"
           MINOR_VERSION="v${VERSION_NUM%.*}"
@@ -245,7 +209,7 @@ jobs:
           echo "📋 Major version: $MAJOR_VERSION"
           echo "📋 Minor version: $MINOR_VERSION"
 
-          # Create/update major version tag (e.g., v1)
+          # Create/update major version tag
           echo "🔄 Updating $MAJOR_VERSION tag..."
           git tag -f $MAJOR_VERSION
           if git push origin $MAJOR_VERSION --force; then
@@ -258,7 +222,7 @@ jobs:
             exit 1
           fi
 
-          # Create/update minor version tag (e.g., v1.1)
+          # Create/update minor version tag
           echo "🔄 Updating $MINOR_VERSION tag..."
           git tag -f $MINOR_VERSION
           if git push origin $MINOR_VERSION --force; then
