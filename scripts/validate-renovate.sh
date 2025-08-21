@@ -51,14 +51,14 @@ echo "  Checking pinning strategy..."
 if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
     echo -e "${GREEN}✅ Pinning strategy: Global pin with specific unpins${NC}"
     echo "  This is our intended strategy - pin globally, unpin specific managers"
-    
+
     # Check for potential conflicts - same managers with both true and false
     echo "  Checking for pinning conflicts..."
     # Extract managers from pin rules
     PIN_MANAGERS=$(grep -A10 '"pinDigests": true' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
-    # Extract managers from unpin rules  
+    # Extract managers from unpin rules
     UNPIN_MANAGERS=$(grep -A10 '"pinDigests": false' default.json rules-*.json5 2>/dev/null | grep -E '"matchManagers"' | sed -n 's/.*"matchManagers"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' | tr ',' '\n' | sed 's/[[:space:]]*"//g' | sort | uniq || true)
-    
+
     # Find conflicts
     CONFLICTS=$(comm -12 <(echo "$PIN_MANAGERS" | sort) <(echo "$UNPIN_MANAGERS" | sort) || true)
     if [ -n "$CONFLICTS" ]; then
@@ -203,14 +203,31 @@ fi
 
 # Check for potential performance optimizations
 echo "  Checking for performance optimizations..."
-# Simple check for duplicate matchManagers (JSON5 files not supported by jq)
-SIMILAR_RULES=$(grep -h '"matchManagers"' default.json 2>/dev/null | sort | uniq -c | grep -v "^[[:space:]]*1 " || true)
-if [ -n "$SIMILAR_RULES" ]; then
-    echo -e "${YELLOW}⚠️  Found rules with duplicate matchManagers:${NC}"
-    echo "$SIMILAR_RULES" | head -3
-    echo "  Consider reviewing these rules for consolidation opportunities"
+# Look for rules that could be combined (considering full rule context)
+if ! command -v jq >/dev/null 2>&1; then
+    echo -e "${YELLOW}⚠️  jq not found. Skipping advanced rule consolidation check.${NC}"
 else
-    echo -e "${GREEN}✅ No obvious rule consolidation opportunities${NC}"
+    # Extract all packageRules from all config files, flatten, and group by matchManagers
+    SIMILAR_RULES=$(jq -s '
+        map(.packageRules? // []) | flatten
+        | group_by(.matchManagers)
+        | map(select(length > 1 and .[0].matchManagers != null))
+        | .[]
+        | {
+            matchManagers: .[0].matchManagers,
+            count: length,
+            rules: [.[].description // "No description", .[].matchPackageNames // empty, .[].matchUpdateTypes // empty]
+        }
+    ' default.json rules-*.json5 2>/dev/null)
+    if [ -n "$SIMILAR_RULES" ] && [ "$SIMILAR_RULES" != "null" ]; then
+        echo -e "${YELLOW}⚠️  Potential rule consolidation opportunities:${NC}"
+        echo "$SIMILAR_RULES" | jq -r '
+            "  Managers: \(.matchManagers)\n    Count: \(.count)\n    Descriptions: \(.rules[] | tostring)\n"
+        ' | head -9
+        echo "  Consider combining rules with similar managers for better performance, if other conditions allow."
+    else
+        echo -e "${GREEN}✅ No obvious rule consolidation opportunities${NC}"
+    fi
 fi
 
 echo -e "\n${GREEN}🎉 Enhanced validation completed successfully!${NC}"
