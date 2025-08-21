@@ -128,11 +128,7 @@ jobs:
           echo "version=$VERSION_NUM" >> $GITHUB_OUTPUT
           echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
 
-      - name: Skip Changelog Generation
-        if: steps.version.outputs.version != ''
-        run: |
-          echo "📝 Skipping changelog generation - GitHub releases provide changelog automatically"
-          echo "✅ Release workflow focuses on versioning and tagging only"
+      
 
       - name: Create Git Tag
         if: steps.version.outputs.version != ''
