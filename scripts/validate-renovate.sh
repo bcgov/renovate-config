@@ -182,7 +182,18 @@ fi
 
 # Check for rule complexity (rules with many conditions)
 echo "  Checking rule complexity..."
-COMPLEX_RULES=$(grep -A20 '"packageRules"' default.json rules-*.json5 2>/dev/null | grep -B20 -A20 '"matchManagers"' | grep -c '"matchPackageNames\|matchUpdateTypes\|matchCurrentVersion\|allowedVersions"' || echo "0")
+COMPLEX_RULES=$(awk '
+  /"packageRules"/ {inblock=1}
+  inblock {block=block $0 "\n"}
+  /}/ && inblock {
+    inblock=0
+    if (block ~ /"matchManagers"/ && (block ~ /"matchPackageNames"/ || block ~ /"matchUpdateTypes"/ || block ~ /"matchCurrentVersion"/ || block ~ /"allowedVersions"/)) {
+      count++
+    }
+    block=""
+  }
+  END {print count+0}
+' default.json rules-*.json5 2>/dev/null)
 if [ "$COMPLEX_RULES" -gt 10 ]; then
     echo -e "${YELLOW}⚠️  Some rules have many conditions ($COMPLEX_RULES)${NC}"
     echo "  Consider simplifying complex rules for better maintainability"
@@ -192,12 +203,12 @@ fi
 
 # Check for potential performance optimizations
 echo "  Checking for performance optimizations..."
-# Look for rules that could be combined
-SIMILAR_RULES=$(grep -h '"matchManagers"' default.json rules-*.json5 2>/dev/null | sort | uniq -c | grep -v "^[[:space:]]*1 " || true)
+# Simple check for duplicate matchManagers (JSON5 files not supported by jq)
+SIMILAR_RULES=$(grep -h '"matchManagers"' default.json 2>/dev/null | sort | uniq -c | grep -v "^[[:space:]]*1 " || true)
 if [ -n "$SIMILAR_RULES" ]; then
-    echo -e "${YELLOW}⚠️  Potential rule consolidation opportunities:${NC}"
+    echo -e "${YELLOW}⚠️  Found rules with duplicate matchManagers:${NC}"
     echo "$SIMILAR_RULES" | head -3
-    echo "  Consider combining rules with similar managers for better performance"
+    echo "  Consider reviewing these rules for consolidation opportunities"
 else
     echo -e "${GREEN}✅ No obvious rule consolidation opportunities${NC}"
 fi
