@@ -26,9 +26,9 @@
         "replacement"
       ],
       "matchPackageNames": [
-        "/^actions\\//",  // GitHub's official actions
-        "/^docker\\//",   // Docker's official actions
-        "/^github\\//"    // GitHub's other official actions
+        "^actions/",
+        "^docker/",
+        "^github/"
       ]
     },
     // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
@@ -53,9 +53,9 @@
         "replacement"
       ],
       "matchPackageNames": [
-        "!/^actions\\//",  // Exclude allowlisted orgs
-        "!/^docker\\//",   // Exclude allowlisted orgs
-        "!/^github\\//"    // Exclude allowlisted orgs
+        "!^actions/",
+        "!^docker/",
+        "!^github/"
       ]
     }
     // Add additional rules below as needed
