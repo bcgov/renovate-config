@@ -26,9 +26,9 @@
         "replacement"
       ],
       "matchPackageNames": [
-        "actions/",
-        "docker/",
-        "github/"
+        "^actions/",
+        "^docker/",
+        "^github/"
       ]
     },
     // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
@@ -53,9 +53,9 @@
         "replacement"
       ],
       "matchPackageNames": [
-        "!actions/",
-        "!docker/",
-        "!github/"
+        "!^actions/",
+        "!^docker/",
+        "!^github/"
       ]
     }
     // Add additional rules below as needed
