@@ -53,7 +53,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 - Add custom rules after the `extends` line in your `renovate.json`. See the [Renovate docs](https://docs.renovatebot.com/configuration-options/).
 
 **Q: How do I get help?**
-- See [CONTRIBUTING.md](CONTRIBUTING.md) or open an issue.
+- Open an [issue](https://github.com/bcgov/renovate-config/issues) for questions or problems.
 
 ## Version Control
 
@@ -76,11 +76,11 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 | `renovate.json` | Entry point for downstream repos |
 | `default.json` | Main shared config |
 | `rules-*.json5` | Language-specific rules |
-| `CONTRIBUTING.md` | How to contribute and get help |
+| `.copilot-instructions.md` | AI assistant guidelines |
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+Open an [issue](https://github.com/bcgov/renovate-config/issues) to report problems or suggest improvements. By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Security
 
