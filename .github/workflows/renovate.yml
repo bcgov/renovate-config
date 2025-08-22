@@ -1,4 +1,4 @@
-name: Renovate
+name: PR
 
 # Run on pull requests, cronjob or manually (dispatch)
 on:
@@ -52,13 +52,13 @@ jobs:
       - name: Custom rule validation
         run: |
           echo "🔍 Stage 3: Custom rule validation..."
-          
+
           # Check for pinning strategy
           echo "  Checking pinning strategy..."
           if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
             echo "✅ Pinning strategy: Global pin with specific unpins"
             echo "  This is our intended strategy - pin globally, unpin specific managers"
-            
+
 
           elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
             echo "✅ Pinning strategy: Global pinning enabled"
@@ -67,7 +67,7 @@ jobs:
           else
             echo "⚠️  No pinning rules found"
           fi
-          
+
           # Check for duplicate package rules
           echo "  Checking for duplicate package rules..."
           DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
@@ -78,7 +78,7 @@ jobs:
           else
             echo "✅ No duplicate package rules detected"
           fi
-          
+
           # Check for valid update types
           echo "  Checking for valid update types..."
           UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
@@ -93,7 +93,7 @@ jobs:
           else
             echo "✅ No update type restrictions found"
           fi
-          
+
           # Check for invalid commitMessageAction values
           echo "  Checking for invalid commitMessageAction values..."
           INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
@@ -105,14 +105,14 @@ jobs:
           else
             echo "✅ All commitMessageAction values are valid"
           fi
-          
+
 
 
       - name: Integration test
         run: |
           echo "🔍 Stage 4: Integration test..."
           echo "  Testing config against bcgov/quickstart-openshift..."
-          
+
           # Skip integration test in CI as it requires GitHub token
           # This test validates that the config works with a real repository
           echo "✅ Integration test skipped (requires GitHub token)"
@@ -122,9 +122,9 @@ jobs:
       - name: Best practices check
         run: |
           echo "🔍 Stage 5: Best practices check..."
-          
 
-          
+
+
           # Check for clear descriptions
           UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
           TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
@@ -134,7 +134,7 @@ jobs:
           else
             echo "✅ All rules have descriptions"
           fi
-          
+
           # Check for rule complexity
           echo "  Checking rule complexity..."
           COMPLEX_RULES=$(awk '
@@ -155,7 +155,7 @@ jobs:
           else
             echo "✅ Rule complexity looks reasonable"
           fi
-          
+
           echo "🎉 Validation completed successfully!"
           echo "The Renovate configuration appears to be valid and well-structured."
 
