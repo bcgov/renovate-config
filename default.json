@@ -39,7 +39,7 @@
   "onboarding": true,
   "onboardingConfig": {
     "extends": [
-      "github>bcgov/renovate-config#v1"
+      "github>bcgov/renovate-config"
     ]
   },
   "platform": "github",
