@@ -36,9 +36,7 @@
     ":ignoreModulesAndTests"
   ],
   "minimumReleaseAge": "7 days",
-  "prNotPendingHours": 24,
   "onboarding": true,
-  "requireConfig": "required",
   "configWarningReuseIssue": true,
   "onboardingConfig": {
     "extends": [
@@ -188,7 +186,8 @@
       "matchFileNames": [
         "renovate.json",
         ".github/renovate.json",
-        "renovate.json5"
+        "renovate.json5",
+        ".github/renovate.json5"
       ],
       "matchPackageNames": [
         "github>bcgov/renovate-config"
