@@ -182,7 +182,7 @@
       "enabled": true
     },
     {
-      "description": "Update unversioned renovate-config references to v1: Target repositories using the unversioned reference and update them to use the stable v1 tag, while ignoring repositories already using specific version tags.",
+      "description": "Update unversioned renovate-config references to v1: Target repositories using the unversioned reference and update them to use the stable v1 tag.",
       "matchFileNames": [
         "renovate.json",
         ".github/renovate.json",
@@ -192,7 +192,6 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "!/^v\\d+\\.\\d+(\\.\\d+)?$/",
       "allowedVersions": "v1",
       "enabled": true,
       "automerge": false,
