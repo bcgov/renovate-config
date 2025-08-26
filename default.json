@@ -184,8 +184,11 @@
       "matchFileNames": [
         "renovate.json"
       ],
-      "matchPackageNames": [
-        "bcgov/renovate-config"
+      "matchStrings": [
+        "github>bcgov/renovate-config\""
+      ],
+      "excludeMatchStrings": [
+        "github>bcgov/renovate-config#"
       ],
       "matchUpdateTypes": [
         "major",
