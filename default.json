@@ -95,7 +95,24 @@
     },
     {
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
-      "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/"
+      "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose", 
+        "github-actions",
+        "gradle",
+        "helmv3",
+        "kubernetes",
+        "maven",
+        "npm",
+        "pip",
+        "pipenv",
+        "pnpm",
+        "poetry",
+        "terraform",
+        "uv",
+        "yarn"
+      ]
     },
     {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
