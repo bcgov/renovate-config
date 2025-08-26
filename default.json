@@ -184,8 +184,7 @@
       "matchFileNames": [
         "renovate.json"
       ],
-      "matchStrings": [
-        "github>bcgov/renovate-config\""
+        "github>bcgov/renovate-config"
       ],
       "excludeMatchStrings": [
         "github>bcgov/renovate-config#"
