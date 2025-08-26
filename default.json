@@ -201,5 +201,25 @@
       "prCreation": "not-pending",
       "prBody": "## Update Renovate Config to v1\n\nThis PR updates your Renovate configuration from the unversioned reference to the stable v1 tag.\n\n### What Changes:\n- `github>bcgov/renovate-config` → `github>bcgov/renovate-config#v1`\n\n### Benefits:\n- ✅ **Stable updates** - get tested releases, not development changes\n- ✅ **Automatic upgrades** - get new v1.x.x releases automatically\n- ✅ **No breaking changes** - won't get v2+ breaking changes\n- ✅ **Easy rollback** - can pin to specific version if needed\n\nThis change is recommended for production stability. The v1 version receives regular updates and bug fixes while maintaining backward compatibility."
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update unversioned renovate-config references to v1",
+      "fileMatch": [
+        "renovate.json",
+        ".github/renovate.json",
+        "renovate.json5",
+        ".github/renovate.json5"
+      ],
+      "matchStrings": [
+        "\"github>bcgov/renovate-config\""
+      ],
+      "depNameTemplate": "github>bcgov/renovate-config",
+      "currentValueTemplate": "unversioned",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\"",
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "bcgov/renovate-config"
+    }
   ]
 }
