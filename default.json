@@ -186,11 +186,11 @@
     {
       "customType": "regex",
       "description": "Update unversioned renovate-config references to v1",
-      "fileMatch": [
-        "renovate.json",
-        ".github/renovate.json",
-        "renovate.json5",
-        ".github/renovate.json5"
+      "managerFilePatterns": [
+        "/renovate.json/",
+        "/.github/renovate.json/",
+        "/renovate.json5/",
+        "/.github/renovate.json5/"
       ],
       "matchStrings": [
         "\"github>bcgov/renovate-config\""
