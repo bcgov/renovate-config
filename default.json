@@ -37,6 +37,7 @@
   ],
   "minimumReleaseAge": "7 days",
   "onboarding": true,
+  "configWarningReuseIssue": true,
   "onboardingConfig": {
     "extends": [
       "github>bcgov/renovate-config"
@@ -85,7 +86,7 @@
     {
       "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
       "matchPackageNames": [
-        "bcgov/renovate-config"
+        "github>bcgov/renovate-config"
       ],
       "matchUpdateTypes": [
         "pin"
@@ -174,7 +175,7 @@
     {
       "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level (e.g., v1.0.0 stays as 3 decimals, v1.2 stays as 2 decimals). This prevents unexpected version format changes.",
       "matchPackageNames": [
-        "bcgov/renovate-config"
+        "github>bcgov/renovate-config"
       ],
       "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.\\d+$/",
       "allowedVersions": "/^v?\\d+\\.\\d+\\.\\d+$/",
@@ -183,7 +184,10 @@
     {
       "description": "Update unversioned renovate-config references to v1: Target repositories using the unversioned reference and update them to use the stable v1 tag, while ignoring repositories already using specific version tags.",
       "matchFileNames": [
-        "renovate.json"
+        "renovate.json",
+        ".github/renovate.json",
+        "renovate.json5",
+        ".github/renovate.json5"
       ],
       "matchPackageNames": [
         "github>bcgov/renovate-config"
