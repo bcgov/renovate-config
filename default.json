@@ -179,7 +179,7 @@
       "matchStrings": [
         "\"github>bcgov/renovate-config\""
       ],
-      "depNameTemplate": "github>bcgov/renovate-config",
+      "depNameTemplate": "renovate-v1-config",
       "currentValueTemplate": "0.0.0",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\"",
       "datasourceTemplate": "github-releases",
