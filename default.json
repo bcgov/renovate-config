@@ -44,6 +44,7 @@
   },
   "platform": "github",
   "platformAutomerge": true,
+  "recreateWhen": "conflicted",
   "timezone": "America/Vancouver",
   "schedule": [
     "before 6am every weekday"
@@ -195,7 +196,6 @@
       "commitMessageTopic": "bcgov renovate-config",
       "commitMessageExtra": "to v1",
       "prCreation": "not-pending",
-      "recreateWhen": "never",
       "prBody": "## Update Renovate Config to v1\n\nThis PR updates your Renovate configuration from the unversioned reference to the stable v1 tag.\n\n### What Changes:\n- `github>bcgov/renovate-config` → `github>bcgov/renovate-config#v1`\n\n### Benefits:\n- ✅ **Stable updates** - get tested releases, not development changes\n- ✅ **Automatic upgrades** - get new v1.x.x releases automatically\n- ✅ **No breaking changes** - won't get v2+ breaking changes\n- ✅ **Easy rollback** - can pin to specific version if needed\n\nThis change is recommended for production stability. The v1 version receives regular updates and bug fixes while maintaining backward compatibility."
     }
   ]
