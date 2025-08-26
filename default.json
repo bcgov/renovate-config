@@ -182,7 +182,7 @@
       "enabled": true
     },
     {
-      "description": "Update unversioned renovate-config references to v1: Target repositories using the unversioned reference and update them to use the stable v1 tag, while ignoring repositories already using specific version tags.",
+      "description": "Update unversioned renovate-config references to v1: Target repositories using the unversioned reference and update them to use the stable v1 tag.",
       "matchFileNames": [
         "renovate.json",
         ".github/renovate.json",
@@ -192,7 +192,7 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "!/^v\\d+\\.\\d+(\\.\\d+)?$/",
+      "matchCurrentVersion": "!/^v\\d+(\\.\\d+)?(\\.\\d+)?$/",
       "allowedVersions": "v1",
       "enabled": true,
       "automerge": false,
@@ -201,6 +201,27 @@
       "commitMessageExtra": "to v1",
       "prCreation": "not-pending",
       "prBody": "## Update Renovate Config to v1\n\nThis PR updates your Renovate configuration from the unversioned reference to the stable v1 tag.\n\n### What Changes:\n- `github>bcgov/renovate-config` → `github>bcgov/renovate-config#v1`\n\n### Benefits:\n- ✅ **Stable updates** - get tested releases, not development changes\n- ✅ **Automatic upgrades** - get new v1.x.x releases automatically\n- ✅ **No breaking changes** - won't get v2+ breaking changes\n- ✅ **Easy rollback** - can pin to specific version if needed\n\nThis change is recommended for production stability. The v1 version receives regular updates and bug fixes while maintaining backward compatibility."
+    },
+    {
+      "description": "Update main/unstable renovate-config references to v1: Specifically target repositories using main or unstable references and update them to use the stable v1 tag.",
+      "matchFileNames": [
+        "renovate.json",
+        ".github/renovate.json",
+        "renovate.json5",
+        ".github/renovate.json5"
+      ],
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^(main|unstable)$/",
+      "allowedVersions": "v1",
+      "enabled": true,
+      "automerge": false,
+      "commitMessageAction": "Update",
+      "commitMessageTopic": "bcgov renovate-config",
+      "commitMessageExtra": "from main/unstable to v1",
+      "prCreation": "not-pending",
+      "prBody": "## Update Renovate Config from main/unstable to v1\n\nThis PR updates your Renovate configuration from the unstable main/unstable reference to the stable v1 tag.\n\n### What Changes:\n- `github>bcgov/renovate-config#main` → `github>bcgov/renovate-config#v1`\n- `github>bcgov/renovate-config#unstable` → `github>bcgov/renovate-config#v1`\n\n### Why This Change:\n- 🚨 **Security** - main/unstable can contain breaking changes\n- ✅ **Stability** - v1 provides tested, stable releases\n- ✅ **Predictability** - get consistent behavior across environments\n- ✅ **Production Ready** - v1 is designed for production use\n\nThis change is **strongly recommended** for production stability. The v1 version receives regular updates and bug fixes while maintaining backward compatibility."
     }
   ]
 }
