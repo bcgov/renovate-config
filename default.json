@@ -44,7 +44,7 @@
   },
   "platform": "github",
   "platformAutomerge": true,
-  "recreateWhen": "never",
+  "recreateWhen": "conflicted",
   "timezone": "America/Vancouver",
   "schedule": [
     "before 6am every weekday"
