@@ -192,7 +192,6 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^(main|unstable)$/",
       "allowedVersions": "v1",
       "enabled": true,
       "automerge": false,
