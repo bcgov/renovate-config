@@ -177,10 +177,10 @@
         "/.github/renovate.json5/"
       ],
       "matchStrings": [
-        "\"github>bcgov/renovate-config(?<currentValue>)\""
+        "\"github>bcgov/renovate-config\""
       ],
       "depNameTemplate": "github>bcgov/renovate-config",
-      "currentValueTemplate": "unversioned",
+      "currentValueTemplate": "0.0.0",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\"",
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "bcgov/renovate-config"
