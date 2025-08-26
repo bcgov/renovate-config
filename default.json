@@ -187,9 +187,7 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "excludeMatchStrings": [
-        "github>bcgov/renovate-config#"
-      ],
+      "matchCurrentVersion": "!/^v\\d+\\.\\d+(\\.\\d+)?$/",
       "matchUpdateTypes": [
         "major",
         "minor",
