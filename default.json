@@ -168,7 +168,7 @@
         "\"github>bcgov/renovate-config\""
       ],
       "datasourceTemplate": "github",
-      "depNameTemplate": "renovate-config",
+      "depNameTemplate": "renovate-v1-config",
       "currentValueTemplate": "github>bcgov/renovate-config",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\""
     }
