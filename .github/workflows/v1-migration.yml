@@ -12,30 +12,30 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-      
+
       - name: Find and replace unversioned references
         run: |
           # Find all renovate.json and renovate.json5 files
           find . -name 'renovate.json' -o -name 'renovate.json5' | while read file; do
             echo "Processing $file"
-            
+
             # Check if file contains unversioned reference
             if grep -q '"github>bcgov/renovate-config"' "$file"; then
               echo "Found unversioned reference in $file"
-              
+
               # Create backup
               cp "$file" "$file.backup"
-              
+
               # Replace unversioned reference with v1
               sed -i 's|"github>bcgov/renovate-config"|"github>bcgov/renovate-config#v1"|g' "$file"
-              
+
               # Check if replacement was successful
               if ! grep -q '"github>bcgov/renovate-config"' "$file"; then
                 echo "✅ Successfully migrated $file to v1"
@@ -47,7 +47,7 @@ jobs:
               echo "No unversioned reference found in $file"
             fi
           done
-      
+
       - name: Check for changes
         id: changes
         run: |
@@ -59,16 +59,25 @@ jobs:
             echo "Changes detected:"
             git diff --name-only
           fi
-      
-      - name: Commit and push changes
+
+      - name: Create migration branch
         if: steps.changes.outputs.no_changes == 'false'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git checkout -b chore/v1-migration-$(date +%Y%m%d-%H%M%S)
+      
+      - name: Commit changes
+        if: steps.changes.outputs.no_changes == 'false'
+        run: |
           git add -A
           git commit -m "chore: migrate renovate-config references to v1"
-          git push
-      
+          
+      - name: Push migration branch
+        if: steps.changes.outputs.no_changes == 'false'
+        run: |
+          git push --set-upstream origin ${{ github.ref_name }}
+
       - name: Create PR if changes exist
         if: steps.changes.outputs.no_changes == 'false'
         uses: peter-evans/create-pull-request@v6
@@ -76,12 +85,11 @@ jobs:
           title: "chore: migrate renovate-config references to v1"
           body: |
             This PR migrates unversioned `github>bcgov/renovate-config` references to `github>bcgov/renovate-config#v1`.
-            
+
             Changes made:
             - Replaced unversioned references with v1 tag
             - Applied to all renovate.json and renovate.json5 files
-            
+
             This ensures consistent versioning across all repositories.
-          branch: chore/v1-migration
-          commit-message: "chore: migrate renovate-config references to v1"
-          delete-branch: false
+          branch: ${{ github.ref_name }}
+          delete-branch: true
