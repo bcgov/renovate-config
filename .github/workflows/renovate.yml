@@ -166,6 +166,7 @@ jobs:
 
   run:
     name: Dry-Run
+    needs: validate
     env:
       pr_set: bcgov/renovate-config bcgov/quickstart-openshift
     permissions:
@@ -178,7 +179,7 @@ jobs:
       - name: Renovate Dry-Run
         run: |
           # Process repo list and add to config
-          IFS=', ' read -a INPUT <<< "bcgov/pubcode"
+          IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
@@ -192,7 +193,7 @@ jobs:
       - name: Run Renovate
         uses: renovatebot/github-action@a447f09147d00e00ae2a82ad5ef51ca89352da80 # v43.0.9
         env:
-          LOG_LEVEL: DEBUG
+          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         with:
           configurationFile: renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}

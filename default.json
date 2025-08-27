@@ -188,12 +188,17 @@
   "packageRules": [
     {
       "description": "Migrate unversioned renovate-config references to v1",
-      "matchPackageNames": ["renovate-v1-config"],
+      "matchPackageNames": [
+        "renovate-v1-config"
+      ],
       "postUpgradeTasks": {
         "commands": [
           "find . -name 'renovate.json' -o -name 'renovate.json5' | xargs sed -i 's|\"github>bcgov/renovate-config\"|\"github>bcgov/renovate-config#v1\"|g'"
         ],
-        "fileFilters": ["**/renovate.json", "**/renovate.json5"],
+        "fileFilters": [
+          "**/renovate.json",
+          "**/renovate.json5"
+        ],
         "executionMode": "update"
       }
     }
