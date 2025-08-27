@@ -177,7 +177,7 @@
         "/.github/renovate.json5/"
       ],
       "matchStrings": [
-        "\"(?<currentValue>github>bcgov/renovate-config)\""
+        "\"github>(?<currentValue>bcgov/renovate-config)\""
       ],
       "depNameTemplate": "renovate-v1-config",
       "autoReplaceStringTemplate": "\"github>{{packageName}}#v1\"",
