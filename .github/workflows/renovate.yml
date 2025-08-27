@@ -179,7 +179,8 @@ jobs:
       - name: Renovate Dry-Run
         run: |
           # Process repo list and add to config
-          IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
+          # IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
+          IFS=', ' read -a INPUT <<< bcgov/pubcode"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
