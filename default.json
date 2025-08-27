@@ -165,7 +165,7 @@
         "(^|/)renovate\\.json$"
       ],
       "matchStrings": [
-        "\"github>bcgov/renovate-config\""
+        "\"github\u003ebcgov/renovate-config\""
       ],
       "datasourceTemplate": "github",
       "depNameTemplate": "renovate-v1-migration",
