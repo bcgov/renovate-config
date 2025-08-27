@@ -159,18 +159,18 @@
   ],
   "customManagers": [
     {
-      "description": "Temporary: Migrate unversioned renovate-config references to v1",
       "customType": "regex",
+      "description": "Temporary: Migrate unversioned renovate-config references to v1",
       "managerFilePatterns": [
         "(^|/)renovate\\.json$"
       ],
       "matchStrings": [
         "\"github>bcgov/renovate-config\""
       ],
-      "datasourceTemplate": "github",
-      "depNameTemplate": "renovate-v1-migration",
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "bcgov/renovate-config",
       "currentValueTemplate": "github>bcgov/renovate-config",
-      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\""
+      "versioningTemplate": "semver-coerced"
     }
   ]
 }
