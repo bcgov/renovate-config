@@ -159,6 +159,7 @@
   ],
   "customManagers": [
     {
+      "description": "Temporary: Migrate unversioned renovate-config references to v1",
       "customType": "regex",
       "managerFilePatterns": [
         "(^|/)renovate\\.json$"
