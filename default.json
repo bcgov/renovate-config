@@ -168,7 +168,8 @@
         "/renovate\\.json$/"
       ],
       "matchStrings": [
-        "\"(?<currentValue>github>bcgov/renovate-config)\""
+        "\"(?<currentValue>github>bcgov/renovate-config)\"",
+        "\"(?<currentValue>github>bcgov/renovate-config#chore/v1try100)\""
       ],
       "datasourceTemplate": "custom.v1-migration",
       "depNameTemplate": "bcgov/renovate-config"
