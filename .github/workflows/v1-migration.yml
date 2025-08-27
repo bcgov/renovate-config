@@ -1,0 +1,87 @@
+name: V1 Migration
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # Run daily at 10 AM UTC
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  migrate-to-v1:
+    name: Migrate unversioned renovate-config to v1
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Find and replace unversioned references
+        run: |
+          # Find all renovate.json and renovate.json5 files
+          find . -name 'renovate.json' -o -name 'renovate.json5' | while read file; do
+            echo "Processing $file"
+            
+            # Check if file contains unversioned reference
+            if grep -q '"github>bcgov/renovate-config"' "$file"; then
+              echo "Found unversioned reference in $file"
+              
+              # Create backup
+              cp "$file" "$file.backup"
+              
+              # Replace unversioned reference with v1
+              sed -i 's|"github>bcgov/renovate-config"|"github>bcgov/renovate-config#v1"|g' "$file"
+              
+              # Check if replacement was successful
+              if ! grep -q '"github>bcgov/renovate-config"' "$file"; then
+                echo "✅ Successfully migrated $file to v1"
+              else
+                echo "❌ Failed to migrate $file - restoring backup"
+                mv "$file.backup" "$file"
+              fi
+            else
+              echo "No unversioned reference found in $file"
+            fi
+          done
+      
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "no_changes=true" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          else
+            echo "no_changes=false" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git diff --name-only
+          fi
+      
+      - name: Commit and push changes
+        if: steps.changes.outputs.no_changes == 'false'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "chore: migrate renovate-config references to v1"
+          git push
+      
+      - name: Create PR if changes exist
+        if: steps.changes.outputs.no_changes == 'false'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "chore: migrate renovate-config references to v1"
+          body: |
+            This PR migrates unversioned `github>bcgov/renovate-config` references to `github>bcgov/renovate-config#v1`.
+            
+            Changes made:
+            - Replaced unversioned references with v1 tag
+            - Applied to all renovate.json and renovate.json5 files
+            
+            This ensures consistent versioning across all repositories.
+          branch: chore/v1-migration
+          commit-message: "chore: migrate renovate-config references to v1"
+          delete-branch: false
