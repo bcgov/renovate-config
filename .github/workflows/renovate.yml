@@ -179,7 +179,8 @@ jobs:
       - name: Renovate Dry-Run
         run: |
           # Process repo list and add to config
-          IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
+          # IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
+          IFS=', ' read -a INPUT <<< "bcgov/renovate-config bcgov/pubcode"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
@@ -193,7 +194,8 @@ jobs:
       - name: Run Renovate
         uses: renovatebot/github-action@a447f09147d00e00ae2a82ad5ef51ca89352da80 # v43.0.9
         env:
-          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
+          # LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
+          LOG_LEVEL: ${{ inputs.log_level || 'DEBUG' }}
         with:
           configurationFile: renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}

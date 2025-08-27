@@ -156,5 +156,20 @@
       "groupName": "python dependencies",
       "groupSlug": "python"
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "(^|/)renovate\\.json$"
+      ],
+      "matchStrings": [
+        "\"github>bcgov/renovate-config\""
+      ],
+      "datasourceTemplate": "github",
+      "depNameTemplate": "renovate-config",
+      "currentValueTemplate": "github>bcgov/renovate-config",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\""
+    }
   ]
 }
