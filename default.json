@@ -168,7 +168,6 @@
         "/renovate\\.json$/"
       ],
       "matchStrings": [
-        "\"(?<currentValue>github>bcgov/renovate-config)\"",
         "\"(?<currentValue>github>bcgov/renovate-config#chore/v1try100)\""
       ],
       "datasourceTemplate": "custom.v1-migration",
@@ -179,7 +178,7 @@
     "v1-migration": {
       "defaultRegistryUrlTemplate": "https://api.github.com/repos/bcgov/renovate-config/releases",
       "transformTemplates": [
-        "{ \"releases\": [{ \"version\": \"v1\", \"releaseTimestamp\": \"2025-08-27T00:00:00Z\" }] }"
+        "{ \"releases\": [{ \"version\": \"chore/v1try101\", \"releaseTimestamp\": \"2025-08-27T12:00:00Z\" }] }"
       ]
     }
   }
