@@ -168,7 +168,7 @@ jobs:
     name: Dry-Run
     # needs: validate
     env:
-      pr_set: bcgov/renovate-config bcgov/quickstart-openshift
+      pr_set: bcgov/renovate-config
     permissions:
       pull-requests: write
     runs-on: ubuntu-24.04
@@ -179,8 +179,7 @@ jobs:
       - name: Renovate Dry-Run
         run: |
           # Process repo list and add to config
-          # IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
-          IFS=', ' read -a INPUT <<< "bcgov/pubcode"
+          IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
