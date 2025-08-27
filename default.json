@@ -163,16 +163,6 @@
       ],
       "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.\\d+$/",
       "allowedVersions": "/^v?\\d+\\.\\d+\\.\\d+$/",
-      "matchManagers": [
-        "npm",
-        "docker",
-        "github-actions",
-        "helm",
-        "maven",
-        "gradle",
-        "pip",
-        "composer"
-      ],
       "enabled": true
     }
   ],
