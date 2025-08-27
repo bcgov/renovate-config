@@ -181,7 +181,7 @@
       ],
       "depNameTemplate": "renovate-v1-config",
       "autoReplaceStringTemplate": "\"github>{{packageName}}#v1\"",
-      "datasourceTemplate": "github",
+      "datasourceTemplate": "github-tags",
       "packageNameTemplate": "bcgov/renovate-config"
     }
   ]
