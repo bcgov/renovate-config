@@ -157,7 +157,9 @@
       "groupSlug": "python"
     }
   ],
-  "enabledManagers": ["custom.regex"],
+  "enabledManagers": [
+    "custom.regex"
+  ],
   "customManagers": [
     {
       "customType": "regex",
