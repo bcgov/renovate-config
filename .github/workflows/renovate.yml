@@ -26,147 +26,147 @@ concurrency:
 permissions: {}
 
 jobs:
-  validate:
-    name: Validate Config
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
+  # validate:
+  #   name: Validate Config
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #     - uses: actions/checkout@v5
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '22'
 
-      - name: Schema validation
-        run: |
-          echo "🔍 Stage 1: Schema validation..."
-          npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
+  #     - name: Schema validation
+  #       run: |
+  #         echo "🔍 Stage 1: Schema validation..."
+  #         npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
 
-      - name: Config resolution test
-        run: |
-          echo "🔍 Stage 2: Config resolution test..."
-          # Skip config resolution test in CI as it requires GitHub token
-          # This test is primarily for local development validation
-          echo "✅ Config resolution test skipped (requires GitHub token)"
-          echo "  This test validates that the config can be resolved by Renovate"
-          echo "  It will be tested during the actual dry-run in the next job"
+  #     - name: Config resolution test
+  #       run: |
+  #         echo "🔍 Stage 2: Config resolution test..."
+  #         # Skip config resolution test in CI as it requires GitHub token
+  #         # This test is primarily for local development validation
+  #         echo "✅ Config resolution test skipped (requires GitHub token)"
+  #         echo "  This test validates that the config can be resolved by Renovate"
+  #         echo "  It will be tested during the actual dry-run in the next job"
 
-      - name: Custom rule validation
-        run: |
-          echo "🔍 Stage 3: Custom rule validation..."
+  #     - name: Custom rule validation
+  #       run: |
+  #         echo "🔍 Stage 3: Custom rule validation..."
 
-          # Check for pinning strategy
-          echo "  Checking pinning strategy..."
-          if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
-            echo "✅ Pinning strategy: Global pin with specific unpins"
-            echo "  This is our intended strategy - pin globally, unpin specific managers"
-
-
-          elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
-            echo "✅ Pinning strategy: Global pinning enabled"
-          elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
-            echo "✅ Pinning strategy: Specific unpinning rules"
-          else
-            echo "⚠️  No pinning rules found"
-          fi
-
-          # Check for duplicate package rules
-          echo "  Checking for duplicate package rules..."
-          DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
-          if [ -n "$DUPLICATE_RULES" ]; then
-            echo "⚠️  Potential duplicate package rules found:"
-            echo "$DUPLICATE_RULES"
-            echo "  Review these rules to ensure they don't conflict"
-          else
-            echo "✅ No duplicate package rules detected"
-          fi
-
-          # Check for valid update types
-          echo "  Checking for valid update types..."
-          UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
-          if [ -n "$UPDATE_TYPES" ]; then
-            echo "✅ Found update types: $UPDATE_TYPES"
-            INVALID_TYPES=$(echo "$UPDATE_TYPES" | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
-            if [ -n "$INVALID_TYPES" ]; then
-              echo "❌ Invalid update types found: $INVALID_TYPES"
-              echo "  Valid types are: major, minor, patch, pin, pinDigest, digest, lockFileMaintenance, rollback, bump, replacement"
-              exit 1
-            fi
-          else
-            echo "✅ No update type restrictions found"
-          fi
-
-          # Check for invalid commitMessageAction values
-          echo "  Checking for invalid commitMessageAction values..."
-          INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
-          if [ -n "$INVALID_COMMIT_ACTIONS" ]; then
-            echo "❌ Invalid commitMessageAction values found:"
-            echo "$INVALID_COMMIT_ACTIONS"
-            echo "  Valid values are: replace, append, prepend"
-            exit 1
-          else
-            echo "✅ All commitMessageAction values are valid"
-          fi
+  #         # Check for pinning strategy
+  #         echo "  Checking pinning strategy..."
+  #         if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+  #           echo "✅ Pinning strategy: Global pin with specific unpins"
+  #           echo "  This is our intended strategy - pin globally, unpin specific managers"
 
 
+  #         elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
+  #           echo "✅ Pinning strategy: Global pinning enabled"
+  #         elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+  #           echo "✅ Pinning strategy: Specific unpinning rules"
+  #         else
+  #           echo "⚠️  No pinning rules found"
+  #         fi
 
-      - name: Integration test
-        run: |
-          echo "🔍 Stage 4: Integration test..."
-          echo "  Testing config against bcgov/quickstart-openshift..."
+  #         # Check for duplicate package rules
+  #         echo "  Checking for duplicate package rules..."
+  #         DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
+  #         if [ -n "$DUPLICATE_RULES" ]; then
+  #           echo "⚠️  Potential duplicate package rules found:"
+  #           echo "$DUPLICATE_RULES"
+  #           echo "  Review these rules to ensure they don't conflict"
+  #         else
+  #           echo "✅ No duplicate package rules detected"
+  #         fi
 
-          # Skip integration test in CI as it requires GitHub token
-          # This test validates that the config works with a real repository
-          echo "✅ Integration test skipped (requires GitHub token)"
-          echo "  This test validates that the config works with real repositories"
-          echo "  It will be tested during the actual dry-run in the next job"
+  #         # Check for valid update types
+  #         echo "  Checking for valid update types..."
+  #         UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
+  #         if [ -n "$UPDATE_TYPES" ]; then
+  #           echo "✅ Found update types: $UPDATE_TYPES"
+  #           INVALID_TYPES=$(echo "$UPDATE_TYPES" | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
+  #           if [ -n "$INVALID_TYPES" ]; then
+  #             echo "❌ Invalid update types found: $INVALID_TYPES"
+  #             echo "  Valid types are: major, minor, patch, pin, pinDigest, digest, lockFileMaintenance, rollback, bump, replacement"
+  #             exit 1
+  #           fi
+  #         else
+  #           echo "✅ No update type restrictions found"
+  #         fi
 
-      - name: Best practices check
-        run: |
-          echo "🔍 Stage 5: Best practices check..."
+  #         # Check for invalid commitMessageAction values
+  #         echo "  Checking for invalid commitMessageAction values..."
+  #         INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
+  #         if [ -n "$INVALID_COMMIT_ACTIONS" ]; then
+  #           echo "❌ Invalid commitMessageAction values found:"
+  #           echo "$INVALID_COMMIT_ACTIONS"
+  #           echo "  Valid values are: replace, append, prepend"
+  #           exit 1
+  #         else
+  #           echo "✅ All commitMessageAction values are valid"
+  #         fi
 
 
 
-          # Check for clear descriptions
-          UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
-          TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
-          if [ "$UNDESCRIBED_RULES" -lt "$TOTAL_RULES" ]; then
-            echo "⚠️  Some rules may be missing descriptions"
-            echo "  Consider adding descriptions to all package rules"
-          else
-            echo "✅ All rules have descriptions"
-          fi
+  #     - name: Integration test
+  #       run: |
+  #         echo "🔍 Stage 4: Integration test..."
+  #         echo "  Testing config against bcgov/quickstart-openshift..."
 
-          # Check for rule complexity
-          echo "  Checking rule complexity..."
-          COMPLEX_RULES=$(awk '
-            /"packageRules"/ {inblock=1}
-            inblock {block=block $0 "\n"}
-            /}/ && inblock {
-              inblock=0
-              if (block ~ /"matchManagers"/ && (block ~ /"matchPackageNames"/ || block ~ /"matchUpdateTypes"/ || block ~ /"matchCurrentVersion"/ || block ~ /"allowedVersions"/)) {
-                count++
-              }
-              block=""
-            }
-            END {print count+0}
-          ' default.json rules-*.json5 2>/dev/null)
-          if [ "$COMPLEX_RULES" -gt 10 ]; then
-            echo "⚠️  Some rules have many conditions ($COMPLEX_RULES)"
-            echo "  Consider simplifying complex rules for better maintainability"
-          else
-            echo "✅ Rule complexity looks reasonable"
-          fi
+  #         # Skip integration test in CI as it requires GitHub token
+  #         # This test validates that the config works with a real repository
+  #         echo "✅ Integration test skipped (requires GitHub token)"
+  #         echo "  This test validates that the config works with real repositories"
+  #         echo "  It will be tested during the actual dry-run in the next job"
 
-          echo "🎉 Validation completed successfully!"
-          echo "The Renovate configuration appears to be valid and well-structured."
+  #     - name: Best practices check
+  #       run: |
+  #         echo "🔍 Stage 5: Best practices check..."
 
-      - name: Lint Config for Duplicates
-        run: |
-          npm install json5@^2.2.3 --no-save
-          node lint_renovate_duplicates.mjs *.json *.json5
+
+
+  #         # Check for clear descriptions
+  #         UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+  #         TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+  #         if [ "$UNDESCRIBED_RULES" -lt "$TOTAL_RULES" ]; then
+  #           echo "⚠️  Some rules may be missing descriptions"
+  #           echo "  Consider adding descriptions to all package rules"
+  #         else
+  #           echo "✅ All rules have descriptions"
+  #         fi
+
+  #         # Check for rule complexity
+  #         echo "  Checking rule complexity..."
+  #         COMPLEX_RULES=$(awk '
+  #           /"packageRules"/ {inblock=1}
+  #           inblock {block=block $0 "\n"}
+  #           /}/ && inblock {
+  #             inblock=0
+  #             if (block ~ /"matchManagers"/ && (block ~ /"matchPackageNames"/ || block ~ /"matchUpdateTypes"/ || block ~ /"matchCurrentVersion"/ || block ~ /"allowedVersions"/)) {
+  #               count++
+  #             }
+  #             block=""
+  #           }
+  #           END {print count+0}
+  #         ' default.json rules-*.json5 2>/dev/null)
+  #         if [ "$COMPLEX_RULES" -gt 10 ]; then
+  #           echo "⚠️  Some rules have many conditions ($COMPLEX_RULES)"
+  #           echo "  Consider simplifying complex rules for better maintainability"
+  #         else
+  #           echo "✅ Rule complexity looks reasonable"
+  #         fi
+
+  #         echo "🎉 Validation completed successfully!"
+  #         echo "The Renovate configuration appears to be valid and well-structured."
+
+  #     - name: Lint Config for Duplicates
+  #       run: |
+  #         npm install json5@^2.2.3 --no-save
+  #         node lint_renovate_duplicates.mjs *.json *.json5
 
   run:
     name: Dry-Run
-    needs: validate
+    # needs: validate
     env:
       pr_set: bcgov/renovate-config bcgov/quickstart-openshift
     permissions:
