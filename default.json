@@ -169,7 +169,7 @@
       ],
       "datasourceTemplate": "github",
       "depNameTemplate": "renovate-v1-migration",
-      "currentValueTemplate": "github>bcgov/renovate-config",
+      "currentValueTemplate": "github\\u003ebcgov/renovate-config",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\""
     }
   ]
