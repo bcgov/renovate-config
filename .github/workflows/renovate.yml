@@ -180,15 +180,15 @@ jobs:
         run: |
           # Process repo list and add to config
           # IFS=', ' read -a INPUT <<< "${{ inputs.repos || env.pr_set }}"
-          IFS=', ' read -a INPUT <<< "bcgov/renovate-config bcgov/pubcode"
+          IFS=', ' read -a INPUT <<< "bcgov/pubcode"
           for r in "${INPUT[@]}"; do
             REPOS+="\"$r\","
           done
           REPOS=${REPOS%,*}
           cat <<< $(jq '. | .repositories = ['${REPOS}']' renovate.json) > renovate.json
 
-          # Dry run
-          cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
+          # # Dry run
+          # cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
       # Run Renovate
       - name: Run Renovate
