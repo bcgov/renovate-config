@@ -182,7 +182,6 @@
       "depNameTemplate": "renovate-v1-config",
       "currentValueTemplate": "github>bcgov/renovate-config",
       "autoReplaceStringTemplate": "\"github>{{packageName}}#v1\"",
-      "datasourceTemplate": "github",
       "packageNameTemplate": "bcgov/renovate-config"
     }
   ]
