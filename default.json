@@ -165,7 +165,7 @@
         "(^|/)renovate\\.json$"
       ],
       "matchStrings": [
-        "\"extends\":\\s*\\[(?<currentValue>\"github>bcgov/renovate-config\")"
+        "\"(?<currentValue>github>bcgov/renovate-config)\""
       ],
       "datasourceTemplate": "custom.v1-migration",
       "depNameTemplate": "bcgov/renovate-config"
