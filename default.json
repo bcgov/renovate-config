@@ -164,8 +164,8 @@
     {
       "customType": "regex",
       "description": "Temporary: Migrate unversioned renovate-config references to v1",
-      "fileMatch": [
-        "renovate\\.json$"
+      "managerFilePatterns": [
+        "/renovate\\.json$/"
       ],
       "matchStrings": [
         "\"(?<currentValue>github>bcgov/renovate-config)\""
