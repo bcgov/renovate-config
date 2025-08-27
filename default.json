@@ -167,9 +167,15 @@
       "matchStrings": [
         "\"(?<currentValue>github>bcgov/renovate-config)\""
       ],
-      "datasourceTemplate": "github-tags",
-      "depNameTemplate": "bcgov/renovate-config",
-      "versioningTemplate": "semver-coerced"
+      "datasourceTemplate": "custom.v1-migration",
+      "depNameTemplate": "bcgov/renovate-config"
     }
-  ]
+  ],
+  "customDatasources": {
+    "v1-migration": {
+      "transformTemplates": [
+        "{ \"releases\": [{ \"version\": \"v1\", \"releaseTimestamp\": \"2025-08-27T00:00:00Z\" }] }"
+      ]
+    }
+  }
 }
