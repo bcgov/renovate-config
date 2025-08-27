@@ -165,11 +165,10 @@
         "(^|/)renovate\\.json$"
       ],
       "matchStrings": [
-        "\"github>bcgov/renovate-config\""
+        "\"(?<currentValue>github>bcgov/renovate-config)\""
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "bcgov/renovate-config",
-      "currentValueTemplate": "github>bcgov/renovate-config",
       "versioningTemplate": "semver-coerced"
     }
   ]
