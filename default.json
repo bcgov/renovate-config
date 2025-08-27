@@ -183,7 +183,6 @@
       "currentValueTemplate": "github>bcgov/renovate-config",
       "autoReplaceStringTemplate": "\"github>{{packageName}}#v1\"",
       "datasourceTemplate": "github",
-      "versioningTemplate": "semver",
       "packageNameTemplate": "bcgov/renovate-config"
     }
   ]
