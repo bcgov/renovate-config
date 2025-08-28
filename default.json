@@ -101,7 +101,7 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "allowedVersions": "/^v1(\\.0)?(\\.0)?$/",
+      "allowedVersions": "/^v1$/",
       "enabled": true
     },
     {
