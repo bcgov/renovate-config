@@ -121,6 +121,17 @@
       "enabled": true
     },
     {
+      "description": "Enable custom manager v1 migration: Use loose versioning for custom manager to handle unversioned references",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "versioning": "loose",
+      "enabled": true
+    },
+    {
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
