@@ -54,7 +54,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/(^|/)renovate\\.json$/"],
+      "managerFilePatterns": [
+        "/(^|/)renovate\\.json$/"
+      ],
       "matchStrings": [
         "\"(?<depName>github>bcgov/renovate-config)(?<currentValue>)\""
       ],
