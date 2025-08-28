@@ -83,16 +83,7 @@
       ],
       "pinDigests": false
     },
-    {
-      "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchUpdateTypes": [
-        "pin"
-      ],
-      "enabled": false
-    },
+
     {
       "description": "Enable preset version updates to v1 family: Allow bcgov/renovate-config updates to v1, v1.0, or v1.0.0 versions",
       "matchManagers": [
