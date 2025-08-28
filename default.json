@@ -51,6 +51,18 @@
     "before 6am every weekday"
   ],
   "prConcurrentLimit": 2,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)renovate\\.json$/"],
+      "matchStrings": [
+        "\"(?<depName>github>bcgov/renovate-config)(?<currentValue>)\""
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "bcgov/renovate-config",
+      "autoReplaceStringTemplate": "\"{{depName}}#{{newValue}}\""
+    }
+  ],
   "packageRules": [
     {
       "description": "Global pinning policy: Pin all digests/SHAs globally for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
