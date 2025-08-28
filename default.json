@@ -62,6 +62,7 @@
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "bcgov/renovate-config",
+      "versioningTemplate": "loose",
       "autoReplaceStringTemplate": "\"{{depName}}#{{newValue}}\""
     }
   ],
