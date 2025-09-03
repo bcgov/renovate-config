@@ -13,9 +13,17 @@
         "github-actions"
       ]
     },
+    // Pin ALL GitHub Actions with SHA digests for supply chain security
+    // This is the base security policy - pin everything by default
+    {
+      "description": "Pin all GitHub Actions with SHA digests for supply chain security",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "pinDigests": true
+    },
     // Unpin digests (remove SHAs) for trusted orgs only
     // Trusted orgs (actions/, docker/, github/) are safe to use version tags
-    // All other actions will get SHA pinning for supply chain security
     {
       "description": "Unpin digests for trusted GitHub Actions orgs (actions/, docker/, github/)",
       "matchManagers": [
