@@ -61,14 +61,6 @@
         "/react-redux/",
         "/redux-thunk/"
       ]
-    },
-    // Block eslint9 updates for JS
-    {
-      "description": "JS - block eslint9",
-      "enabled": false,
-      "groupName": "eslint9",
-      "matchManagers": ["npm"],
-      "matchPackageNames": ["/eslint/"]
     }
     // Add additional rules below as needed
   ]

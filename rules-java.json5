@@ -19,8 +19,7 @@
         "minor",
         "patch",
         "lockFileMaintenance"
-      ],
-      "minimumReleaseAge": "7 days"
+      ]
     }
     // Add more grouping rules as needed for your Java ecosystem
   ]
