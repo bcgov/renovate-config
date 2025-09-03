@@ -9,7 +9,7 @@
       "groupName": "vite",
       "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
     },
-    // Group linters
+    // Group linters (more aggressive than built-in: combines ESLint + Prettier in same PR)
     {
       "description": "Group linters",
       "groupName": "linters",
@@ -67,7 +67,7 @@
       "description": "Pin JavaScript digests/SHAs for supply chain security. Ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
         "npm",
-        "pnpm", 
+        "pnpm",
         "yarn"
       ],
       "pinDigests": true
