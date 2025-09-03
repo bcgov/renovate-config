@@ -46,16 +46,6 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchUpdateTypes": [
-        "pin"
-      ],
-      "enabled": false
-    },
-    {
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
