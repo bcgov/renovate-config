@@ -3,15 +3,36 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // Group all GitHub Actions dependencies together
-    // Simplifies maintenance by treating all actions equally
+    // Group trusted GitHub Actions orgs (no pinning required)
+    // These orgs are considered safe and don't need SHA pinning
     {
-      "description": "Group all GitHub Actions dependencies",
-      "groupName": "github actions",
-      "groupSlug": "github-actions",
+      "description": "Group trusted GitHub Actions orgs (actions/, docker/, github/)",
+      "groupName": "github actions (trusted)",
+      "groupSlug": "github-actions-trusted",
       "matchManagers": [
         "github-actions"
+      ],
+      "matchPackageNames": [
+        "^actions/",
+        "^docker/",
+        "^github/"
       ]
+    },
+    // Group other GitHub Actions (with SHA pinning for security)
+    // Third-party actions require SHA digests for supply chain security
+    {
+      "description": "Group other GitHub Actions (pinned for security)",
+      "groupName": "github actions (other)",
+      "groupSlug": "github-actions-other",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "!^actions/",
+        "!^docker/",
+        "!^github/"
+      ],
+      "pinDigests": true
     }
     // Add additional rules below as needed
   ]
