@@ -16,14 +16,17 @@
     // Pin third-party GitHub Actions with SHA digests for supply chain security
     // Excludes trusted orgs (actions/, docker/, github/) which are safe to use version tags
     {
-      "description": "Pin third-party GitHub Actions with SHA digests (excludes trusted orgs)",
+      "description": "Pin GitHub Actions with SHA digests (excludes trusted orgs)",
       "matchManagers": [
         "github-actions"
       ],
       "matchPackageNames": [
         "!^actions/",
+        "!^aws-actions/",
+        "!^azure/",
         "!^docker/",
-        "!^github/"
+        "!^github/",
+        "!^google-github-actions/"
       ],
       "pinDigests": true
     }
