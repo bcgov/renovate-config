@@ -1,6 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "automerge": true,
   "configMigration": true,
   "dependencyDashboard": true,
   "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
