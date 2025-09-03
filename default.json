@@ -33,7 +33,7 @@
   "configWarningReuseIssue": true,
   "onboardingConfig": {
     "extends": [
-      "github>bcgov/renovate-config"
+      "github>bcgov/renovate-config#v1"
     ]
   },
   "platform": "github",
