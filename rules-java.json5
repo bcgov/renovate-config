@@ -20,6 +20,15 @@
         "patch",
         "lockFileMaintenance"
       ]
+    },
+    // Pin Java dependencies for supply chain security
+    {
+      "description": "Pin Java digests/SHAs for supply chain security. Ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "gradle",
+        "maven"
+      ],
+      "pinDigests": true
     }
     // Add more grouping rules as needed for your Java ecosystem
   ]

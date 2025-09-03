@@ -33,7 +33,7 @@
   "configWarningReuseIssue": true,
   "onboardingConfig": {
     "extends": [
-      "github>bcgov/renovate-config"
+      "github>bcgov/renovate-config#v1"
     ]
   },
   "platform": "github",
@@ -46,56 +46,9 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Global pinning policy: Pin all digests/SHAs globally for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
-      "matchManagers": [
-        "gradle",
-        "maven",
-        "npm",
-        "pip",
-        "pipenv",
-        "pnpm",
-        "poetry",
-        "uv",
-        "yarn"
-      ],
-      "pinDigests": true
-    },
-    {
-      "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchUpdateTypes": [
-        "pin"
-      ],
-      "enabled": false
-    },
-    {
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
     }
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Temporary: Migrate unversioned renovate-config references to v1",
-      "managerFilePatterns": [
-        "/renovate\\.json$/"
-      ],
-      "matchStrings": [
-        "\"(?<currentValue>github>bcgov/renovate-config)\""
-      ],
-      "datasourceTemplate": "custom.v1-migration",
-      "depNameTemplate": "bcgov/renovate-config"
-    }
-  ],
-  "customDatasources": {
-    "v1-migration": {
-      "defaultRegistryUrlTemplate": "https://api.github.com/repos/bcgov/renovate-config/releases",
-      "transformTemplates": [
-        "{ \"releases\": [{ \"version\": \"v1\", \"releaseTimestamp\": \"2025-08-27T00:00:00Z\" }] }"
-      ]
-    }
-  }
+  ]
 }

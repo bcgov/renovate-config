@@ -24,6 +24,17 @@
         "/^sqlacodegen$/",
         "/^mock-alchemy$/"
       ]
+    },
+    // Pin Python dependencies for supply chain security
+    {
+      "description": "Pin Python digests/SHAs for supply chain security. Ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "pip",
+        "pipenv",
+        "poetry", 
+        "uv"
+      ],
+      "pinDigests": true
     }
   ]
 }
