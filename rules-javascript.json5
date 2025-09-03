@@ -51,11 +51,14 @@
       "groupName": "mui",
       "matchPackageNames": ["/^@mui\\//"]
     },
-    // Group redux dependencies
+    // Group React ecosystem (more comprehensive than built-in group:react preset)
     {
-      "description": "Group redux",
-      "groupName": "redux",
+      "description": "Group React ecosystem",
+      "groupName": "react",
       "matchPackageNames": [
+        "/^react$/",
+        "/^react-dom$/",
+        "/^@types\\/react/",
         "/^@redux-devtools\\//",
         "/redux/",
         "/react-redux/",

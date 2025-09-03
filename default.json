@@ -10,7 +10,6 @@
     "group:definitelyTyped",
     "group:linters",
     "group:monorepos",
-    "group:react",
     "group:recommended",
     ":combinePatchMinorReleases",
     ":maintainLockFilesMonthly",
