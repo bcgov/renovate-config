@@ -19,22 +19,7 @@
         "minor",
         "patch",
         "lockFileMaintenance"
-      ],
-      "minimumReleaseAge": "7 days"
-    },
-    // Group Java ecosystem: Combine Maven and Gradle updates into single PRs
-    {
-      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
-      "matchManagers": [
-        "maven",
-        "gradle"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "java dependencies",
-      "groupSlug": "java"
+      ]
     }
     // Add more grouping rules as needed for your Java ecosystem
   ]
