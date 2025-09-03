@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Renovate packageRules for infrastructure dependencies (Terraform, Docker, Kubernetes, Helm).
+  // This file is intended to be referenced by downstream repositories for consistent update grouping.
+  "packageRules": [
+    // Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs
+    {
+      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
+      "matchManagers": [
+        "terraform",
+        "dockerfile",
+        "kubernetes",
+        "helmv3",
+        "docker-compose"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    }
+    // Add additional infrastructure rules below as needed
+  ]
+}
