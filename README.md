@@ -14,7 +14,7 @@
 **Dependency updates are a leading cause of security incidents, outages, and technical debt.** Renovate automates this critical maintenance task, saving your team time and reducing risk.
 
 **What you get with this shared configuration:**
-- **Security:** Global pinning to SHAs/digests for supply chain security
+- **Security:** Selective pinning to SHAs/digests for package managers (npm, pip, maven, etc.)
 - **Efficiency:** Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
 - **Safety:** Automerge for safe updates (minor, patch, linters, etc.)
 - **Stability:** Prerelease blocking (e.g., `-alpha`, `-beta`, `-rc`, etc.)
