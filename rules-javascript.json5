@@ -61,6 +61,16 @@
         "/react-redux/",
         "/redux-thunk/"
       ]
+    },
+    // Pin JavaScript dependencies for supply chain security
+    {
+      "description": "Pin JavaScript digests/SHAs for supply chain security. Ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "pnpm", 
+        "yarn"
+      ],
+      "pinDigests": true
     }
     // Add additional rules below as needed
   ]
