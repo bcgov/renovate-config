@@ -35,7 +35,7 @@
     },
     // Group @nestjs dependencies
     {
-      "description": "Group @nestjs",
+      "description": "Group @nestjs and build tooling (SWC compiler, winston logging)",
       "groupName": "nestjs",
       "matchPackageNames": [
         "/^@nestjs\\//",
