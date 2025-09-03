@@ -13,18 +13,6 @@
       "matchManagers": [
         "github-actions"
       ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
       "matchPackageNames": [
         "^actions/",
         "^docker/",
@@ -39,18 +27,6 @@
       "groupSlug": "github-actions-other",
       "matchManagers": [
         "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
       ],
       "matchPackageNames": [
         "!^actions/",
