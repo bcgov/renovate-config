@@ -3,12 +3,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // Group trusted GitHub Actions orgs (no pinning required)
-    // These orgs are considered safe and don't need SHA pinning
+    // Group all GitHub Actions dependencies into a single unified PR
+    // This provides better overview and reduces PR noise
     {
-      "description": "Group trusted GitHub Actions orgs (actions/, docker/, github/)",
-      "groupName": "github actions (trusted)",
-      "groupSlug": "github-actions-trusted",
+      "description": "Group all GitHub Actions dependencies for unified update PRs",
+      "groupName": "github actions",
+      "groupSlug": "github-actions",
+      "matchManagers": [
+        "github-actions"
+      ]
+    },
+    // Unpin digests (remove SHAs) for trusted orgs only
+    // Trusted orgs (actions/, docker/, github/) are safe to use version tags
+    // All other actions will get SHA pinning for supply chain security
+    {
+      "description": "Unpin digests for trusted GitHub Actions orgs (actions/, docker/, github/)",
       "matchManagers": [
         "github-actions"
       ],
@@ -16,23 +25,8 @@
         "^actions/",
         "^docker/",
         "^github/"
-      ]
-    },
-    // Group other GitHub Actions (with SHA pinning for security)
-    // Third-party actions require SHA digests for supply chain security
-    {
-      "description": "Group other GitHub Actions (pinned for security)",
-      "groupName": "github actions (other)",
-      "groupSlug": "github-actions-other",
-      "matchManagers": [
-        "github-actions"
       ],
-      "matchPackageNames": [
-        "!^actions/",
-        "!^docker/",
-        "!^github/"
-      ],
-      "pinDigests": true
+      "pinDigests": false
     }
     // Add additional rules below as needed
   ]
