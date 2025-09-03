@@ -8,11 +8,12 @@
       "groupName": "springframework",
       "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     },
-    // Group all non-major Maven dependencies
+    // Group all non-major Java dependencies
     {
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
+      "groupName": "java all non-major dependencies",
+      "groupSlug": "java all-minor-patch",
       "matchManagers": [
+        "gradle",
         "maven"
       ],
       "matchUpdateTypes": [
