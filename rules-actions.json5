@@ -22,13 +22,17 @@
       ],
       "matchPackageNames": [
         "!^actions/",
+        "!^aquasecurity/",
         "!^aws-actions/",
         "!^azure/",
+        "!^codecov/",
+        "!^coverallsapp/",
         "!^docker/",
         "!^github/",
         "!^google-github-actions/",
         "!^hashicorp/",
-        "!^helm/"
+        "!^helm/",
+        "!^sonarsource/"
       ],
       "pinDigests": true
     }
