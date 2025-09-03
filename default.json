@@ -12,8 +12,6 @@
     "group:monorepos",
     "group:react",
     "group:recommended",
-    ":automergePr",
-    ":automergeRequireAllStatusChecks",
     ":combinePatchMinorReleases",
     ":enableVulnerabilityAlerts",
     ":maintainLockFilesMonthly",
