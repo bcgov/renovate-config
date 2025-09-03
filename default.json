@@ -10,7 +10,6 @@
     "group:definitelyTyped",
     "group:linters",
     "group:monorepos",
-    "group:react",
     "group:recommended",
     ":combinePatchMinorReleases",
     ":maintainLockFilesMonthly",
@@ -47,8 +46,7 @@
   "packageRules": [
     {
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
-      "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
-      "matchManagers": []
+      "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/"
     }
   ]
 }

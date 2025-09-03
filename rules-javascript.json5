@@ -9,7 +9,7 @@
       "groupName": "vite",
       "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
     },
-    // Group linters
+    // Group linters (more aggressive than built-in: combines ESLint + Prettier in same PR)
     {
       "description": "Group linters",
       "groupName": "linters",
@@ -35,7 +35,7 @@
     },
     // Group @nestjs dependencies
     {
-      "description": "Group @nestjs",
+      "description": "Group @nestjs and build tooling (SWC compiler, winston logging)",
       "groupName": "nestjs",
       "matchPackageNames": [
         "/^@nestjs\\//",
@@ -51,11 +51,14 @@
       "groupName": "mui",
       "matchPackageNames": ["/^@mui\\//"]
     },
-    // Group redux dependencies
+    // Group React ecosystem (more comprehensive than built-in group:react preset)
     {
-      "description": "Group redux",
-      "groupName": "redux",
+      "description": "Group React ecosystem",
+      "groupName": "react",
       "matchPackageNames": [
+        "/^react$/",
+        "/^react-dom$/",
+        "/^@types\\/react/",
         "/^@redux-devtools\\//",
         "/redux/",
         "/react-redux/",
@@ -67,7 +70,7 @@
       "description": "Pin JavaScript digests/SHAs for supply chain security. Ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
         "npm",
-        "pnpm", 
+        "pnpm",
         "yarn"
       ],
       "pinDigests": true

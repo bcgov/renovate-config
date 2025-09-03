@@ -2,17 +2,36 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // Group Java dependencies for unified update PRs and easier management
   "packageRules": [
-    // Example: Group all springframework dependencies
+    // Group all springframework dependencies
     {
       "description": "Group springframework",
       "groupName": "springframework",
       "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     },
-    // Group all non-major Maven dependencies
+    // Group jackson (JSON processing) dependencies
     {
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
+      "description": "Group jackson",
+      "groupName": "jackson",
+      "matchPackageNames": ["/^com\\.fasterxml\\.jackson/", "/^jackson-/"]
+    },
+    // Group junit (testing framework) dependencies
+    {
+      "description": "Group junit",
+      "groupName": "junit",
+      "matchPackageNames": ["/^org\\.junit/", "/^junit/"]
+    },
+    // Group mockito (mocking framework) dependencies
+    {
+      "description": "Group mockito",
+      "groupName": "mockito",
+      "matchPackageNames": ["/^org\\.mockito/", "/^mockito-/"]
+    },
+    // Group all non-major Java dependencies
+    {
+      "groupName": "java all non-major dependencies",
+      "groupSlug": "java all-minor-patch",
       "matchManagers": [
+        "gradle",
         "maven"
       ],
       "matchUpdateTypes": [

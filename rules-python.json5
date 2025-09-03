@@ -25,13 +25,31 @@
         "/^mock-alchemy$/"
       ]
     },
+    // Group Django ecosystem
+    {
+      "description": "Group django",
+      "groupName": "django",
+      "matchPackageNames": ["/^django$/", "/^django-/", "/^djangorestframework/"]
+    },
+    // Group FastAPI ecosystem
+    {
+      "description": "Group fastapi",
+      "groupName": "fastapi",
+      "matchPackageNames": ["/^fastapi$/", "/^uvicorn$/", "/^starlette$/"]
+    },
+    // Group data science stack
+    {
+      "description": "Group data science",
+      "groupName": "data-science",
+      "matchPackageNames": ["/^pandas$/", "/^numpy$/", "/^scipy$/", "/^matplotlib$/"]
+    },
     // Pin Python dependencies for supply chain security
     {
       "description": "Pin Python digests/SHAs for supply chain security. Ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
         "pip",
         "pipenv",
-        "poetry", 
+        "poetry",
         "uv"
       ],
       "pinDigests": true
