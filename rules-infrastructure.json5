@@ -19,6 +19,39 @@
       ],
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
+    },
+    // Pin Docker images for supply chain security (excludes trusted base images)
+    // Trusted base images are official, heavily audited images from major vendors
+    {
+      "description": "Pin Docker images for supply chain security (excludes trusted base images)",
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose"
+      ],
+      "matchPackageNames": [
+        "!^alpine$",
+        "!^amazonlinux$",
+        "!^caddy$",
+        "!^cassandra$",
+        "!^centos$",
+        "!^debian$",
+        "!^eclipse-temurin$",
+        "!^elasticsearch$",
+        "!^golang$",
+        "!^httpd$",
+        "!^mariadb$",
+        "!^memcached$",
+        "!^mongo$",
+        "!^mysql$",
+        "!^nginx$",
+        "!^node$",
+        "!^openjdk$",
+        "!^postgres$",
+        "!^python$",
+        "!^redis$",
+        "!^ubuntu$"
+      ],
+      "pinDigests": true
     }
     // Add additional infrastructure rules below as needed
   ]
