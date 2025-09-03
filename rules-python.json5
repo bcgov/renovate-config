@@ -49,7 +49,7 @@
       "matchManagers": [
         "pip",
         "pipenv",
-        "poetry", 
+        "poetry",
         "uv"
       ],
       "pinDigests": true
