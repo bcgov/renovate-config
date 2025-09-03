@@ -15,7 +15,6 @@
     ":automergeDigest",
     ":automergeLinters",
     ":automergeMinor",
-    ":automergePatch",
     ":automergePr",
     ":automergeRequireAllStatusChecks",
     ":automergeTypes",
