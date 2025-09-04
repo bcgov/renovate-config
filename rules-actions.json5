@@ -1,9 +1,12 @@
 // Renovate packageRules for GitHub Actions dependencies.
 // This file is intended to be referenced by downstream repositories for consistent update grouping.
+
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
   "packageRules": [
     // Group all GitHub Actions dependencies into a single unified PR
+    // This provides better overview and reduces PR noise
     {
       "description": "Group all GitHub Actions dependencies for unified update PRs",
       "groupName": "github actions",
@@ -12,9 +15,10 @@
         "github-actions"
       ]
     },
-    // Pin third-party GitHub Actions with SHA digests for supply chain security (excludes trusted orgs)
+    // Pin third-party GitHub Actions with SHA digests for supply chain security
+    // Excludes trusted orgs (actions/, docker/, github/) which are safe to use version tags
     {
-      "description": "Pin third-party GitHub Actions with SHA digests for supply chain security",
+      "description": "Pin GitHub Actions with SHA digests (excludes trusted orgs)",
       "matchManagers": [
         "github-actions"
       ],

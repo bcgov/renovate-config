@@ -1,7 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
   // Renovate packageRules for infrastructure dependencies (Terraform, Docker, Kubernetes, Helm).
   // This file is intended to be referenced by downstream repositories for consistent update grouping.
+
   "packageRules": [
     // Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs
     {
@@ -20,9 +22,10 @@
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
     },
-    // Pin third-party Docker images for supply chain security (excludes trusted base images)
+    // Pin Docker images for supply chain security (excludes trusted base images)
+    // Trusted base images are official, heavily audited images from major vendors
     {
-      "description": "Pin third-party Docker images for supply chain security",
+      "description": "Pin Docker images for supply chain security (excludes trusted base images)",
       "matchManagers": [
         "dockerfile",
         "docker-compose"
