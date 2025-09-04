@@ -35,6 +35,7 @@
       "github>bcgov/renovate-config#v1"
     ]
   },
+  "pinDigests": false,
   "platform": "github",
   "platformAutomerge": true,
   "recreateWhen": "conflicted",
