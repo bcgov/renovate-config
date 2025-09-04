@@ -13,15 +13,33 @@
         "github-actions"
       ]
     },
-    // Pin third-party GitHub Actions with SHA digests for supply chain security
-    // Excludes trusted orgs (actions/, docker/, github/, etc.) which are safe to use version tags
+    // Disable digest pinning for trusted GitHub Actions orgs
     {
-      "description": "Pin GitHub Actions with SHA digests (excludes trusted orgs)",
+      "description": "Disable digest pinning for trusted GitHub Actions orgs",
       "matchManagers": [
         "github-actions"
       ],
-      "matchPackagePatterns": [
-        "^(?!actions/|aquasecurity/|aws-actions/|azure/|codecov/|coverallsapp/|docker/|github/|google-github-actions/|hashicorp/|helm/|sonarsource/).*"
+      "matchPackageNames": [
+        "actions/**",
+        "aquasecurity/**",
+        "aws-actions/**",
+        "azure/**",
+        "codecov/**",
+        "coverallsapp/**",
+        "docker/**",
+        "github/**",
+        "google-github-actions/**",
+        "hashicorp/**",
+        "helm/**",
+        "sonarsource/**"
+      ],
+      "pinDigests": false
+    },
+    // Pin all other GitHub Actions with SHA digests for supply chain security
+    {
+      "description": "Pin third-party GitHub Actions with SHA digests for supply chain security",
+      "matchManagers": [
+        "github-actions"
       ],
       "pinDigests": true
     }
