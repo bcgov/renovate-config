@@ -3,61 +3,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // Group allowlisted GitHub Actions orgs (explicitly disable pinning)
+    // Group all GitHub Actions dependencies into a single unified PR
     {
-      "description": "Group allowlisted orgs (actions/, docker/, github/, etc.)",
-      "groupName": "github actions allowlisted orgs",
-      "groupSlug": "github-actions-allowlisted",
+      "description": "Group all GitHub Actions dependencies for unified update PRs",
+      "groupName": "github actions",
+      "groupSlug": "github-actions",
       "matchManagers": [
         "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "matchPackageNames": [
-        "^actions/",
-        "^aquasecurity/",
-        "^aws-actions/",
-        "^azure/",
-        "^codecov/",
-        "^coverallsapp/",
-        "^docker/",
-        "^github/",
-        "^google-github-actions/",
-        "^hashicorp/",
-        "^helm/",
-        "^sonarsource/"
-      ],
-      "pinDigests": false
+      ]
     },
-    // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
+    // Pin third-party GitHub Actions with SHA digests for supply chain security
     {
-      "description": "Group all other GitHub Actions dependencies (pinned)",
-      "groupName": "github actions other dependencies",
-      "groupSlug": "github-actions-other",
+      "description": "Pin third-party GitHub Actions with SHA digests (excludes trusted orgs)",
       "matchManagers": [
         "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
       ],
       "matchPackageNames": [
         "!^actions/",
@@ -74,6 +33,28 @@
         "!^sonarsource/"
       ],
       "pinDigests": true
+    },
+    // Disable digest pinning for trusted GitHub Actions orgs (overrides above rule)
+    {
+      "description": "Disable digest pinning for trusted GitHub Actions orgs",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "^actions/",
+        "^aquasecurity/",
+        "^aws-actions/",
+        "^azure/",
+        "^codecov/",
+        "^coverallsapp/",
+        "^docker/",
+        "^github/",
+        "^google-github-actions/",
+        "^hashicorp/",
+        "^helm/",
+        "^sonarsource/"
+      ],
+      "pinDigests": false
     }
     // Add additional rules below as needed
   ]
