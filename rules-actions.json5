@@ -4,7 +4,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     // Group all GitHub Actions dependencies into a single unified PR
-    // This provides better overview and reduces PR noise
     {
       "description": "Group all GitHub Actions dependencies for unified update PRs",
       "groupName": "github actions",
@@ -14,9 +13,8 @@
       ]
     },
     // Pin third-party GitHub Actions with SHA digests for supply chain security
-    // Excludes trusted orgs (actions/, docker/, github/) which are safe to use version tags
     {
-      "description": "Pin GitHub Actions with SHA digests (excludes trusted orgs)",
+      "description": "Pin third-party GitHub Actions with SHA digests (excludes trusted orgs)",
       "matchManagers": [
         "github-actions"
       ],
@@ -35,6 +33,28 @@
         "!^sonarsource/"
       ],
       "pinDigests": true
+    },
+    // Disable digest pinning for trusted GitHub Actions orgs (overrides above rule)
+    {
+      "description": "Disable digest pinning for trusted GitHub Actions orgs",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "^actions/",
+        "^aquasecurity/",
+        "^aws-actions/",
+        "^azure/",
+        "^codecov/",
+        "^coverallsapp/",
+        "^docker/",
+        "^github/",
+        "^google-github-actions/",
+        "^hashicorp/",
+        "^helm/",
+        "^sonarsource/"
+      ],
+      "pinDigests": false
     }
     // Add additional rules below as needed
   ]
