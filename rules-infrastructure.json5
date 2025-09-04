@@ -28,24 +28,8 @@
         "dockerfile",
         "docker-compose"
       ],
-      "matchPackageNames": [
-        "!^alpine$",
-        "!^amazonlinux$",
-        "!^caddy$",
-        "!^debian$",
-        "!^eclipse-temurin$",
-        "!^flyway$",
-        "!^gcr.io/distroless/",
-        "!^liquibase$",
-        "!^mongo$",
-        "!^nginx$",
-        "!^node$",
-        "!^openjdk$",
-        "!^postgres$",
-        "!^python$",
-        "!^redis$",
-        "!^sonarqube$",
-        "!^ubuntu$"
+      "matchPackagePatterns": [
+        "^(?!alpine$|amazonlinux$|caddy$|debian$|eclipse-temurin$|flyway$|gcr\\.io/distroless/|liquibase$|mongo$|nginx$|node$|openjdk$|postgres$|python$|redis$|sonarqube$|ubuntu$).*"
       ],
       "pinDigests": true
     }
