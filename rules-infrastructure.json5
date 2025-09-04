@@ -20,36 +20,7 @@
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
     },
-    // Disable digest pinning for trusted Docker base images
-    {
-      "description": "Disable digest pinning for trusted Docker base images",
-      "matchManagers": [
-        "dockerfile",
-        "docker-compose"
-      ],
-      "matchPackageNames": [
-        "^alpine$",
-        "^amazonlinux$",
-        "^caddy$",
-        "^debian$",
-        "^eclipse-temurin$",
-        "^flyway$",
-        "^gcr.io/distroless/",
-        "^liquibase$",
-        "^mongo$",
-        "^nginx$",
-        "^node$",
-        "^openjdk$",
-        "^postgres$",
-        "^python$",
-        "^redis$",
-        "^sonarqube$",
-        "^ubuntu$"
-      ],
-      "matchUpdateTypes": ["pinDigest"],
-      "enabled": false
-    },
-    // Pin all other Docker images for supply chain security
+    // Pin third-party Docker images for supply chain security (excludes trusted base images)
     {
       "description": "Pin third-party Docker images for supply chain security",
       "matchManagers": [
