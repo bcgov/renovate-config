@@ -46,7 +46,8 @@
         "^sonarqube$",
         "^ubuntu$"
       ],
-      "pinDigests": false
+      "matchUpdateTypes": ["pinDigest"],
+      "enabled": false
     },
     // Pin all other Docker images for supply chain security
     {
