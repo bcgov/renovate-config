@@ -3,7 +3,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // Group allowlisted GitHub Actions orgs (no pinning)
+    // Group allowlisted GitHub Actions orgs (explicitly disable pinning)
     {
       "description": "Group allowlisted orgs (actions/, docker/, github/, etc.)",
       "groupName": "github actions allowlisted orgs",
@@ -36,7 +36,8 @@
         "^hashicorp/",
         "^helm/",
         "^sonarsource/"
-      ]
+      ],
+      "pinDigests": false
     },
     // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
     {
