@@ -54,7 +54,8 @@
         "^helm/",
         "^sonarsource/"
       ],
-      "pinDigests": false
+      "matchUpdateTypes": ["pinDigest"],
+      "enabled": false
     }
     // Add additional rules below as needed
   ]
