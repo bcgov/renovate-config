@@ -3,22 +3,60 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // Group all GitHub Actions dependencies into a single unified PR
-    // This provides better overview and reduces PR noise
+    // Group allowlisted GitHub Actions orgs (no pinning)
     {
-      "description": "Group all GitHub Actions dependencies for unified update PRs",
-      "groupName": "github actions",
-      "groupSlug": "github-actions",
+      "description": "Group allowlisted orgs (actions/, docker/, github/, etc.)",
+      "groupName": "github actions allowlisted orgs",
+      "groupSlug": "github-actions-allowlisted",
       "matchManagers": [
         "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest",
+        "lockFileMaintenance",
+        "rollback",
+        "bump",
+        "replacement"
+      ],
+      "matchPackageNames": [
+        "^actions/",
+        "^aquasecurity/",
+        "^aws-actions/",
+        "^azure/",
+        "^codecov/",
+        "^coverallsapp/",
+        "^docker/",
+        "^github/",
+        "^google-github-actions/",
+        "^hashicorp/",
+        "^helm/",
+        "^sonarsource/"
       ]
     },
-    // Pin third-party GitHub Actions with SHA digests for supply chain security
-    // Excludes trusted orgs (actions/, docker/, github/) which are safe to use version tags
+    // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
     {
-      "description": "Pin GitHub Actions with SHA digests (excludes trusted orgs)",
+      "description": "Group all other GitHub Actions dependencies (pinned)",
+      "groupName": "github actions other dependencies",
+      "groupSlug": "github-actions-other",
       "matchManagers": [
         "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest",
+        "lockFileMaintenance",
+        "rollback",
+        "bump",
+        "replacement"
       ],
       "matchPackageNames": [
         "!^actions/",
