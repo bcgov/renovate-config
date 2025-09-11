@@ -69,13 +69,7 @@ Choose your versioning strategy based on your team's maintenance capacity:
 ```
 "extends": ["github>bcgov/renovate-config#v1.0"]
 ```
-✅ Minor + patch updates (v1.0 → v1.1, v1.1.0) - important updates without major changes
-
-**Full Updates (High Maintenance):**
-```
-"extends": ["github>bcgov/renovate-config#v1.0.0"]
-```
-✅ All updates including patches (v1.0.0 → v1.0.1) - maximum freshness, more PRs
+✅ Minor updates (v1.0 → v1.1) - important config improvements without major changes
 
 **Testing (Unstable):**
 ```
