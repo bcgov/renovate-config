@@ -173,6 +173,15 @@
       "matchCurrentVersion": "/^v?\\d+\\.\\d+$/",
       "allowedVersions": "/^v?\\d+\\.\\d+$/",
       "enabled": true
+    },
+    {
+      "description": "Encourage migration from three-digit to two-digit versioning: Teams using v1.1.1 format are encouraged to migrate to v1.2 format for simpler config versioning. Allows upgrade from three-digit to two-digit but prevents downgrade.",
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.\\d+$/",
+      "allowedVersions": "/^v?\\d+\\.\\d+$/",
+      "enabled": true
     }
   ],
   "customManagers": [
