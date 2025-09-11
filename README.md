@@ -71,6 +71,12 @@ Choose your versioning strategy based on your team's maintenance capacity:
 ```
 ✅ Minor updates (v1.0 → v1.1) - important config improvements without major changes
 
+**Migration from Three-Digit:**
+```
+"extends": ["github>bcgov/renovate-config#v1.0.0"]  // Will migrate to v1.0
+```
+✅ Teams using v1.0.0 format are automatically migrated to v1.0 format for simpler versioning
+
 **Testing (Unstable):**
 ```
 "extends": ["github>bcgov/renovate-config"]
