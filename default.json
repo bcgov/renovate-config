@@ -157,7 +157,25 @@
       "groupSlug": "python"
     },
     {
-      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level (e.g., v1.0.0 stays as 3 decimals, v1.2 stays as 2 decimals). This prevents unexpected version format changes.",
+      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level (e.g., v1.0.0 stays as 3 decimals, v1.2 stays as 2 decimals, v1 stays as 1 decimal). This prevents unexpected version format changes.",
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+$/",
+      "allowedVersions": "/^v?\\d+$/",
+      "enabled": true
+    },
+    {
+      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level for 2-decimal versions (e.g., v1.2 stays as 2 decimals). This prevents unexpected version format changes.",
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+\\.\\d+$/",
+      "allowedVersions": "/^v?\\d+\\.\\d+$/",
+      "enabled": true
+    },
+    {
+      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level for 3-decimal versions (e.g., v1.0.0 stays as 3 decimals). This prevents unexpected version format changes.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
