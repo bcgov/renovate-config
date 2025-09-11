@@ -57,11 +57,19 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 ## Version Control
 
-**Recommended (Production):**
+Choose your versioning strategy based on your team's maintenance capacity:
+
+**Minimal Updates (Low Maintenance):**
 ```
 "extends": ["github>bcgov/renovate-config#v1"]
 ```
-✅ Stable releases, safe for production
+✅ Major versions only (v1 → v2) - minimal PR noise, maximum stability
+
+**Balanced Updates (Medium Maintenance):**
+```
+"extends": ["github>bcgov/renovate-config#v1.0"]
+```
+✅ Minor updates (v1.0 → v1.1) - important config improvements without major changes
 
 **Testing (Unstable):**
 ```
