@@ -194,5 +194,18 @@
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "bcgov/renovate-config"
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "(^|/)renovate\\.json5?$",
+        "(^|/)\\.renovaterc(\\.json)?$",
+        "(^|/)\\.github/renovate\\.json5?$"
+      ],
+      "matchStrings": [
+        "(github>bcgov/renovate-config(?::[^\"\\s,#\\]]+)?)(?!#)"
+      ],
+      "autoReplaceStringTemplate": "$1#v1"
+    }
   ]
 }
