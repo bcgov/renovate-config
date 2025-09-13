@@ -174,25 +174,5 @@
       "allowedVersions": "/^v?\\d+\\.\\d+$/",
       "enabled": true
     }
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Update unversioned renovate-config references to v1",
-      "managerFilePatterns": [
-        "/renovate.json/",
-        "/.github/renovate.json/",
-        "/renovate.json5/",
-        "/.github/renovate.json5/"
-      ],
-      "matchStrings": [
-        "\"github>bcgov/renovate-config\""
-      ],
-      "depNameTemplate": "github>bcgov/renovate-config",
-      "currentValueTemplate": "unversioned",
-      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\"",
-      "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "bcgov/renovate-config"
-    }
   ]
 }
