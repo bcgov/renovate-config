@@ -198,12 +198,10 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "(^|/)renovate\\.json5?$",
-        "(^|/)\\.renovaterc(\\.json)?$",
-        "(^|/)\\.github/renovate\\.json5?$"
+        "^renovate\\.json$"
       ],
       "matchStrings": [
-        "(github>bcgov/renovate-config(?::[^\"\\s,#\\]]+)?)(?!#)"
+        "(github>bcgov/renovate-config)(?![#:])"
       ],
       "autoReplaceStringTemplate": "$1#v1"
     }
