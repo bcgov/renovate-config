@@ -157,7 +157,7 @@
       "groupSlug": "python"
     },
     {
-      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level (e.g., v1.0.0 stays as 3 decimals, v1.2 stays as 2 decimals, v1 stays as 1 decimal). This prevents unexpected version format changes.",
+      "description": "Major-only updates for renovate-config: Teams using v1 format want only major version updates to minimize PR noise. Prevents minor updates that would create unnecessary maintenance burden.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
@@ -166,42 +166,13 @@
       "enabled": true
     },
     {
-      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level for 2-decimal versions (e.g., v1.2 stays as 2 decimals). This prevents unexpected version format changes.",
+      "description": "Minor+ updates and migration for renovate-config: Teams using v1.0 format get minor updates, while teams using v1.1.1 format are encouraged to migrate to v1.2 format for simpler config versioning. Balances stability with getting important config improvements.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^v?\\d+\\.\\d+$/",
+      "matchCurrentVersion": "/^v?\\d+\\.\\d+(\\.\\d+)?$/",
       "allowedVersions": "/^v?\\d+\\.\\d+$/",
       "enabled": true
-    },
-    {
-      "description": "Prevent decimal precision changes for renovate-config: Teams must stay at the same decimal precision level for 3-decimal versions (e.g., v1.0.0 stays as 3 decimals). This prevents unexpected version format changes.",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchCurrentVersion": "/^v?\\d+\\.\\d+\\.\\d+$/",
-      "allowedVersions": "/^v?\\d+\\.\\d+\\.\\d+$/",
-      "enabled": true
-    }
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Update unversioned renovate-config references to v1",
-      "managerFilePatterns": [
-        "/renovate.json/",
-        "/.github/renovate.json/",
-        "/renovate.json5/",
-        "/.github/renovate.json5/"
-      ],
-      "matchStrings": [
-        "\"github>bcgov/renovate-config\""
-      ],
-      "depNameTemplate": "github>bcgov/renovate-config",
-      "currentValueTemplate": "unversioned",
-      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#v1\"",
-      "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "bcgov/renovate-config"
     }
   ]
 }
