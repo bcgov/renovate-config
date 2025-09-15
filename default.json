@@ -157,6 +157,17 @@
       "groupSlug": "python"
     },
     {
+      "description": "Block minor updates from single-digit versions: Prevent v1 -> v1.1 updates to maintain version precision",
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+$/",
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Major-only updates for renovate-config: Teams using v1 format want only major version updates to minimize PR noise. Prevents minor updates that would create unnecessary maintenance burden.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
