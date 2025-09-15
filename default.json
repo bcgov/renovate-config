@@ -173,6 +173,17 @@
       "matchCurrentVersion": "/^v?\\d+\\.\\d+(\\.\\d+)?$/",
       "allowedVersions": "/^v?\\d+\\.\\d+$/",
       "enabled": true
+    },
+    {
+      "description": "Block minor updates from single-digit versions: Prevent v1 -> v1.1 updates to maintain version precision",
+      "matchPackageNames": [
+        "github>bcgov/renovate-config"
+      ],
+      "matchCurrentVersion": "/^v?\\d+$/",
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "enabled": false
     }
   ]
 }
