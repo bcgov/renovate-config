@@ -20,16 +20,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create version tags and releases
+      - name: Set version variables
         run: |
-          # Use the input version tag
           VERSION=${{ github.event.inputs.version_tag }}
-          echo "Processing release: $VERSION"
-
-          # Extract major and minor version numbers
           MAJOR=$(echo $VERSION | cut -d. -f1)
           MINOR=$(echo $VERSION | cut -d. -f2)
+          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
+          echo "MINOR=$MINOR" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+      - name: Create version tags
+        run: |
           echo "Creating tags for major: v$MAJOR, minor: v$MAJOR.$MINOR"
 
           # Create all version tags simultaneously for identical timestamps
@@ -47,8 +48,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.event.inputs.version_tag | regex_replace('^v([0-9]+)\.([0-9]+)\.[0-9]+$', '$1.$2') }}
-          release_name: Release v${{ github.event.inputs.version_tag | regex_replace('^v([0-9]+)\.([0-9]+)\.[0-9]+$', '$1.$2') }}
+          tag_name: v${{ env.MAJOR }}.${{ env.MINOR }}
+          release_name: Release v${{ env.MAJOR }}.${{ env.MINOR }}
           generate_release_notes: true
           draft: false
           prerelease: false
