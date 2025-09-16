@@ -66,11 +66,11 @@ jobs:
           MAJOR=$(echo $VERSION | cut -d. -f1)
           git tag -f -a "$VERSION" -m "Release $VERSION"
           git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $VERSION)"
-          git push origin "$VERSION" "$MAJOR" --force
+          echo git push origin "$VERSION" "$MAJOR" --force
 
       - name: Create GitHub release
         run: |
-          gh release create "$VERSION" --title "Release $VERSION" --generate-notes
+          echo gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
       - name: Verify tags
         run: |
