@@ -3,10 +3,11 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      version_tag:
-        description: 'Full version tag (e.g., v1.1.0)'
-        required: true
+      version:
+        description: 'Minor version tag (e.g., v1.1); leave empty for auto-increment.'
+        required: false
         type: string
+        default: ''
 
 jobs:
   release:
@@ -15,23 +16,43 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - name: Set version variables
+      - name: Configure Git user
         run: |
-          VERSION=${{ github.event.inputs.version_tag }}
-          MAJOR=$(echo $VERSION | cut -d. -f1 | sed 's/^v//')
-          MINOR=$(echo $VERSION | cut -d. -f2)
-          PATCH=$(echo $VERSION | cut -d. -f3)
-          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
-          echo "MINOR=$MINOR" >> $GITHUB_ENV
-          echo "PATCH=$PATCH" >> $GITHUB_ENV
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+
+      - name: Envars and validations
+        run: |
+          # Pick up the minor version from the input or...
+          VERSION="${{ github.event.inputs.version }}"
+
+          # Auto-increment the previous minor version
+          if [ -z "$VERSION" ]; then
+            LATEST_MINOR=$(git tag -l | grep -E "^v[0-9]+\.[0-9]+$" | sort -V | tail -1)
+            if [ -z "$LATEST_MINOR" ]; then
+              echo "ERROR: No existing minor versions found."
+              echo "Please provide initial version manually (e.g., v1.0)"
+              exit 1
+            fi
+            VERSION=$(echo $LATEST_MINOR | cut -d. -f1).$(($(echo $LATEST_MINOR | cut -d. -f2) + 1))
+            echo "Auto-incremented from $LATEST_MINOR to $VERSION"
+          fi
+
+          # Validate and output version
+          if [ -n "$VERSION" ]; then
+            if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+$ ]]; then
+              echo "ERROR: Invalid version format: $VERSION"
+              echo "Expected format: vX.Y (e.g., v1.1)"
+              exit 1
+            fi
+          fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Validate version doesn't exist
+      - name: Validate version doesn't already exist
         run: |
           if gh release view "$VERSION" >/dev/null 2>&1; then
             echo "ERROR: Release $VERSION already exists!"
@@ -41,15 +62,11 @@ jobs:
 
       - name: Create version tags
         run: |
-          echo "Creating tags for major: v$MAJOR, minor: v$MAJOR.$MINOR, patch: $VERSION"
-
           # Create all version tags and push simultaneously (prevents Renovate timestamp confusion)
-          git tag -a "v$MAJOR" -m "Release v$MAJOR (equivalent to $VERSION)"
-          git tag -a "v$MAJOR.$MINOR" -m "Release v$MAJOR.$MINOR (equivalent to $VERSION)"
-          git tag -a "$VERSION" -m "Release $VERSION"
-          git push origin "v$MAJOR" "v$MAJOR.$MINOR" "$VERSION" --force
-
-          echo "Successfully created and pushed tags: v$MAJOR, v$MAJOR.$MINOR, $VERSION"
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          git tag -f -a "$VERSION" -m "Release $VERSION"
+          git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $VERSION)"
+          git push origin "$VERSION" "$MAJOR" --force
 
       - name: Create GitHub release
         run: |
