@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Minor version tag (e.g., v1.1) - leave empty for auto-increment'
+        description: 'Minor version tag (e.g., v1.1); leave empty for auto-increment.'
         required: false
         type: string
         default: ''
@@ -23,7 +23,7 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
 
-      - name: Set version variables
+      - name: Envars and validations
         run: |
           # Pick up the minor version from the input or...
           VERSION="${{ github.event.inputs.version }}"
@@ -36,6 +36,15 @@ jobs:
               exit 1
             fi
             VERSION=$(echo $LATEST_MINOR | cut -d. -f1).$(($(echo $LATEST_MINOR | cut -d. -f2) + 1))
+          fi
+
+          # Validate and output version
+          if [ -n "$VERSION" ]; then
+            if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+$ ]]; then
+              echo "ERROR: Invalid version format: $VERSION"
+              echo "Expected format: vX.Y (e.g., v1.1)"
+              exit 1
+            fi
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
