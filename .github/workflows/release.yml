@@ -23,7 +23,7 @@ jobs:
       - name: Set version variables
         run: |
           VERSION=${{ github.event.inputs.version_tag }}
-          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MAJOR=$(echo $VERSION | cut -d. -f1 | sed 's/^v//')
           MINOR=$(echo $VERSION | cut -d. -f2)
           echo "MAJOR=$MAJOR" >> $GITHUB_ENV
           echo "MINOR=$MINOR" >> $GITHUB_ENV
