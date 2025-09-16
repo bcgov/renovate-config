@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          
+      - name: Create version tags
+        run: |
+          # Extract version components from the tag that triggered this workflow
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "Processing release: $VERSION"
+          
+          # Extract major and minor version numbers
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          
+          echo "Creating tags for major: v$MAJOR, minor: v$MAJOR.$MINOR"
+          
+          # Create all version tags simultaneously for identical timestamps
+          # This prevents Renovate from preferring one version over another based on creation time
+          git tag -a "v$MAJOR" -m "Release v$MAJOR (same commit as $VERSION)" &&
+          git tag -a "v$MAJOR.$MINOR" -m "Release v$MAJOR.$MINOR (same commit as $VERSION)" &&
+          
+          # Push all tags simultaneously
+          git push origin "v$MAJOR" "v$MAJOR.$MINOR" &&
+          
+          echo "Successfully created and pushed tags: v$MAJOR, v$MAJOR.$MINOR"
+          
+      - name: Verify tags
+        run: |
+          echo "Verifying created tags:"
+          git tag -l | grep -E "^v[0-9]" | sort -V
