@@ -162,7 +162,7 @@
         "github>bcgov/renovate-config"
       ],
       "matchCurrentVersion": "/^v?\\d+$/",
-      "allowedVersions": "/^v?\\d+$/",
+      "matchUpdateTypes": ["major"],
       "enabled": true
     },
     {
