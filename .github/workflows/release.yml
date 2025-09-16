@@ -50,7 +50,6 @@ jobs:
         with:
           tag_name: v${{ env.MAJOR }}.${{ env.MINOR }}
           release_name: Release v${{ env.MAJOR }}.${{ env.MINOR }}
-          generate_release_notes: true
 
       - name: Verify tags
         run: |
