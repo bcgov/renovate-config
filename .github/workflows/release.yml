@@ -3,8 +3,8 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      version_tag:
-        description: 'Patch version tag (e.g., v1.1.0)'
+      tag_minor:
+        description: 'Minor version tag (e.g., v1.1)'
         required: true
         type: string
 
@@ -15,10 +15,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v5
 
       - name: Configure Git user
         run: |
@@ -27,39 +24,29 @@ jobs:
 
       - name: Set version variables
         run: |
-          VERSION=${{ github.event.inputs.version_tag }}
-          MAJOR=$(echo $VERSION | cut -d. -f1 | sed 's/^v//')
-          MINOR=$(echo $VERSION | cut -d. -f2)
-          PATCH=$(echo $VERSION | cut -d. -f3)
+          MINOR=${{ github.event.inputs.tag_minor }}
+          MAJOR=$(echo $MINOR | cut -d. -f1)
           echo "MAJOR=$MAJOR" >> $GITHUB_ENV
           echo "MINOR=$MINOR" >> $GITHUB_ENV
-          echo "PATCH=$PATCH" >> $GITHUB_ENV
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Validate version doesn't exist
         run: |
-          if gh release view "$VERSION" >/dev/null 2>&1; then
-            echo "ERROR: Release $VERSION already exists!"
+          if gh release view "$MINOR" >/dev/null 2>&1; then
+            echo "ERROR: Release $MINOR already exists!"
             exit 1
           fi
-          echo "Version $VERSION is available for release"
+          echo "Version $MINOR is available for release"
 
       - name: Create version tags
         run: |
-          echo "Creating tags for major: v$MAJOR, minor: v$MAJOR.$MINOR, patch: $VERSION"
-
           # Create all version tags and push simultaneously (prevents Renovate timestamp confusion)
-          # Use -f flag to force tag creation (overwrite existing local tags)
-          git tag -f -a "v$MAJOR" -m "Release v$MAJOR (equivalent to $VERSION)"
-          git tag -f -a "v$MAJOR.$MINOR" -m "Release v$MAJOR.$MINOR (equivalent to $VERSION)"
-          git tag -f -a "$VERSION" -m "Release $VERSION"
-          git push origin "v$MAJOR" "v$MAJOR.$MINOR" "$VERSION" --force
-
-          echo "Successfully created and pushed tags: v$MAJOR, v$MAJOR.$MINOR, $VERSION"
+          git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $MINOR)"
+          git tag -f -a "$MINOR" -m "Release $MINOR"
+          git push origin "$MAJOR" "$MINOR" --force
 
       - name: Create GitHub release
         run: |
-          gh release create "$VERSION" --title "Release v$MAJOR.$MINOR" --generate-notes
+          gh release create "$MINOR" --title "Release $MINOR" --generate-notes
 
       - name: Verify tags
         run: |
