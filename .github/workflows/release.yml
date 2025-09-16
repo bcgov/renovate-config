@@ -34,8 +34,8 @@ jobs:
 
           # Create all version tags simultaneously for identical timestamps
           # This prevents Renovate from preferring one version over another based on creation time
-          git tag -a "v$MAJOR" -m "Release v$MAJOR"
-          git tag -a "v$MAJOR.$MINOR" -m "Release v$MAJOR.$MINOR"
+          git tag -a "v$MAJOR" -m "Release v$MAJOR (equivalent to $VERSION)"
+          git tag -a "v$MAJOR.$MINOR" -m "Release v$MAJOR.$MINOR (equivalent to $VERSION)"
 
           # Push all tags simultaneously
           git push origin "v$MAJOR" "v$MAJOR.$MINOR"
