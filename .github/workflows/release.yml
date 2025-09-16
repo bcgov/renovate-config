@@ -47,7 +47,7 @@ jobs:
         run: |
           gh release create "v$MAJOR.$MINOR" \
             --title "Release v$MAJOR.$MINOR" \
-            --notes "Release v$MAJOR.$MINOR (equivalent to $VERSION)"
+            --generate-notes
 
       - name: Verify tags
         run: |
