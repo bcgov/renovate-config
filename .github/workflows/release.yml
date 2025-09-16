@@ -17,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Configure Git user
         run: |
@@ -32,10 +34,12 @@ jobs:
           if [ -z "$VERSION" ]; then
             LATEST_MINOR=$(git tag -l | grep -E "^v[0-9]+\.[0-9]+$" | sort -V | tail -1)
             if [ -z "$LATEST_MINOR" ]; then
-              echo "ERROR: No existing minor version found."
+              echo "ERROR: No existing minor versions found."
+              echo "Please provide initial version manually (e.g., v1.0)"
               exit 1
             fi
             VERSION=$(echo $LATEST_MINOR | cut -d. -f1).$(($(echo $LATEST_MINOR | cut -d. -f2) + 1))
+            echo "Auto-incremented from $LATEST_MINOR to $VERSION"
           fi
 
           # Validate and output version
@@ -48,7 +52,7 @@ jobs:
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Validate version doesn't exist
+      - name: Validate version doesn't already exist
         run: |
           if gh release view "$VERSION" >/dev/null 2>&1; then
             echo "ERROR: Release $VERSION already exists!"
