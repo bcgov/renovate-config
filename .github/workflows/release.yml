@@ -26,8 +26,8 @@ jobs:
         run: |
           MINOR=${{ github.event.inputs.tag_minor }}
           MAJOR=$(echo $MINOR | cut -d. -f1)
-          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
           echo "MINOR=$MINOR" >> $GITHUB_ENV
+          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
 
       - name: Validate version doesn't exist
         run: |
@@ -40,9 +40,9 @@ jobs:
       - name: Create version tags
         run: |
           # Create all version tags and push simultaneously (prevents Renovate timestamp confusion)
-          git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $MINOR)"
           git tag -f -a "$MINOR" -m "Release $MINOR"
-          git push origin "$MAJOR" "$MINOR" --force
+          git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $MINOR)"
+          git push origin "$MINOR" "$MAJOR" --force
 
       - name: Create GitHub release
         run: |
