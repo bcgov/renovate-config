@@ -51,8 +51,6 @@ jobs:
           tag_name: v${{ env.MAJOR }}.${{ env.MINOR }}
           release_name: Release v${{ env.MAJOR }}.${{ env.MINOR }}
           generate_release_notes: true
-          draft: false
-          prerelease: false
 
       - name: Verify tags
         run: |
