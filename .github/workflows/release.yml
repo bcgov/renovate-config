@@ -39,15 +39,13 @@ jobs:
           git tag -a "v$MAJOR" -m "Release v$MAJOR (equivalent to $VERSION)"
           git tag -a "v$MAJOR.$MINOR" -m "Release v$MAJOR.$MINOR (equivalent to $VERSION)"
           git tag -a "$VERSION" -m "Release $VERSION"
-          git push origin "v$MAJOR" "v$MAJOR.$MINOR" "$VERSION"
+          git push origin "v$MAJOR" "v$MAJOR.$MINOR" "$VERSION" --force
 
           echo "Successfully created and pushed tags: v$MAJOR, v$MAJOR.$MINOR, $VERSION"
 
       - name: Create GitHub release
         run: |
-          gh release create "$VERSION" \
-            --title "Release v$MAJOR.$MINOR" \
-            --generate-notes
+          gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
       - name: Verify tags
         run: |
