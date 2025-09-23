@@ -32,7 +32,7 @@ jobs:
           echo "Calculated CalVer version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Validate version doesn't already exist
+      - name: Verify release and tag are unique
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -42,8 +42,6 @@ jobs:
           fi
           echo "Release $VERSION is available"
 
-      - name: Validate tag doesn't already exist
-        run: |
           if git tag -l "$VERSION" >/dev/null; then
             echo "ERROR: Tag $VERSION already exists!"
             exit 1
