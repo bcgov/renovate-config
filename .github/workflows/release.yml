@@ -4,6 +4,7 @@ on:
   schedule:
     # Run on the first day of each quarter (January, April, July, October)
     - cron: '0 10 1 1,4,7,10 *'
+  workflow_dispatch:
 
 jobs:
   release:
@@ -51,9 +52,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$VERSION" \
-            --title "Release $VERSION" \
-            --generate-notes
+          gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
       - name: Verify release
         run: |
