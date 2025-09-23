@@ -1,13 +1,10 @@
-name: Release
+name: CalVer Release
 
 on:
+  schedule:
+    # Run on the first day of each quarter (January, April, July, October)
+    - cron: '0 10 1 1,4,7,10 *'
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Minor version tag (e.g., v1.1); leave empty for auto-increment.'
-        required: false
-        type: string
-        default: ''
 
 jobs:
   release:
@@ -25,34 +22,17 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
 
-      - name: Envars and validations
+      - name: Calculate CalVer version
         run: |
-          # Pick up the minor version from the input or...
-          VERSION="${{ github.event.inputs.version }}"
+          # Get current year and calculate quarter
+          YEAR=$(date +%Y)
+          QUARTER=$(printf "%02d" $((($(date +%m) - 1) / 3 * 3 + 1)))
+          VERSION="${YEAR}.${QUARTER}"
 
-          # Auto-increment the previous minor version
-          if [ -z "$VERSION" ]; then
-            LATEST_MINOR=$(git tag -l | grep -E "^v[0-9]+\.[0-9]+$" | sort -V | tail -1)
-            if [ -z "$LATEST_MINOR" ]; then
-              echo "ERROR: No existing minor versions found."
-              echo "Please provide initial version manually (e.g., v1.0)"
-              exit 1
-            fi
-            VERSION=$(echo $LATEST_MINOR | cut -d. -f1).$(($(echo $LATEST_MINOR | cut -d. -f2) + 1))
-            echo "Auto-incremented from $LATEST_MINOR to $VERSION"
-          fi
-
-          # Validate and output version
-          if [ -n "$VERSION" ]; then
-            if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+$ ]]; then
-              echo "ERROR: Invalid version format: $VERSION"
-              echo "Expected format: vX.Y (e.g., v1.1)"
-              exit 1
-            fi
-          fi
+          echo "Calculated CalVer version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Validate version doesn't already exist
+      - name: Verify release and tag are unique
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -60,15 +40,19 @@ jobs:
             echo "ERROR: Release $VERSION already exists!"
             exit 1
           fi
-          echo "Version $VERSION is available for release"
+          echo "Release $VERSION is available"
 
-      - name: Create version tags
+          if git tag -l "$VERSION" >/dev/null; then
+            echo "ERROR: Tag $VERSION already exists!"
+            exit 1
+          fi
+          echo "Tag $VERSION is available"
+
+      - name: Create CalVer tag
         run: |
-          # Create all version tags and push simultaneously (prevents Renovate timestamp confusion)
-          MAJOR=$(echo $VERSION | cut -d. -f1)
-          git tag -f -a "$VERSION" -m "Release $VERSION"
-          git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $VERSION)"
-          git push origin "$VERSION" "$MAJOR" --force
+          git tag -a "$VERSION" -m "Release $VERSION - Quarterly CalVer release"
+          git push origin "$VERSION"
+          echo "Created and pushed tag: $VERSION"
 
       - name: Create GitHub release
         env:
@@ -76,7 +60,9 @@ jobs:
         run: |
           gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
-      - name: Verify tags
+      - name: Verify release
         run: |
-          echo "Verifying created tags:"
-          git tag -l | grep -E "^v[0-9]" | sort -V
+          echo "Verifying created release:"
+          echo "Tag: $VERSION"
+          echo "All tags:"
+          git tag -l | sort -V
