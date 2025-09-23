@@ -157,7 +157,7 @@
       "groupSlug": "python"
     },
     {
-      "description": "Major-only updates for renovate-config: Teams using v1, v2, v3 format want only major version updates to minimize PR noise. Prevents minor updates that would create unnecessary maintenance burden.",
+      "description": "Major-only updates for renovate-config: Teams using v1, v2, v3 format get only major version updates to maintain their version level.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
@@ -168,14 +168,13 @@
       "enabled": true
     },
     {
-      "description": "Minor+ updates and migration for renovate-config: Teams using v1.0, v2.0, v3.0 format get minor and major updates, while teams using v1.1.1 format are encouraged to migrate to v1.2 format for simpler config versioning. Balances stability with getting important config improvements.",
+      "description": "Minor-only updates for renovate-config: Teams using v1.1, v1.2, v2.1 format get only minor version updates to maintain their version level.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^v?\\d+\\.\\d+(\\.\\d+)?$/",
+      "matchCurrentVersion": "/^v?\\d+\\.\\d+$/",
       "matchUpdateTypes": [
-        "minor",
-        "major"
+        "minor"
       ],
       "enabled": true
     },
