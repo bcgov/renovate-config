@@ -69,6 +69,22 @@
         "service"
       ],
       "pinDigests": false
+    },
+    {
+      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
+      "matchManagers": [
+        "terraform",
+        "dockerfile",
+        "kubernetes",
+        "helmv3",
+        "docker-compose"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
     }
     // Add additional rules below as needed
   ]
