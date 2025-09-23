@@ -57,7 +57,22 @@
         "!^docker/",
         "!^github/"
       ]
+    },
+    {
+      "description": "Unpin containers: Docker images are handled by image tags rather than digests. Container registries provide their own security guarantees through signed tags.",
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose",
+        "kubernetes"
+      ],
+      "pinDigests": false
+    },
+    {
+      "description": "Unpin service containers: Service containers (like postgres, redis, etc.) are handled by image tags rather than digests. These are runtime dependencies that should use stable tags.",
+      "matchDepTypes": [
+        "service"
+      ],
+      "pinDigests": false
     }
-    // Add additional rules below as needed
   ]
 }

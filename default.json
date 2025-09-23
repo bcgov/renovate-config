@@ -68,22 +68,6 @@
       "pinDigests": true
     },
     {
-      "description": "Unpin containers: Docker images are handled by image tags rather than digests. Container registries provide their own security guarantees through signed tags.",
-      "matchManagers": [
-        "dockerfile",
-        "docker-compose",
-        "kubernetes"
-      ],
-      "pinDigests": false
-    },
-    {
-      "description": "Unpin service containers: Service containers (like postgres, redis, etc.) are handled by image tags rather than digests. These are runtime dependencies that should use stable tags.",
-      "matchDepTypes": [
-        "service"
-      ],
-      "pinDigests": false
-    },
-    {
       "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
