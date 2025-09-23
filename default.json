@@ -53,31 +53,6 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Global pinning policy: Pin all digests/SHAs globally for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
-      "matchManagers": [
-        "gradle",
-        "maven",
-        "npm",
-        "pip",
-        "pipenv",
-        "pnpm",
-        "poetry",
-        "uv",
-        "yarn"
-      ],
-      "pinDigests": true
-    },
-    {
-      "description": "Prevent config preset pinning: Stop Renovate from trying to pin bcgov/renovate-config as a dependency. Config presets are references, not dependencies that need pinning.",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchUpdateTypes": [
-        "pin"
-      ],
-      "enabled": false
-    },
-    {
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
@@ -110,7 +85,8 @@
         "patch"
       ],
       "groupName": "node dependencies",
-      "groupSlug": "node"
+      "groupSlug": "node",
+      "pinDigests": true
     },
     {
       "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
@@ -123,7 +99,8 @@
         "patch"
       ],
       "groupName": "java dependencies",
-      "groupSlug": "java"
+      "groupSlug": "java",
+      "pinDigests": true
     },
     {
       "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
@@ -138,7 +115,8 @@
         "patch"
       ],
       "groupName": "python dependencies",
-      "groupSlug": "python"
+      "groupSlug": "python",
+      "pinDigests": true
     },
     {
       "description": "Renovate-config updates: All references get updates to newest available version",
