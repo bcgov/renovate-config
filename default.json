@@ -157,10 +157,11 @@
       "groupSlug": "python"
     },
     {
-      "description": "Renovate-config updates: All teams get updates to newest available version",
+      "description": "Renovate-config updates: Versioned references get updates to newest available version",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
+      "matchCurrentVersion": "/^.+$/",
       "enabled": true
     }
   ]
