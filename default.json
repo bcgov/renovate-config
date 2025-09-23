@@ -155,15 +155,6 @@
       ],
       "groupName": "python dependencies",
       "groupSlug": "python"
-    },
-    {
-      "description": "Prevent renovate-config v1→v1.1 updates: Block minor updates for major version users to prevent unwanted version drift",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ],
-      "matchCurrentVersion": "/^v?\\d+$/",
-      "allowedVersions": "/^v?\\d+$/",
-      "enabled": true
     }
   ]
 }
