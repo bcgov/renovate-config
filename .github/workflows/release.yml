@@ -23,12 +23,9 @@ jobs:
 
       - name: Calculate CalVer version
         run: |
-          # Get current year and month
+          # Get current year and calculate quarter
           YEAR=$(date +%Y)
-          MONTH=$(date +%m)
-          
-          # Calculate quarter using mod function
-          QUARTER=$(printf "%02d" $(((MONTH - 1) / 3 * 3 + 1)))
+          QUARTER=$(printf "%02d" $((($(date +%m) - 1) / 3 * 3 + 1)))
           
           VERSION="${YEAR}.${QUARTER}"
           echo "Calculated CalVer version: $VERSION"
