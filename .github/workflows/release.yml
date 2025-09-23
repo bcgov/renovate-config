@@ -40,12 +40,20 @@ jobs:
             echo "ERROR: Release $VERSION already exists!"
             exit 1
           fi
-          echo "Version $VERSION is available for release"
+          echo "Release $VERSION is available"
+
+      - name: Validate tag doesn't already exist
+        run: |
+          if git tag -l "$VERSION" >/dev/null; then
+            echo "ERROR: Tag $VERSION already exists!"
+            exit 1
+          fi
+          echo "Tag $VERSION is available"
 
       - name: Create CalVer tag
         run: |
-          git tag -f -a "$VERSION" -m "Release $VERSION - Quarterly CalVer release"
-          git push origin "$VERSION" --force
+          git tag -a "$VERSION" -m "Release $VERSION - Quarterly CalVer release"
+          git push origin "$VERSION"
           echo "Created and pushed tag: $VERSION"
 
       - name: Create GitHub release
