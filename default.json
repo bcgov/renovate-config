@@ -168,12 +168,15 @@
       "enabled": true
     },
     {
-      "description": "Minor+ updates and migration for renovate-config: Teams using v1.0, v2.0, v3.0 format get minor updates within their major version, while teams using v1.1.1 format are encouraged to migrate to v1.2 format for simpler config versioning. Balances stability with getting important config improvements.",
+      "description": "Minor+ updates and migration for renovate-config: Teams using v1.0, v2.0, v3.0 format get minor and major updates, while teams using v1.1.1 format are encouraged to migrate to v1.2 format for simpler config versioning. Balances stability with getting important config improvements.",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
       "matchCurrentVersion": "/^v?\\d+\\.\\d+(\\.\\d+)?$/",
-      "allowedVersions": "/^v?\\d+\\.\\d+$/",
+      "matchUpdateTypes": [
+        "minor",
+        "major"
+      ],
       "enabled": true
     },
     {
