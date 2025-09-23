@@ -53,6 +53,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Validate version doesn't already exist
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if gh release view "$VERSION" >/dev/null 2>&1; then
             echo "ERROR: Release $VERSION already exists!"
@@ -69,6 +71,8 @@ jobs:
           git push origin "$VERSION" "$MAJOR" --force
 
       - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
