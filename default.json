@@ -157,12 +157,11 @@
       "groupSlug": "python"
     },
     {
-      "description": "CalVer quarterly updates: Allow patch and quarterly updates for CalVer references",
+      "description": "CalVer updates: Teams using CalVer versions get updates to newest available version",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^\\d{4}\\.\\d{2}(\\.\\d+)?$/",
-      "allowedVersions": "/^\\d{4}(\\.\\d{2}(\\.\\d+)?)?$/",
+      "matchCurrentVersion": "/^\\d{4}(\\.\\d{2}(\\.\\d+)?)?$/",
       "enabled": true
     }
   ]
