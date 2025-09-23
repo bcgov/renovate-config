@@ -26,6 +26,16 @@
       ]
     },
     {
+      "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "pip",
+        "pipenv",
+        "poetry",
+        "uv"
+      ],
+      "pinDigests": true
+    },
+    {
       "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
       "matchManagers": [
         "pip",

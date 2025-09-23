@@ -53,21 +53,6 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Global pinning policy: Pin all digests/SHAs globally for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
-      "matchManagers": [
-        "gradle",
-        "maven",
-        "npm",
-        "pip",
-        "pipenv",
-        "pnpm",
-        "poetry",
-        "uv",
-        "yarn"
-      ],
-      "pinDigests": true
-    },
-    {
       "description": "Unpin containers: Docker images are handled by image tags rather than digests. Container registries provide their own security guarantees through signed tags.",
       "matchManagers": [
         "dockerfile",

@@ -23,6 +23,14 @@
       "minimumReleaseAge": "7 days"
     },
     {
+      "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "pinDigests": true
+    },
+    {
       "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
       "matchManagers": [
         "maven",

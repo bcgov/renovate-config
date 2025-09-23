@@ -71,6 +71,15 @@
       "matchPackageNames": ["/eslint/"]
     },
     {
+      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "pinDigests": true
+    },
+    {
       "description": "Group Node.js ecosystem: Combine npm, yarn, and pnpm updates into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
       "matchManagers": [
         "npm",
