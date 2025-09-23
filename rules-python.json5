@@ -24,6 +24,21 @@
         "/^sqlacodegen$/",
         "/^mock-alchemy$/"
       ]
+    },
+    {
+      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
+      "matchManagers": [
+        "pip",
+        "pipenv",
+        "poetry",
+        "uv"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "python dependencies",
+      "groupSlug": "python"
     }
   ]
 }

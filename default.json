@@ -83,48 +83,6 @@
       "matchManagers": []
     },
     {
-      "description": "Group Node.js ecosystem: Combine npm, yarn, and pnpm updates into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
-      "matchManagers": [
-        "npm",
-        "yarn",
-        "pnpm"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "node dependencies",
-      "groupSlug": "node"
-    },
-    {
-      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
-      "matchManagers": [
-        "maven",
-        "gradle"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "java dependencies",
-      "groupSlug": "java"
-    },
-    {
-      "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
-      "matchManagers": [
-        "pip",
-        "pipenv",
-        "poetry",
-        "uv"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "python dependencies",
-      "groupSlug": "python"
-    },
-    {
       "description": "Rolling stream: Teams using v1, v2, v3 get major updates only (low maintenance, automatic feature updates)",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
