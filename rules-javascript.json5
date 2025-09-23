@@ -69,6 +69,21 @@
       "groupName": "eslint9",
       "matchManagers": ["npm"],
       "matchPackageNames": ["/eslint/"]
+    },
+    {
+      "description": "Group Node.js ecosystem: Combine npm, yarn, and pnpm updates into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node",
+      "pinDigests": true
     }
     // Add additional rules below as needed
   ]
