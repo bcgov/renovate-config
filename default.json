@@ -58,23 +58,7 @@
       "matchManagers": []
     },
     {
-      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
-      "matchManagers": [
-        "terraform",
-        "dockerfile",
-        "kubernetes",
-        "helmv3",
-        "docker-compose"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "infrastructure updates",
-      "groupSlug": "infra"
-    },
-    {
-      "description": "Renovate-config updates: All references get updates to newest available version",
+      "description": "Renovate-config updates",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ]
