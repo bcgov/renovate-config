@@ -1,13 +1,25 @@
-name: Release
+name: CalVer Release
 
 on:
+  schedule:
+    # Run on the first Monday of each quarter (January, April, July, October)
+    - cron: '0 10 1 1,4,7,10 *'
   workflow_dispatch:
     inputs:
       version:
-        description: 'Minor version tag (e.g., v1.1); leave empty for auto-increment.'
+        description: 'CalVer version (e.g., 2025.01, 2025.01.1, 2025.02); leave empty for auto-calculation.'
         required: false
         type: string
         default: ''
+      release_type:
+        description: 'Type of release'
+        required: true
+        type: choice
+        options:
+          - quarterly
+          - patch
+          - off-schedule
+        default: 'quarterly'
 
 jobs:
   release:
@@ -25,32 +37,59 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
 
-      - name: Envars and validations
+      - name: Calculate CalVer version
         run: |
-          # Pick up the minor version from the input or...
+          # Pick up the version from input or calculate from current date
           VERSION="${{ github.event.inputs.version }}"
-
-          # Auto-increment the previous minor version
+          RELEASE_TYPE="${{ github.event.inputs.release_type }}"
+          
           if [ -z "$VERSION" ]; then
-            LATEST_MINOR=$(git tag -l | grep -E "^v[0-9]+\.[0-9]+$" | sort -V | tail -1)
-            if [ -z "$LATEST_MINOR" ]; then
-              echo "ERROR: No existing minor versions found."
-              echo "Please provide initial version manually (e.g., v1.0)"
-              exit 1
+            # Get current year and month
+            YEAR=$(date +%Y)
+            MONTH=$(date +%m)
+            
+            if [ "$RELEASE_TYPE" = "quarterly" ]; then
+              # Calculate quarter (01, 04, 07, 10)
+              if [ "$MONTH" -le 3 ]; then
+                QUARTER="01"
+              elif [ "$MONTH" -le 6 ]; then
+                QUARTER="04"
+              elif [ "$MONTH" -le 9 ]; then
+                QUARTER="07"
+              else
+                QUARTER="10"
+              fi
+              VERSION="${YEAR}.${QUARTER}"
+            elif [ "$RELEASE_TYPE" = "patch" ]; then
+              # Find the latest quarterly release for this year
+              LATEST_QUARTERLY=$(git tag -l | grep -E "^${YEAR}\.[0-9]{2}$" | sort -V | tail -1)
+              if [ -z "$LATEST_QUARTERLY" ]; then
+                echo "ERROR: No quarterly release found for $YEAR to patch"
+                exit 1
+              fi
+              # Find next patch number
+              PATCH_NUM=1
+              while git tag -l | grep -q "^${LATEST_QUARTERLY}.${PATCH_NUM}$"; do
+                PATCH_NUM=$((PATCH_NUM + 1))
+              done
+              VERSION="${LATEST_QUARTERLY}.${PATCH_NUM}"
+            elif [ "$RELEASE_TYPE" = "off-schedule" ]; then
+              # Use current month for off-schedule release
+              VERSION="${YEAR}.$(printf "%02d" $MONTH)"
             fi
-            VERSION=$(echo $LATEST_MINOR | cut -d. -f1).$(($(echo $LATEST_MINOR | cut -d. -f2) + 1))
-            echo "Auto-incremented from $LATEST_MINOR to $VERSION"
+            
+            echo "Calculated CalVer version: $VERSION (type: $RELEASE_TYPE)"
           fi
-
-          # Validate and output version
-          if [ -n "$VERSION" ]; then
-            if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+$ ]]; then
-              echo "ERROR: Invalid version format: $VERSION"
-              echo "Expected format: vX.Y (e.g., v1.1)"
-              exit 1
-            fi
+          
+          # Validate CalVer format
+          if [[ ! "$VERSION" =~ ^[0-9]{4}(\.[0-9]{2}(\.[0-9]+)?)?$ ]]; then
+            echo "ERROR: Invalid CalVer format: $VERSION"
+            echo "Expected formats: YYYY.QQ (e.g., 2025.01), YYYY.QQ.P (e.g., 2025.01.1), YYYY.MM (e.g., 2025.02)"
+            exit 1
           fi
+          
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
 
       - name: Validate version doesn't already exist
         env:
@@ -62,21 +101,84 @@ jobs:
           fi
           echo "Version $VERSION is available for release"
 
-      - name: Create version tags
+      - name: Create CalVer tag
         run: |
-          # Create all version tags and push simultaneously (prevents Renovate timestamp confusion)
-          MAJOR=$(echo $VERSION | cut -d. -f1)
-          git tag -f -a "$VERSION" -m "Release $VERSION"
-          git tag -f -a "$MAJOR" -m "Release $MAJOR (equivalent to $VERSION)"
-          git push origin "$VERSION" "$MAJOR" --force
+          git tag -f -a "$VERSION" -m "Release $VERSION - $RELEASE_TYPE CalVer release"
+          git push origin "$VERSION" --force
+          echo "Created and pushed tag: $VERSION"
 
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$VERSION" --title "Release $VERSION" --generate-notes
+          if [ "$RELEASE_TYPE" = "quarterly" ]; then
+            RELEASE_NOTES="## Quarterly CalVer Release $VERSION
 
-      - name: Verify tags
+This is a quarterly release of the bcgov/renovate-config configuration.
+
+### Usage
+
+Teams can reference this stable version:
+\`\`\`json
+{
+  \"extends\": [\"github>bcgov/renovate-config#$VERSION\"]
+}
+\`\`\`
+
+### Migration
+
+- **From #main**: Switch to \`#$VERSION\` for stability
+- **From older versions**: Upgrade to \`#$VERSION\` for latest features
+
+### Support
+
+This version will be supported until the next quarterly release."
+          elif [ "$RELEASE_TYPE" = "patch" ]; then
+            RELEASE_NOTES="## Patch Release $VERSION
+
+This is a patch release addressing critical issues or security updates.
+
+### Usage
+
+Teams using the base version should upgrade:
+\`\`\`json
+{
+  \"extends\": [\"github>bcgov/renovate-config#$VERSION\"]
+}
+\`\`\`
+
+### What's Changed
+
+- Critical bug fixes
+- Security updates
+- Stability improvements"
+          else
+            RELEASE_NOTES="## Off-Schedule Release $VERSION
+
+This is an off-schedule release with important updates.
+
+### Usage
+
+Teams can reference this version:
+\`\`\`json
+{
+  \"extends\": [\"github>bcgov/renovate-config#$VERSION\"]
+}
+\`\`\`
+
+### Migration
+
+Consider upgrading from previous versions for latest features."
+          fi
+          
+          gh release create "$VERSION" \
+            --title "Release $VERSION" \
+            --notes "$RELEASE_NOTES"
+
+      - name: Verify release
         run: |
-          echo "Verifying created tags:"
-          git tag -l | grep -E "^v[0-9]" | sort -V
+          echo "Verifying created release:"
+          echo "Tag: $VERSION"
+          echo "Type: $RELEASE_TYPE"
+          echo "All CalVer tags:"
+          git tag -l | grep -E "^[0-9]{4}(\.[0-9]{2}(\.[0-9]+)?)?$" | sort -V
