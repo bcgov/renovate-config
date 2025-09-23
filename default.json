@@ -157,25 +157,21 @@
       "groupSlug": "python"
     },
     {
-      "description": "Major-only updates for renovate-config: Teams using v1, v2, v3 format get only major version updates to maintain their version level.",
+      "description": "Rolling stream: Teams using v1, v2, v3 get major updates only (low maintenance, automatic feature updates)",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
       "matchCurrentVersion": "/^v?(\\d+)$/",
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "allowedVersions": "/^v?(\\d+)$/",
       "enabled": true
     },
     {
-      "description": "Minor-only updates for renovate-config: Teams using v1.1, v1.2, v2.1 format get only minor version updates to maintain their version level.",
+      "description": "Conservative stream: Teams using v1.1, v1.2, v2.1 get minor updates (high control, granular version management)",
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^v?\\d+\\.\\d+$/",
-      "matchUpdateTypes": [
-        "minor"
-      ],
+      "matchCurrentVersion": "/^v?(\\d+)\\.\\d+(\\.\\d+)?$/",
+      "allowedVersions": "/^v?\\d+\\.\\d+$/",
       "enabled": true
     },
     {
