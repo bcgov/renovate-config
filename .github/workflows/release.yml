@@ -58,27 +58,12 @@ jobs:
         run: |
           gh release create "$VERSION" \
             --title "Release $VERSION" \
-            --notes "## Quarterly CalVer Release $VERSION
-
-This is a quarterly release of the bcgov/renovate-config configuration.
-
-### Usage
+            --notes "Quarterly CalVer release $VERSION
 
 Teams can reference this stable version:
-\`\`\`json
-{
-  \"extends\": [\"github>bcgov/renovate-config#$VERSION\"]
-}
-\`\`\`
+\`github>bcgov/renovate-config#$VERSION\`
 
-### Migration
-
-- **From #main**: Switch to \`#$VERSION\` for stability
-- **From older versions**: Upgrade to \`#$VERSION\` for latest features
-
-### Support
-
-This version will be supported until the next quarterly release."
+See README for detailed usage and migration instructions."
 
       - name: Verify release
         run: |
