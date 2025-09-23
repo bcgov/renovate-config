@@ -161,8 +161,10 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^v?\\d+$/",
-      "matchUpdateTypes": ["major"],
+      "matchCurrentVersion": "/^v?1$/",
+      "matchUpdateTypes": [
+        "major"
+      ],
       "enabled": true
     },
     {
@@ -170,8 +172,8 @@
       "matchPackageNames": [
         "github>bcgov/renovate-config"
       ],
-      "matchCurrentVersion": "/^v?\\d+\\.\\d+(\\.\\d+)?$/",
-      "allowedVersions": "/^v?\\d+\\.\\d+$/",
+      "matchCurrentVersion": "/^v?1\\.\\d+(\\.\\d+)?$/",
+      "allowedVersions": "/^v?1\\.\\d+$/",
       "enabled": true
     },
     {
