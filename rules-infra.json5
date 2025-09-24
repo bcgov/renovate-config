@@ -59,6 +59,18 @@
       ]
     },
     {
+      "description": "Pin non-allowlisted GitHub Actions for security: Pin all GitHub Actions from non-trusted orgs (everything except actions/, docker/, github/) to prevent supply chain attacks.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "!^actions/",
+        "!^docker/",
+        "!^github/"
+      ],
+      "pinDigests": true
+    },
+    {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
         "terraform",
