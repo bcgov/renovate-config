@@ -62,8 +62,8 @@ for (const path of files) {
     allRules.push({
       file: path,
       idx: i,
-      managers: (rules[i].matchManagers || []).slice().sort(),
-      pkgs: (rules[i].matchPackageNames || []).slice().sort(),
+      managers: (rules[ i ].matchManagers || []).slice().sort(),
+      pkgs: (rules[ i ].matchPackageNames || []).slice().sort(),
     });
   }
 }
@@ -91,10 +91,10 @@ function checkExactDuplicates(allRules) {
     if (!seen.has(key)) seen.set(key, []);
     seen.get(key).push(rule);
   }
-  for (const [key, rules] of seen.entries()) {
+  for (const [ key, rules ] of seen.entries()) {
     if (rules.length > 1) {
       duplicateCount++;
-      const [managers, pkgs] = key.split('|');
+      const [ managers, pkgs ] = key.split('|');
       const locs = rules.map(r => `${r.file}[${r.idx}]`).join(', ');
       console.warn(`[WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[${managers}] and matchPackageNames=[${pkgs}] at: ${locs}`);
     }
@@ -136,15 +136,15 @@ function checkOverlappingRules(allRules) {
     groupedRules.get(managersKey).push(rule);
   }
   // Check for overlaps within each group
-  for (const [managersKey, rules] of groupedRules.entries()) {
+  for (const [ managersKey, rules ] of groupedRules.entries()) {
     for (let i = 0; i < rules.length; i++) {
-      const firstPkgSet = ruleData.find(r => r.rule === rules[i]).pkgSet;
+      const firstPkgSet = ruleData.find(r => r.rule === rules[ i ]).pkgSet;
       for (let j = i + 1; j < rules.length; j++) {
-        const secondPkgSet = ruleData.find(r => r.rule === rules[j]).pkgSet;
-        const overlap = [...firstPkgSet].filter(x => secondPkgSet.has(x));
+        const secondPkgSet = ruleData.find(r => r.rule === rules[ j ]).pkgSet;
+        const overlap = [ ...firstPkgSet ].filter(x => secondPkgSet.has(x));
         if (overlap.length > 0) {
           overlapCount++;
-          console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${rules[i].file}[${rules[i].idx}] and ${rules[j].file}[${rules[j].idx}] for matchManagers=[${managersKey}]: [${overlap}]`);
+          console.warn(`[WARN][OVERLAP] Overlapping matchPackageNames in ${rules[ i ].file}[${rules[ i ].idx}] and ${rules[ j ].file}[${rules[ j ].idx}] for matchManagers=[${managersKey}]: [${overlap}]`);
         }
       }
     }
@@ -181,30 +181,30 @@ console.log('[INFO] Managers covered by rules:');
 const allManagerLabels = Array.from(managerCoverage.keys());
 const maxManagerLen = Math.max(...allManagerLabels.map(m => m.length));
 const labelWidth = 7; // '[MULTI]' is 7 chars
-for (const [m, locs] of managerCoverage.entries()) {
+for (const [ m, locs ] of managerCoverage.entries()) {
   const label = locs.length > 1 ? '[MULTI]' : '[OK]';
   const labelPad = ' '.repeat(labelWidth - label.length);
   const namePad = ' '.repeat(maxManagerLen - m.length);
   if (locs.length > 1) {
     console.log(`  ${label}${labelPad} ${m}${namePad} (covered by ${locs.length} rules): ${locs.join(', ')}`);
   } else {
-    console.log(`  ${label}${labelPad} ${m}${namePad} (covered by 1 rule): ${locs[0]}`);
+    console.log(`  ${label}${labelPad} ${m}${namePad} (covered by 1 rule): ${locs[ 0 ]}`);
   }
 }
 console.log('[INFO] Package names covered by rules (grouped by file):');
 const pkgsByFile = {};
-for (const [p, locs] of packageCoverage.entries()) {
+for (const [ p, locs ] of packageCoverage.entries()) {
   for (const loc of locs) {
-    const [file] = loc.split('[');
-    if (!pkgsByFile[file]) pkgsByFile[file] = [];
-    pkgsByFile[file].push({ pkg: p, loc, count: locs.length });
+    const [ file ] = loc.split('[');
+    if (!pkgsByFile[ file ]) pkgsByFile[ file ] = [];
+    pkgsByFile[ file ].push({ pkg: p, loc, count: locs.length });
   }
 }
 const allPkgLabels = Object.values(pkgsByFile).flat().map(e => e.pkg);
 const maxPkgLen = Math.max(...allPkgLabels.map(p => p.length));
 for (const file of Object.keys(pkgsByFile)) {
   console.log(`  File: ${file}`);
-  for (const entry of pkgsByFile[file]) {
+  for (const entry of pkgsByFile[ file ]) {
     const label = entry.count > 1 ? '[MULTI]' : '[OK]';
     const labelPad = ' '.repeat(labelWidth - label.length);
     const namePad = ' '.repeat(maxPkgLen - entry.pkg.length);
