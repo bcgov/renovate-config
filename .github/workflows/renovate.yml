@@ -214,28 +214,20 @@ jobs:
           # Dry run
           cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
-      # Run Renovate
-      - name: Run Renovate
-        uses: renovatebot/github-action@9ba84f1ade243f8c2ce5b223df61cf23dc094584 # v43.0.13
-        env:
-          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
-        with:
-          configurationFile: renovate.json
-          token: ${{ secrets.RENOVATE_TOKEN }}
-
-      # Validate configuration and fail if errors found
-      - name: Validate Configuration
+      # Run Renovate with proper error detection
+      - name: Run Renovate Dry-Run
         run: |
-          echo "🔍 Running configuration validation to detect errors..."
+          echo "🔍 Running Renovate dry-run with configuration validation..."
           
           # Run Renovate with dry-run and capture output
           docker run --rm \
             -v "$(pwd)/renovate.json:/github-action/renovate.json" \
             -v /tmp:/tmp \
+            -e RENOVATE_TOKEN="${{ secrets.RENOVATE_TOKEN }}" \
             ghcr.io/renovatebot/renovate:41 \
             --dry-run=full \
             --config-file=/github-action/renovate.json \
-            --log-level=INFO \
+            --log-level=${{ inputs.log_level || 'INFO' }} \
             2>&1 | tee renovate_output.log || true
           
           # Check if configuration errors were found
