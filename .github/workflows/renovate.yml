@@ -214,23 +214,32 @@ jobs:
           # Dry run
           cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
-      # Run Renovate with proper error detection
-      - name: Run Renovate Dry-Run
+      # Run Renovate
+      - name: Run Renovate
+        uses: renovatebot/github-action@9ba84f1ade243f8c2ce5b223df61cf23dc094584 # v43.0.13
+        env:
+          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
+        with:
+          configurationFile: renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}
+
+      # Check for configuration errors and fail if found
+      - name: Check for Configuration Errors
         run: |
-          echo "🔍 Running Renovate dry-run with configuration validation..."
-          
-          # Run Renovate config validator to check for errors
+          echo "🔍 Checking for configuration errors in Renovate output..."
+          # Since renovatebot/github-action doesn't fail on config errors,
+          # we need to run a separate validation to catch them
           docker run --rm \
             -v "$(pwd):/usr/src/app" \
             -w /usr/src/app \
             ghcr.io/renovatebot/renovate:41 \
             renovate-config-validator \
-            2>&1 | tee renovate_output.log || true
+            2>&1 | tee config_validation.log || true
           
           # Check if configuration errors were found
-          if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
+          if grep -q "validationError\|config-validation\|Cannot find preset" config_validation.log; then
             echo "❌ Configuration errors detected:"
-            grep -E "validationError|config-validation|Cannot find preset" renovate_output.log || true
+            grep -E "validationError|config-validation|Cannot find preset" config_validation.log || true
             echo ""
             echo "🚫 Failing workflow due to configuration errors"
             exit 1
