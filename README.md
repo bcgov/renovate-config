@@ -77,7 +77,9 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 "extends": ["github>bcgov/renovate-config#v1.2.3"]  // Old three-digit format
 ```
 🔄 **Auto-migration:** All teams using versioned configs (v1.x, v1.x.x, etc.) will automatically receive updates to the latest CalVer release (e.g., `2025.10`)
+
 🔄 **Simplified versioning:** No more patch-level complexity - just quarterly releases
+
 🔄 **Universal transition:** This applies to all existing versioned references, not just three-digit formats
 
 ## Files
