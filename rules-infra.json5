@@ -5,61 +5,18 @@
   "packageRules": [
     // ALLOWLISTED_ORGS: actions/, docker/, github/
     // These trusted orgs are grouped for easier maintenance
-    // Group allowlisted actions and github orgs
+    // Group all GitHub Actions together (default unpinned)
     {
-      "description": "Group allowlisted orgs (actions/, docker/, github/)",
-      "groupName": "github actions allowlisted orgs",
-      "groupSlug": "github-actions-allowlisted",
+      "description": "Group all GitHub Actions together",
+      "groupName": "github actions",
+      "groupSlug": "github-actions",
       "matchManagers": [
         "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "matchPackageNames": [
-        "^actions/",
-        "^docker/",
-        "^github/"
       ]
     },
-    // Group all other GitHub Actions dependencies (pinned with SHA digests for security)
-    // Uses modern exclusion syntax with ! prefix
+    // Pin non-allowlisted GitHub Actions (override default)
     {
-      "description": "Group all other GitHub Actions dependencies (pinned)",
-      "groupName": "github actions other dependencies",
-      "groupSlug": "github-actions-other",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "matchPackageNames": [
-        "!^actions/",
-        "!^docker/",
-        "!^github/"
-      ]
-    },
-    {
-      "description": "Pin non-allowlisted GitHub Actions for security: Pin all GitHub Actions from non-trusted orgs (everything except actions/, docker/, github/) to prevent supply chain attacks.",
+      "description": "Pin non-allowlisted GitHub Actions for security",
       "matchManagers": [
         "github-actions"
       ],
