@@ -1,4 +1,5 @@
 <!-- PROJECT SHIELDS -->
+<!-- Test change to trigger workflow validation -->
 
 [![Issues](https://img.shields.io/github/issues/bcgov/renovate-config)](/../../issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/bcgov/renovate-config)](/../../pulls)
