@@ -5,18 +5,24 @@
   "packageRules": [
     // ALLOWLISTED_ORGS: actions/, docker/, github/
     // These trusted orgs are grouped for easier maintenance
-    // Group all GitHub Actions together (default unpinned)
+    // Group allowlisted GitHub Actions (unpinned)
     {
-      "description": "Group all GitHub Actions together",
+      "description": "Group allowlisted GitHub Actions (unpinned)",
       "groupName": "github actions",
       "groupSlug": "github-actions",
       "matchManagers": [
         "github-actions"
-      ]
+      ],
+      "matchPackageNames": [
+        "^actions/",
+        "^docker/",
+        "^github/"
+      ],
+      "pinDigests": false
     },
-    // Pin non-allowlisted GitHub Actions (override default)
+    // Group and pin non-allowlisted GitHub Actions
     {
-      "description": "Pin non-allowlisted GitHub Actions for security",
+      "description": "Group and pin non-allowlisted GitHub Actions for security",
       "groupName": "github actions",
       "groupSlug": "github-actions",
       "matchManagers": [
