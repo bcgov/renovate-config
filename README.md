@@ -57,9 +57,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 ## Version Control
 
-Choose your versioning strategy based on your team's maintenance capacity:
-
-**Stable Releases (Recommended):**
+**Use Versioned Releases:**
 ```
 "extends": ["github>bcgov/renovate-config#2025.10"]
 ```
