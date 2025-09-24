@@ -36,10 +36,6 @@
         "helmv3",
         "docker-compose"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
     }
