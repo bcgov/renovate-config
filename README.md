@@ -67,19 +67,19 @@ Choose your versioning strategy based on your team's maintenance capacity:
 ✅ Calendar versioning (YYYY.Q format) like Ubuntu releases
 ✅ Minimal PR noise with predictable update cadence
 
-**Latest Updates (Rolling):**
-```
-"extends": ["github>bcgov/renovate-config"]
-```
-⚠️ Latest changes from main branch - may include breaking updates
-⚠️ Use only for testing or if you need immediate access to new features
-
 **Legacy Support:**
 ```
 "extends": ["github>bcgov/renovate-config#v1"]
 ```
 📅 Legacy v1 tag points to last stable v1.1.0 release
 📅 Consider migrating to CalVer releases for better maintenance
+
+**Testing Only (Not Recommended for Production):**
+```
+"extends": ["github>bcgov/renovate-config"]
+```
+⚠️ Latest changes from main branch - may include breaking updates
+⚠️ Use only for internal testing and development projects
 
 **Migration from Old Format:**
 ```
