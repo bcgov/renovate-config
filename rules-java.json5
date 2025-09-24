@@ -2,6 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // Group Java dependencies for unified update PRs and easier management
   "packageRules": [
+    // Pin Java dependencies for security
+    {
+      "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "pinDigests": true
+    },
     // Example: Group all springframework dependencies
     {
       "description": "Group springframework",
@@ -33,8 +42,7 @@
         "patch"
       ],
       "groupName": "java dependencies",
-      "groupSlug": "java",
-      "pinDigests": true
+      "groupSlug": "java"
     }
     // Add more grouping rules as needed for your Java ecosystem
   ]

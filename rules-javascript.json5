@@ -3,6 +3,16 @@
   // Renovate packageRules for JavaScript/TypeScript dependencies.
   // This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling.
   "packageRules": [
+    // Pin JavaScript/TypeScript dependencies for security
+    {
+      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "pinDigests": true
+    },
     // Group vite dependencies
     {
       "description": "Group vite",
@@ -82,8 +92,7 @@
         "patch"
       ],
       "groupName": "node dependencies",
-      "groupSlug": "node",
-      "pinDigests": true
+      "groupSlug": "node"
     }
     // Add additional rules below as needed
   ]

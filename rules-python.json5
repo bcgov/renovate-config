@@ -2,6 +2,17 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // Group boto3 and botocore dependencies for easier management
   "packageRules": [
+    // Pin Python dependencies for security
+    {
+      "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "pip",
+        "pipenv",
+        "poetry",
+        "uv"
+      ],
+      "pinDigests": true
+    },
     // Group boto3 and botocore dependencies for easier management
     {
       "description": "Group boto",
@@ -38,8 +49,7 @@
         "patch"
       ],
       "groupName": "python dependencies",
-      "groupSlug": "python",
-      "pinDigests": true
+      "groupSlug": "python"
     }
   ]
 }
