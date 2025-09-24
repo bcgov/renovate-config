@@ -59,29 +59,27 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 Choose your versioning strategy based on your team's maintenance capacity:
 
-**Minimal Updates (Low Maintenance):**
+**Stable Releases (Recommended):**
 ```
-"extends": ["github>bcgov/renovate-config#v1"]
+"extends": ["github>bcgov/renovate-config#2025.10"]
 ```
-✅ Major versions only (v1 → v2) - minimal PR noise, maximum stability
+✅ Quarterly releases (2025.10 → 2025.01 → 2026.01) - tested, stable updates
+✅ Calendar versioning (YYYY.Q format) like Ubuntu releases
+✅ Minimal PR noise with predictable update cadence
 
-**Balanced Updates (Medium Maintenance):**
-```
-"extends": ["github>bcgov/renovate-config#v1.0"]
-```
-✅ Minor updates (v1.0 → v1.1) - important config improvements without major changes
-
-**Migration from Three-Digit:**
-```
-"extends": ["github>bcgov/renovate-config#v1.1.1"]  // Will migrate to v1.2
-```
-✅ Teams using v1.1.1 format are automatically migrated to v1.2 format for simpler versioning
-
-**Testing (Unstable):**
+**Latest Updates (Rolling):**
 ```
 "extends": ["github>bcgov/renovate-config"]
 ```
-⚠️ Latest changes, may include breaking updates
+⚠️ Latest changes from main branch - may include breaking updates
+⚠️ Use only for testing or if you need immediate access to new features
+
+**Legacy Support:**
+```
+"extends": ["github>bcgov/renovate-config#v1"]
+```
+📅 Legacy v1 tag points to last stable v1.1.0 release
+📅 Consider migrating to CalVer releases for better maintenance
 
 ## Files
 
