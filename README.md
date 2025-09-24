@@ -22,7 +22,7 @@
 - **No immortal PRs:** Closed PRs are not recreated
 - **Smart timing:** Minimum release age (7 days) to avoid just-published breaking changes
 - **Language-specific grouping:** Optimized rules for each ecosystem
-- **GitHub Actions policy:** actions/github orgs unpinned, all others pinned
+- **GitHub Actions policy:** actions/docker/github orgs unpinned, all others pinned
 
 > **Adopting this configuration means your team is following bcgov and NRIDS best practices for dependency management, supply chain security, and automation.**
 
@@ -57,31 +57,30 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 ## Version Control
 
-Choose your versioning strategy based on your team's maintenance capacity:
+**Use Versioned Releases:**
+```
+"extends": ["github>bcgov/renovate-config#2025.10"]
+```
+✅ Quarterly releases (2025.10 → 2025.01 → 2026.01) - tested, stable updates
+✅ Calendar versioning (YYYY.Q format) like Ubuntu releases
+✅ Minimal PR noise with predictable update cadence
 
-**Minimal Updates (Low Maintenance):**
-```
-"extends": ["github>bcgov/renovate-config#v1"]
-```
-✅ Major versions only (v1 → v2) - minimal PR noise, maximum stability
-
-**Balanced Updates (Medium Maintenance):**
-```
-"extends": ["github>bcgov/renovate-config#v1.0"]
-```
-✅ Minor updates (v1.0 → v1.1) - important config improvements without major changes
-
-**Migration from Three-Digit:**
-```
-"extends": ["github>bcgov/renovate-config#v1.1.1"]  // Will migrate to v1.2
-```
-✅ Teams using v1.1.1 format are automatically migrated to v1.2 format for simpler versioning
-
-**Testing (Unstable):**
+**Testing Only (Not Recommended for Production):**
 ```
 "extends": ["github>bcgov/renovate-config"]
 ```
-⚠️ Latest changes, may include breaking updates
+⚠️ Latest changes from main branch - may include breaking updates
+⚠️ Use only for internal testing and development projects
+
+**Migration from Old Format:**
+```
+"extends": ["github>bcgov/renovate-config#v1.2.3"]  // Old three-digit format
+```
+🔄 **Auto-migration:** All teams using versioned configs (v1.x, v1.x.x, etc.) will automatically receive updates to the latest CalVer release (e.g., `2025.10`)
+
+🔄 **Simplified versioning:** No more patch-level complexity - just quarterly releases
+
+🔄 **Universal transition:** This applies to all existing versioned references, not just three-digit formats
 
 ## Files
 
@@ -90,7 +89,6 @@ Choose your versioning strategy based on your team's maintenance capacity:
 | `renovate.json` | Entry point for downstream repos |
 | `default.json` | Main shared config |
 | `rules-*.json5` | Language-specific rules |
-| `.copilot-instructions.md` | AI assistant guidelines |
 
 ## Contributing
 
