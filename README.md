@@ -81,6 +81,13 @@ Choose your versioning strategy based on your team's maintenance capacity:
 📅 Legacy v1 tag points to last stable v1.1.0 release
 📅 Consider migrating to CalVer releases for better maintenance
 
+**Migration from Old Format:**
+```
+"extends": ["github>bcgov/renovate-config#v1.2.3"]  // Old three-digit format
+```
+🔄 **Auto-migration:** Teams using `v1.2.3` format will automatically receive updates to the latest CalVer release (e.g., `2025.10`)
+🔄 **Simplified versioning:** No more patch-level complexity - just quarterly releases
+
 ## Files
 
 | File | Purpose |
