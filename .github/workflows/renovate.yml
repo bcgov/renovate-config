@@ -221,12 +221,13 @@ jobs:
           
           # Run Renovate with dry-run and capture output
           docker run --rm \
-            -v "$(pwd)/renovate.json:/github-action/renovate.json" \
+            -v "$(pwd):/usr/src/app" \
             -v /tmp:/tmp \
+            -w /usr/src/app \
             -e RENOVATE_TOKEN="${{ secrets.RENOVATE_TOKEN }}" \
             ghcr.io/renovatebot/renovate:41 \
             --dry-run=full \
-            --config-file=/github-action/renovate.json \
+            --config-file=renovate.json \
             --log-level=${{ inputs.log_level || 'INFO' }} \
             2>&1 | tee renovate_output.log || true
           
