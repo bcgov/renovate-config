@@ -189,8 +189,15 @@ jobs:
           echo "🔧 Updating renovate.json to point to current PR branch for validation..."
           # Get current branch name (PR branch)
           CURRENT_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          echo "📋 Current branch: $CURRENT_BRANCH"
+          echo "📋 GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+          echo "📋 GITHUB_REF: $GITHUB_REF"
+          echo "📋 Before sed - renovate.json content:"
+          cat renovate.json
           # Temporarily update renovate.json to point to current branch instead of v1
           sed -i "s|github>bcgov/renovate-config#v1|github>bcgov/renovate-config#$CURRENT_BRANCH|" renovate.json
+          echo "📋 After sed - renovate.json content:"
+          cat renovate.json
           echo "✅ Updated renovate.json to reference branch: $CURRENT_BRANCH"
 
         # Run Renovate, dry run
