@@ -22,7 +22,7 @@
 - **No immortal PRs:** Closed PRs are not recreated
 - **Smart timing:** Minimum release age (7 days) to avoid just-published breaking changes
 - **Language-specific grouping:** Optimized rules for each ecosystem
-- **GitHub Actions policy:** actions/github orgs unpinned, all others pinned
+- **GitHub Actions policy:** actions/docker/github orgs unpinned, all others pinned
 
 > **Adopting this configuration means your team is following bcgov and NRIDS best practices for dependency management, supply chain security, and automation.**
 
