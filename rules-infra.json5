@@ -17,6 +17,8 @@
     // Pin non-allowlisted GitHub Actions (override default)
     {
       "description": "Pin non-allowlisted GitHub Actions for security",
+      "groupName": "github actions",
+      "groupSlug": "github-actions",
       "matchManagers": [
         "github-actions"
       ],
