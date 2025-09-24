@@ -226,9 +226,9 @@ jobs:
             -w /usr/src/app \
             -e RENOVATE_TOKEN="${{ secrets.RENOVATE_TOKEN }}" \
             -e RENOVATE_CONFIG_FILE="renovate.json" \
+            -e LOG_LEVEL="${{ inputs.log_level || 'INFO' }}" \
             ghcr.io/renovatebot/renovate:41 \
             --dry-run=full \
-            --log-level=${{ inputs.log_level || 'INFO' }} \
             2>&1 | tee renovate_output.log || true
           
           # Check if configuration errors were found
