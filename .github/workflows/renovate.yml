@@ -222,3 +222,29 @@ jobs:
         with:
           configurationFile: renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}
+
+      # Validate configuration and fail if errors found
+      - name: Validate Configuration
+        run: |
+          echo "🔍 Running configuration validation to detect errors..."
+          
+          # Run Renovate with dry-run and capture output
+          docker run --rm \
+            -v "$(pwd)/renovate.json:/github-action/renovate.json" \
+            -v /tmp:/tmp \
+            ghcr.io/renovatebot/renovate:41 \
+            --dry-run=full \
+            --config-file=/github-action/renovate.json \
+            --log-level=INFO \
+            2>&1 | tee renovate_output.log || true
+          
+          # Check if configuration errors were found
+          if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
+            echo "❌ Configuration errors detected:"
+            grep -E "validationError|config-validation|Cannot find preset" renovate_output.log || true
+            echo ""
+            echo "🚫 Failing workflow due to configuration errors"
+            exit 1
+          else
+            echo "✅ Configuration validation passed - no errors found"
+          fi
