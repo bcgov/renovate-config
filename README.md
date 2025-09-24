@@ -85,8 +85,9 @@ Choose your versioning strategy based on your team's maintenance capacity:
 ```
 "extends": ["github>bcgov/renovate-config#v1.2.3"]  // Old three-digit format
 ```
-🔄 **Auto-migration:** Teams using `v1.2.3` format will automatically receive updates to the latest CalVer release (e.g., `2025.10`)
+🔄 **Auto-migration:** All teams using versioned configs (v1.x, v1.x.x, etc.) will automatically receive updates to the latest CalVer release (e.g., `2025.10`)
 🔄 **Simplified versioning:** No more patch-level complexity - just quarterly releases
+🔄 **Universal transition:** This applies to all existing versioned references, not just three-digit formats
 
 ## Files
 
