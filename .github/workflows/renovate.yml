@@ -236,6 +236,7 @@ jobs:
             grep -E "validationError|config-validation|Cannot find preset" renovate_output.log || true
             echo ""
             echo "🚫 Failing workflow due to configuration errors"
+            echo "📅 Testing tag fixes - triggering new workflow run"
             exit 1
           else
             echo "✅ Configuration validation passed - no errors found"

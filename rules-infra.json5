@@ -3,37 +3,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
-    // ALLOWLISTED_ORGS: actions/, docker/, github/
-    // These trusted orgs are grouped for easier maintenance
-    // Group allowlisted GitHub Actions (unpinned)
     {
       "description": "Group allowlisted GitHub Actions (unpinned)",
       "groupName": "github actions",
       "groupSlug": "github-actions",
       "matchManagers": [
         "github-actions"
-      ],
-      "matchPackageNames": [
-        "^actions/",
-        "^docker/",
-        "^github/"
-      ],
-      "pinDigests": false
-    },
-    // Group and pin non-allowlisted GitHub Actions
-    {
-      "description": "Group and pin non-allowlisted GitHub Actions for security",
-      "groupName": "github actions",
-      "groupSlug": "github-actions",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "!^actions/",
-        "!^docker/",
-        "!^github/"
-      ],
-      "pinDigests": true
+      ]
     },
     {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
