@@ -15,7 +15,7 @@
 //   node lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
 //
 // Example output:
-//   [INFO] Linting 3 files: default.json, rules-actions.json5, rules-javascript.json5
+//   [INFO] Linting 3 files: default.json, rules-infra.json5, rules-javascript.json5
 //   [INFO] ├─ Parsing default.json ...
 //   [INFO] │   Found 1 packageRules in default.json
 //   ...
@@ -23,7 +23,7 @@
 //   [WARN][OVERLAP] Overlapping matchPackageNames in rules-javascript.json5[0] and rules-javascript.json5[1] for matchManagers=[npm]: [/eslint/]
 //   [INFO] === Rule Coverage Report ===
 //   [INFO] Managers covered by rules:
-//     [MULTI] github-actions (covered by 3 rules): rules-actions.json5[0], rules-actions.json5[1], rules-actions.json5[2]
+//     [MULTI] github-actions (covered by 3 rules): rules-infra.json5[0], rules-infra.json5[1], rules-infra.json5[2]
 //     [OK]    npm           (covered by 1 rule): rules-javascript.json5[8]
 //   ...
 //
