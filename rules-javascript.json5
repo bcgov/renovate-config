@@ -3,6 +3,16 @@
   // Renovate packageRules for JavaScript/TypeScript dependencies.
   // This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling.
   "packageRules": [
+    // Pin JavaScript/TypeScript dependencies for security
+    {
+      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "pinDigests": true
+    },
     // Group vite dependencies
     {
       "description": "Group vite",
@@ -62,13 +72,19 @@
         "/redux-thunk/"
       ]
     },
-    // Block eslint9 updates for JS
     {
-      "description": "JS - block eslint9",
-      "enabled": false,
-      "groupName": "eslint9",
-      "matchManagers": ["npm"],
-      "matchPackageNames": ["/eslint/"]
+      "description": "Group Node.js ecosystem: Combine npm, yarn, and pnpm updates into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node"
     }
     // Add additional rules below as needed
   ]
