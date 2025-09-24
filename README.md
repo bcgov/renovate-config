@@ -87,7 +87,6 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 | `renovate.json` | Entry point for downstream repos |
 | `default.json` | Main shared config |
 | `rules-*.json5` | Language-specific rules |
-| `.copilot-instructions.md` | AI assistant guidelines |
 
 ## Contributing
 
