@@ -3,7 +3,7 @@ name: CalVer Release
 on:
   schedule:
     # Run on the first day of each quarter (January, April, July, October)
-    - cron: '0 10 1 1,4,7,10 *'
+    - cron: "0 10 1 1,4,7,10 *"
   workflow_dispatch:
 
 jobs:
@@ -36,13 +36,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view "$VERSION" >/dev/null 2>&1; then
+          if [ -n "$(gh release list --json tagName --jq '.[] | select(.tagName=="'$VERSION'").tagName')" ]; then
             echo "ERROR: Release $VERSION already exists!"
             exit 1
           fi
           echo "Release $VERSION is available"
 
-          if git tag -l "$VERSION" >/dev/null; then
+          if [ -n "$(git tag -l "$VERSION")" ]; then
             echo "ERROR: Tag $VERSION already exists!"
             exit 1
           fi
@@ -61,6 +61,7 @@ jobs:
           gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
       - name: Verify release
+        if: always()
         run: |
           echo "Verifying created release:"
           echo "Tag: $VERSION"
