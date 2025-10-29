@@ -61,7 +61,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 ```
 "extends": ["github>bcgov/renovate-config#2025.10"]
 ```
-✅ Quarterly releases (2025.10 → 2025.01 → 2026.01) - tested, stable updates
+✅ Quarterly releases - tested, stable updates
 ✅ Calendar versioning (YYYY.Q format) like Ubuntu releases
 ✅ Minimal PR noise with predictable update cadence
 
