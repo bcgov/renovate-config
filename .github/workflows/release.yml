@@ -61,6 +61,7 @@ jobs:
           gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
       - name: Verify release
+        if: always()
         run: |
           echo "Verifying created release:"
           echo "Tag: $VERSION"
