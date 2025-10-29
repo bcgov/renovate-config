@@ -3,7 +3,7 @@ name: CalVer Release
 on:
   schedule:
     # Run on the first day of each quarter (January, April, July, October)
-    - cron: '0 10 1 1,4,7,10 *'
+    - cron: "0 10 1 1,4,7,10 *"
   workflow_dispatch:
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
           fi
           echo "Release $VERSION is available"
 
-          if git tag -l "$VERSION" >/dev/null; then
+          if [ -n "$(git tag -l "$VERSION")" ]; then
             echo "ERROR: Tag $VERSION already exists!"
             exit 1
           fi
