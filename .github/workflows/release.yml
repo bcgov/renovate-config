@@ -36,7 +36,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view "$VERSION" >/dev/null 2>&1; then
+          if [ -n "$(gh release list --json tagName --jq '.[] | select(.tagName=="'$VERSION'").tagName')" ]; then
             echo "ERROR: Release $VERSION already exists!"
             exit 1
           fi
