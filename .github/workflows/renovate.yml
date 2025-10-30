@@ -17,7 +17,6 @@ on:
         required: true
         options: ["INFO", "WARNING", "DEBUG"]
 
-
 # Cancel any other workflows (PR, cron or manual)
 concurrency:
   group: ${{ github.workflow }}
@@ -33,7 +32,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Update renovate.json for PR validation
         run: |
@@ -47,7 +46,7 @@ jobs:
       - name: Schema validation
         run: |
           echo "🔍 Stage 1: Schema validation..."
-          npx --yes --package renovate --- "renovate-config-validator --strict default.json renovate.json rules-*.json5"
+          npx --yes --package renovate -- renovate-config-validator --strict default.json renovate.json rules-*.json5
 
       - name: Config resolution test
         run: |
@@ -114,8 +113,6 @@ jobs:
           else
             echo "✅ All commitMessageAction values are valid"
           fi
-
-
 
       - name: Integration test
         run: |
@@ -218,7 +215,7 @@ jobs:
       - name: Run Renovate Dry-Run
         run: |
           echo "🔍 Running Renovate dry-run with configuration validation..."
-          
+
           # Run Renovate with dry-run and capture output
           docker run --rm \
             -v "$(pwd)/renovate.json:/github-action/renovate.json" \
@@ -229,7 +226,7 @@ jobs:
             --config-file=/github-action/renovate.json \
             --log-level=${{ inputs.log_level || 'INFO' }} \
             2>&1 | tee renovate_output.log || true
-          
+
           # Check if configuration errors were found
           if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
             echo "❌ Configuration errors detected:"
