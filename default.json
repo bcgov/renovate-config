@@ -29,6 +29,7 @@
     ":ignoreModulesAndTests"
   ],
   "minimumReleaseAge": "7 days",
+  "minimumReleaseAgeBehaviour": "no-reschedule",
   "onboarding": true,
   "configWarningReuseIssue": true,
   "onboardingConfig": {
