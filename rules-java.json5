@@ -17,7 +17,7 @@
       "groupName": "springframework",
       "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     },
-    // Exclude minimumReleaseAge for lock file maintenance (doesn't upgrade versions)
+    // Lock file maintenance: no minimumReleaseAge check
     {
       "description": "Lock file maintenance: no minimumReleaseAge check",
       "matchManagers": [

@@ -46,7 +46,7 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Lock file maintenance: exclude minimumReleaseAge (doesn't upgrade versions, just reformats lock file)",
+      "description": "Lock file maintenance: no minimumReleaseAge check (doesn't upgrade versions)",
       "matchUpdateTypes": [
         "lockFileMaintenance"
       ],
