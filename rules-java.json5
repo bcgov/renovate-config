@@ -17,6 +17,18 @@
       "groupName": "springframework",
       "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     },
+    // Exclude minimumReleaseAge for lock file maintenance (doesn't upgrade versions)
+    {
+      "description": "Lock file maintenance: no minimumReleaseAge check",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
+      "minimumReleaseAge": null
+    },
     // Group all non-major Maven dependencies
     {
       "groupName": "maven all non-major dependencies",
@@ -26,8 +38,7 @@
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
-        "lockFileMaintenance"
+        "patch"
       ],
       "minimumReleaseAge": "7 days"
     },
