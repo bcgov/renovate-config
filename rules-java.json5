@@ -17,18 +17,6 @@
       "groupName": "springframework",
       "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     },
-    // Lock file maintenance: no minimumReleaseAge check
-    {
-      "description": "Lock file maintenance: no minimumReleaseAge check",
-      "matchManagers": [
-        "maven",
-        "gradle"
-      ],
-      "matchUpdateTypes": [
-        "lockFileMaintenance"
-      ],
-      "minimumReleaseAge": null
-    },
     // Group all non-major Maven dependencies
     {
       "groupName": "maven all non-major dependencies",
