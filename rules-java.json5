@@ -26,8 +26,7 @@
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
-        "lockFileMaintenance"
+        "patch"
       ],
       "minimumReleaseAge": "7 days"
     },
