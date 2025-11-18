@@ -6,7 +6,6 @@
   "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
   "extends": [
     "config:recommended",
-    "docker:disableMajor",
     "group:definitelyTyped",
     "group:linters",
     "group:monorepos",
