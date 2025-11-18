@@ -15,9 +15,7 @@
       "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
       "matchPackageNames": [
         "/^postgres$/",
-        "/^postgresql$/",
         "/^library\\/postgres$/",
-        "/^library\\/postgresql$/",
         "/^mysql$/",
         "/^mariadb$/",
         "/^mongo$/",
