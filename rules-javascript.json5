@@ -55,6 +55,18 @@
         "/reflect-metadata/"
       ]
     },
+    // Group lodash (frequent CVEs)
+    {
+      "description": "Group lodash",
+      "groupName": "lodash",
+      "matchPackageNames": ["/^lodash$/"]
+    },
+    // Group nodemailer (common SMTP vulnerabilities)
+    {
+      "description": "Group nodemailer",
+      "groupName": "nodemailer",
+      "matchPackageNames": ["/^nodemailer$/", "/^mailparser$/"]
+    },
     // Group @mui dependencies
     {
       "description": "Group @mui",
