@@ -6,10 +6,13 @@
     {
       "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
-        "pip",
+        "pip_requirements",
+        "pip_setup",
         "pipenv",
         "poetry",
-        "uv"
+        "uv",
+        "pep621",
+        "pip-compile"
       ],
       "pinDigests": true
     },
@@ -17,14 +20,14 @@
     {
       "description": "Group boto",
       "groupName": "boto",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": ["/^boto3$/", "/^botocore$/"]
     },
     // Group all pytest-related dependencies for unified update PRs
     {
       "description": "Group pytest",
       "groupName": "pytest",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^pytest$/",
         "/^pytest-/",
@@ -39,7 +42,7 @@
     {
       "description": "Group sqlalchemy",
       "groupName": "sqlalchemy",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^sqlalchemy$/",
         "/^sqlmodel$/",
@@ -52,7 +55,7 @@
     {
       "description": "Group python linters",
       "groupName": "python linters",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^ruff$/",
         "/^black$/",
@@ -68,7 +71,7 @@
     {
       "description": "Group pydantic",
       "groupName": "pydantic",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^pydantic$/",
         "/^pydantic-core$/",
@@ -79,7 +82,7 @@
     {
       "description": "Group fastapi stack",
       "groupName": "fastapi stack",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^fastapi$/",
         "/^starlette$/",
@@ -94,7 +97,7 @@
     {
       "description": "Group ai-ml",
       "groupName": "ai-ml",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^huggingface-hub$/",
         "/^tokenizers$/",
@@ -109,7 +112,7 @@
     {
       "description": "Group data science",
       "groupName": "data science",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^numpy$/",
         "/^pandas$/",
@@ -123,7 +126,7 @@
     {
       "description": "Group python tools",
       "groupName": "python tools",
-      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchManagers": ["pip_requirements", "pip_setup", "pipenv", "poetry", "uv", "pep621", "pip-compile"],
       "matchPackageNames": [
         "/^uv$/",
         "/^setuptools$/",
@@ -136,10 +139,13 @@
     {
       "description": "Group Python ecosystem: Combine pip, pipenv, poetry, and uv updates into single PRs. Python dependencies should be updated together to maintain compatibility and avoid conflicts.",
       "matchManagers": [
-        "pip",
+        "pip_requirements",
+        "pip_setup",
         "pipenv",
         "poetry",
-        "uv"
+        "uv",
+        "pep621",
+        "pip-compile"
       ],
       "matchUpdateTypes": [
         "minor",
