@@ -17,12 +17,14 @@
     {
       "description": "Group boto",
       "groupName": "boto",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": ["/^boto3$/", "/^botocore$/"]
     },
     // Group all pytest-related dependencies for unified update PRs
     {
       "description": "Group pytest",
       "groupName": "pytest",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^pytest$/",
         "/^pytest-/",
@@ -37,6 +39,7 @@
     {
       "description": "Group sqlalchemy",
       "groupName": "sqlalchemy",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^sqlalchemy$/",
         "/^sqlmodel$/",
@@ -49,6 +52,7 @@
     {
       "description": "Group python linters",
       "groupName": "python linters",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^ruff$/",
         "/^black$/",
@@ -64,6 +68,7 @@
     {
       "description": "Group pydantic",
       "groupName": "pydantic",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^pydantic$/",
         "/^pydantic-core$/",
@@ -74,6 +79,7 @@
     {
       "description": "Group fastapi stack",
       "groupName": "fastapi stack",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^fastapi$/",
         "/^starlette$/",
@@ -88,6 +94,7 @@
     {
       "description": "Group ai-ml",
       "groupName": "ai-ml",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^huggingface-hub$/",
         "/^tokenizers$/",
@@ -102,6 +109,7 @@
     {
       "description": "Group data science",
       "groupName": "data science",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^numpy$/",
         "/^pandas$/",
@@ -115,6 +123,7 @@
     {
       "description": "Group python tools",
       "groupName": "python tools",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^uv$/",
         "/^setuptools$/",
