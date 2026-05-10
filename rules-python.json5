@@ -23,7 +23,15 @@
     {
       "description": "Group pytest",
       "groupName": "pytest",
-      "matchPackageNames": ["/^pytest$/", "/^pytest-/"]
+      "matchPackageNames": [
+        "/^pytest$/",
+        "/^pytest-/",
+        "/^coverage$/",
+        "/^tox$/",
+        "/^mock$/",
+        "/^factory-boy$/",
+        "/^freezegun$/"
+      ]
     },
     // Group SQLAlchemy and related tools for easier upgrades
     {
@@ -33,7 +41,87 @@
         "/^sqlalchemy$/",
         "/^sqlmodel$/",
         "/^sqlacodegen$/",
-        "/^mock-alchemy$/"
+        "/^mock-alchemy$/",
+        "/^alembic$/"
+      ]
+    },
+    // Group linters and formatters
+    {
+      "description": "Group python linters",
+      "groupName": "python linters",
+      "matchPackageNames": [
+        "/^ruff$/",
+        "/^black$/",
+        "/^isort$/",
+        "/^pylint$/",
+        "/^flake8$/",
+        "/^mypy$/",
+        "/^bandit$/",
+        "/^pre-commit$/"
+      ]
+    },
+    // Group pydantic and its core components
+    {
+      "description": "Group pydantic",
+      "groupName": "pydantic",
+      "matchPackageNames": [
+        "/^pydantic$/",
+        "/^pydantic-core$/",
+        "/^annotated-types$/"
+      ]
+    },
+    // Group FastAPI and related web stack components
+    {
+      "description": "Group fastapi stack",
+      "groupName": "fastapi stack",
+      "matchPackageNames": [
+        "/^fastapi$/",
+        "/^starlette$/",
+        "/^python-multipart$/",
+        "/^uvicorn$/",
+        "/^gunicorn$/",
+        "/^httpx$/",
+        "/^anyio$/"
+      ]
+    },
+    // Group AI and Machine Learning dependencies
+    {
+      "description": "Group ai-ml",
+      "groupName": "ai-ml",
+      "matchPackageNames": [
+        "/^huggingface-hub$/",
+        "/^tokenizers$/",
+        "/^hf-xet$/",
+        "/^onnxruntime$/",
+        "/^openai$/",
+        "/^langchain/",
+        "/^llama-index/"
+      ]
+    },
+    // Group core data science libraries
+    {
+      "description": "Group data science",
+      "groupName": "data science",
+      "matchPackageNames": [
+        "/^numpy$/",
+        "/^pandas$/",
+        "/^scipy$/",
+        "/^matplotlib$/",
+        "/^seaborn$/",
+        "/^scikit-learn$/"
+      ]
+    },
+    // Group python development tools
+    {
+      "description": "Group python tools",
+      "groupName": "python tools",
+      "matchPackageNames": [
+        "/^uv$/",
+        "/^setuptools$/",
+        "/^tomlkit$/",
+        "/^orjson$/",
+        "/^pip$/",
+        "/^pip-tools$/"
       ]
     },
     {
