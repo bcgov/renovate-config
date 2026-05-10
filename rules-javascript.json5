@@ -17,36 +17,42 @@
     {
       "description": "Group vite",
       "groupName": "vite",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
     },
     // Group linters
     {
       "description": "Group linters",
       "groupName": "linters",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/eslint/", "/^@prettier\\//", "/^prettier-plugin-/"]
     },
     // Group @angular dependencies
     {
       "description": "Group @angular",
       "groupName": "angular",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^@angular\\//", "/^@angular-/"]
     },
     // Group aws-amplify dependencies
     {
       "description": "Group aws-amplify",
       "groupName": "aws-amplify",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^@aws-amplify\\//", "/^aws-amplify/"]
     },
     // Group @testing-library dependencies
     {
       "description": "Group @testing-library",
       "groupName": "testing-library",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^@testing-library\\//"]
     },
     // Group @nestjs dependencies
     {
       "description": "Group @nestjs",
       "groupName": "nestjs",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": [
         "/^@nestjs\\//",
         "/^@swc\\//",
@@ -59,24 +65,28 @@
     {
       "description": "Group lodash",
       "groupName": "lodash",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^lodash$/"]
     },
     // Group nodemailer (common SMTP vulnerabilities)
     {
       "description": "Group nodemailer",
       "groupName": "nodemailer",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^nodemailer$/", "/^mailparser$/"]
     },
     // Group @mui dependencies
     {
       "description": "Group @mui",
       "groupName": "mui",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": ["/^@mui\\//"]
     },
     // Group redux dependencies
     {
       "description": "Group redux",
       "groupName": "redux",
+      "matchManagers": ["npm", "yarn", "pnpm"],
       "matchPackageNames": [
         "/^@redux-devtools\\//",
         "/redux/",

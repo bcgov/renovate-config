@@ -17,23 +17,120 @@
     {
       "description": "Group boto",
       "groupName": "boto",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": ["/^boto3$/", "/^botocore$/"]
     },
     // Group all pytest-related dependencies for unified update PRs
     {
       "description": "Group pytest",
       "groupName": "pytest",
-      "matchPackageNames": ["/^pytest$/", "/^pytest-/"]
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^pytest$/",
+        "/^pytest-/",
+        "/^coverage$/",
+        "/^tox$/",
+        "/^mock$/",
+        "/^factory-boy$/",
+        "/^freezegun$/"
+      ]
     },
     // Group SQLAlchemy and related tools for easier upgrades
     {
       "description": "Group sqlalchemy",
       "groupName": "sqlalchemy",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
       "matchPackageNames": [
         "/^sqlalchemy$/",
         "/^sqlmodel$/",
         "/^sqlacodegen$/",
-        "/^mock-alchemy$/"
+        "/^mock-alchemy$/",
+        "/^alembic$/"
+      ]
+    },
+    // Group linters and formatters
+    {
+      "description": "Group python linters",
+      "groupName": "python linters",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^ruff$/",
+        "/^black$/",
+        "/^isort$/",
+        "/^pylint$/",
+        "/^flake8$/",
+        "/^mypy$/",
+        "/^bandit$/",
+        "/^pre-commit$/"
+      ]
+    },
+    // Group pydantic and its core components
+    {
+      "description": "Group pydantic",
+      "groupName": "pydantic",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^pydantic$/",
+        "/^pydantic-core$/",
+        "/^annotated-types$/"
+      ]
+    },
+    // Group FastAPI and related web stack components
+    {
+      "description": "Group fastapi stack",
+      "groupName": "fastapi stack",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^fastapi$/",
+        "/^starlette$/",
+        "/^python-multipart$/",
+        "/^uvicorn$/",
+        "/^gunicorn$/",
+        "/^httpx$/",
+        "/^anyio$/"
+      ]
+    },
+    // Group AI and Machine Learning dependencies
+    {
+      "description": "Group ai-ml",
+      "groupName": "ai-ml",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^huggingface-hub$/",
+        "/^tokenizers$/",
+        "/^hf-xet$/",
+        "/^onnxruntime$/",
+        "/^openai$/",
+        "/^langchain/",
+        "/^llama-index/"
+      ]
+    },
+    // Group core data science libraries
+    {
+      "description": "Group data science",
+      "groupName": "data science",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^numpy$/",
+        "/^pandas$/",
+        "/^scipy$/",
+        "/^matplotlib$/",
+        "/^seaborn$/",
+        "/^scikit-learn$/"
+      ]
+    },
+    // Group python development tools
+    {
+      "description": "Group python tools",
+      "groupName": "python tools",
+      "matchManagers": ["pip", "pipenv", "poetry", "uv"],
+      "matchPackageNames": [
+        "/^uv$/",
+        "/^setuptools$/",
+        "/^tomlkit$/",
+        "/^orjson$/",
+        "/^pip$/",
+        "/^pip-tools$/"
       ]
     },
     {
