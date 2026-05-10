@@ -96,7 +96,7 @@
       ]
     },
     {
-      "description": "Group Node.js ecosystem: Combine npm, yarn, and pnpm updates into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "description": "Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
       "matchManagers": [
         "npm",
         "yarn",
