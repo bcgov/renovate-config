@@ -41,6 +41,13 @@ jobs:
             echo "Calculated CalVer version: $VERSION"
           fi
 
+          # Validate version format (expected YYYY.M.Patch, no leading single-digit month zeroes, requires 3 segments)
+          if [[ ! "$VERSION" =~ ^[0-9]{4}\.([1-9]|1[0-2])\.[0-9]+$ ]]; then
+            echo "❌ ERROR: Version '$VERSION' is not a valid SemVer-compatible CalVer format!"
+            echo "   Expected YYYY.M.Patch (e.g., 2026.4.0) with no leading zero in the month segment."
+            exit 1
+          fi
+
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Verify release and tag are unique
