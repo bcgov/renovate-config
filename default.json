@@ -3,6 +3,22 @@
   "automerge": true,
   "configMigration": true,
   "dependencyDashboard": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
+      "matchStrings": [
+        "\"github>bcgov/renovate-config(#(?<currentValue>[^\"]+))?\""
+      ],
+      "depNameTemplate": "bcgov/renovate-config",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^(?<version>.*)$",
+      "managerFilePatterns": [
+        "/(^|/)renovate\\.json$/",
+        "/(^|/)renovate\\.json5$/"
+      ]
+    }
+  ],
   "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
   "extends": [
     "config:recommended",
