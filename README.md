@@ -60,7 +60,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 **Use Versioned Releases (SemVer-Compatible Calendar Versioning):**
 ```json
 {
-  "extends": ["github>bcgov/renovate-config#2026.4.0"]
+  "extends": ["github>bcgov/renovate-config#2026.5.24"]
 }
 ```
 ✅ **Quarterly releases** (month segment reflects the release month) - thoroughly tested, stable updates.
@@ -78,7 +78,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 ⚠️ Use only for internal testing and development projects.
 
 **Migration & Auto-Updates:**
-🔄 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
+🔄 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.5.24`).
 🔄 **Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
 
 ## Files
