@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version (e.g., 2025.10.1, 2025.10.2)"
+        description: "Release version (e.g., 2026.4.0, 2026.4.1)"
         required: true
         type: string
 
@@ -34,11 +34,18 @@ jobs:
             VERSION="${{ github.event.inputs.version }}"
             echo "Using manual release version: $VERSION"
           else
-            # Scheduled release - calculate quarterly version
+            # Scheduled release - calculate quarterly version (SemVer compatible)
             YEAR=$(date +%Y)
-            QUARTER=$(printf "%02d" $((($(date +%m) - 1) / 3 * 3 + 1)))
-            VERSION="${YEAR}.${QUARTER}"
+            QUARTER=$((($(date +%m) - 1) / 3 * 3 + 1))
+            VERSION="${YEAR}.${QUARTER}.0"
             echo "Calculated CalVer version: $VERSION"
+          fi
+
+          # Validate version format (expected YYYY.M.Patch, no leading single-digit month zeroes, requires 3 segments)
+          if [[ ! "$VERSION" =~ ^[0-9]{4}\.([1-9]|1[0-2])\.[0-9]+$ ]]; then
+            echo "❌ ERROR: Version '$VERSION' is not a valid SemVer-compatible CalVer format!"
+            echo "   Expected YYYY.M.Patch (e.g., 2026.4.0) with no leading zero in the month segment."
+            exit 1
           fi
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
