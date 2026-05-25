@@ -57,30 +57,25 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 ## Version Control
 
-**Use Versioned Releases:**
+**Use Versioned Releases (SemVer-Compatible Calendar Versioning):**
+```json
+"extends": ["github>bcgov/renovate-config#2026.4.0"]
 ```
-"extends": ["github>bcgov/renovate-config#2025.10"]
-```
-✅ Quarterly releases - tested, stable updates
-✅ Calendar versioning (YYYY.Q format) like Ubuntu releases
-✅ Minimal PR noise with predictable update cadence
+✅ **Quarterly releases** - thoroughly tested, stable updates.
+✅ **SemVer-Compatible CalVer** (`YYYY.M.Patch` format) ensures compatibility with automated tools like Renovate and Dependabot out of the box.
+✅ **No leading zeros in month segments** (e.g., use `.4` instead of `.04`).
+✅ **Always specify a third segment** (e.g., `.0` for the initial release) so standard SemVer parsers can compare versions correctly and trigger automatic downstream updates.
 
 **Testing Only (Not Recommended for Production):**
-```
+```json
 "extends": ["github>bcgov/renovate-config"]
 ```
-⚠️ Latest changes from main branch - may include breaking updates
-⚠️ Use only for internal testing and development projects
+⚠️ Latest changes from main branch - may include breaking updates.
+⚠️ Use only for internal testing and development projects.
 
-**Migration from Old Format:**
-```
-"extends": ["github>bcgov/renovate-config#v1.2.3"]  // Old three-digit format
-```
-🔄 **Auto-migration:** All teams using versioned configs (v1.x, v1.x.x, etc.) will automatically receive updates to the latest CalVer release (e.g., `2025.10`)
-
-🔄 **Simplified versioning:** No more patch-level complexity - just quarterly releases
-
-🔄 **Universal transition:** This applies to all existing versioned references, not just three-digit formats
+**Migration & Auto-Updates:**
+🔄 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
+🔄 **Seamless Propagation**: By maintaining three-digit SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
 
 ## Files
 
