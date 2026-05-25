@@ -59,23 +59,27 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 **Use Versioned Releases (SemVer-Compatible Calendar Versioning):**
 ```json
-"extends": ["github>bcgov/renovate-config#2026.4.0"]
+{
+  "extends": ["github>bcgov/renovate-config#2026.4.0"]
+}
 ```
-✅ **Quarterly releases** - thoroughly tested, stable updates.
+✅ **Quarterly releases** (month segment reflects the release month) - thoroughly tested, stable updates.
 ✅ **SemVer-Compatible CalVer** (`YYYY.M.Patch` format) ensures compatibility with automated tools like Renovate and Dependabot out of the box.
 ✅ **No leading zeros in month segments** (e.g., use `.4` instead of `.04`).
 ✅ **Always specify a third segment** (e.g., `.0` for the initial release) so standard SemVer parsers can compare versions correctly and trigger automatic downstream updates.
 
 **Testing Only (Not Recommended for Production):**
 ```json
-"extends": ["github>bcgov/renovate-config"]
+{
+  "extends": ["github>bcgov/renovate-config"]
+}
 ```
 ⚠️ Latest changes from main branch - may include breaking updates.
 ⚠️ Use only for internal testing and development projects.
 
 **Migration & Auto-Updates:**
 🔄 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
-🔄 **Seamless Propagation**: By maintaining three-digit SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
+🔄 **Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
 
 ## Files
 
