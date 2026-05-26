@@ -8,10 +8,27 @@
       "customType": "regex",
       "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
       "matchStrings": [
-        "\"github>bcgov/renovate-config(#(?<currentValue>[^\"]+))?\""
+        "\"github>bcgov/renovate-config#(?<currentValue>[^\"]+)\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^(?<version>.*)$",
+      "managerFilePatterns": [
+        "/(^|/)renovate\\.json$/",
+        "/(^|/)renovate\\.json5$/",
+        "/(^|/)default\\.json$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Force-migrate unpinned downstream extends references to the latest release",
+      "matchStrings": [
+        "\"github>bcgov/renovate-config\""
+      ],
+      "depNameTemplate": "bcgov/renovate-config",
+      "datasourceTemplate": "github-tags",
+      "currentValueTemplate": "0.0.0",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{newValue}}\"",
       "extractVersionTemplate": "^(?<version>.*)$",
       "managerFilePatterns": [
         "/(^|/)renovate\\.json$/",
@@ -49,7 +66,7 @@
   "configWarningReuseIssue": true,
   "onboardingConfig": {
     "extends": [
-      "github>bcgov/renovate-config"
+      "github>bcgov/renovate-config#2026.5.24"
     ]
   },
   "platform": "github",
@@ -72,12 +89,6 @@
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
-    },
-    {
-      "description": "Renovate-config updates",
-      "matchPackageNames": [
-        "github>bcgov/renovate-config"
-      ]
     }
   ]
 }
