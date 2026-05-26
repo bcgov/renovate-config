@@ -73,6 +73,8 @@
   "platformAutomerge": true,
   "recreateWhen": "conflicted",
   "timezone": "America/Vancouver",
+  "npmrc": "legacy-peer-deps=false\n",
+  "npmrcMerge": true,
   "schedule": [
     "before 6am every weekday"
   ],
