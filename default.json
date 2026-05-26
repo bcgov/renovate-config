@@ -8,7 +8,7 @@
       "customType": "regex",
       "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
       "matchStrings": [
-        "\"github>bcgov/renovate-config(:[a-zA-Z0-9._-]+)?#(?<currentValue>[^\"]+)\""
+        "\"github>bcgov/renovate-config#(?<currentValue>[^\"]+)\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
@@ -51,10 +51,10 @@
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
-    "github>bcgov/renovate-config:rules-infra.json5#2026.5.24",
-    "github>bcgov/renovate-config:rules-java.json5#2026.5.24",
-    "github>bcgov/renovate-config:rules-javascript.json5#2026.5.24",
-    "github>bcgov/renovate-config:rules-python.json5#2026.5.24"
+    "github>bcgov/renovate-config:rules-infra.json5",
+    "github>bcgov/renovate-config:rules-java.json5",
+    "github>bcgov/renovate-config:rules-javascript.json5",
+    "github>bcgov/renovate-config:rules-python.json5"
   ],
   "forkProcessing": "enabled",
   "ignorePresets": [
