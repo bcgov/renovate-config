@@ -8,31 +8,17 @@
       "customType": "regex",
       "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
       "matchStrings": [
-        "\"github>bcgov/renovate-config#(?<currentValue>[^\"]+)\""
+        "\"github>bcgov/renovate-config(#(?<currentValue>[^\"]+))?\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
+      "currentValueTemplate": "{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
       "extractVersionTemplate": "^(?<version>.*)$",
       "managerFilePatterns": [
         "/(^|/)renovate\\.json$/",
         "/(^|/)renovate\\.json5$/",
         "/(^|/)default\\.json$/"
-      ]
-    },
-    {
-      "customType": "regex",
-      "description": "Force-migrate unpinned downstream extends references to the latest release",
-      "matchStrings": [
-        "\"github>bcgov/renovate-config\""
-      ],
-      "depNameTemplate": "bcgov/renovate-config",
-      "datasourceTemplate": "github-tags",
-      "currentValueTemplate": "0.0.0",
-      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{newValue}}\"",
-      "extractVersionTemplate": "^(?<version>.*)$",
-      "managerFilePatterns": [
-        "/(^|/)renovate\\.json$/",
-        "/(^|/)renovate\\.json5$/"
       ]
     }
   ],
