@@ -8,13 +8,13 @@
       "customType": "regex",
       "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
       "matchStrings": [
-        "\"github>bcgov/renovate-config(#(?<currentValue>[^\"]+))?\""
+        "\"github>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
       "currentValueTemplate": "{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
-      "extractVersionTemplate": "^(?<version>.*)$",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
         "/(^|/)renovate\\.json$/",
         "/(^|/)renovate\\.json5$/",
