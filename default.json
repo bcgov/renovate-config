@@ -65,11 +65,12 @@
   "prConcurrentLimit": 2,
   "packageRules": [
     {
-      "description": "Allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions",
+      "description": "Allow unlimited major version upgrades and bypass stability wait for bcgov/renovate-config to support CalVer transitions and critical config updates",
       "matchPackageNames": [
         "bcgov/renovate-config"
       ],
-      "maxMajorIncrement": 0
+      "maxMajorIncrement": 0,
+      "minimumReleaseAge": null
     },
     {
       "description": "Lock file maintenance: no minimumReleaseAge check (doesn't upgrade versions)",
