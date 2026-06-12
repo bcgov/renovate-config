@@ -83,6 +83,13 @@
       "matchManagers": ["npm", "yarn", "pnpm", "bun"],
       "matchPackageNames": ["/^@mui\\//"]
     },
+    // Group react-jsonschema-form (@rjsf) dependencies
+    {
+      "description": "Group react-jsonschema-form (@rjsf) dependencies to ensure core, utils, validator, and theme packages are updated together.",
+      "groupName": "react-jsonschema-form",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^@rjsf\\//"]
+    },
     // Group redux dependencies
     {
       "description": "Group redux",
