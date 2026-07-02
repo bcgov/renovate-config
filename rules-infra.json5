@@ -42,6 +42,28 @@
       ],
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
+    },
+    {
+      "description": "Replace bcgov/action-get-pr → bcgov/actions/get-pr",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["bcgov/action-get-pr"],
+      "replacementName": "bcgov/actions/get-pr",
+      "replacementVersion": "v1.0.0"
+    },
+    {
+      "description": "Replace bcgov/action-builder-ghcr → bcgov/actions/builder-ghcr",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["bcgov/action-builder-ghcr"],
+      "replacementName": "bcgov/actions/builder-ghcr",
+      "replacementVersion": "v1.0.0"
+    },
+    {
+      "description": "Replace bcgov/action-test-and-analyse → bcgov/actions/test-and-analyse",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["bcgov/action-test-and-analyse"],
+      "replacementName": "bcgov/actions/test-and-analyse",
+      "replacementVersion": "v1.0.0"
     }
   ]
 }
+
