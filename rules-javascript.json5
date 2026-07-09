@@ -116,6 +116,12 @@
       ],
       "groupName": "node dependencies",
       "groupSlug": "node"
+    },
+    {
+      "description": "Block TypeScript 7.0.x upgrades due to linter/tooling incompatibility, while allowing versions < 7.0.0 or >= 7.1.0.",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "< 7.0.0 || >= 7.1.0"
     }
     // Add additional rules below as needed
   ]
