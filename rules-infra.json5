@@ -4,12 +4,29 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Group allowlisted GitHub Actions (unpinned)",
-      "groupName": "github actions",
-      "groupSlug": "github-actions",
+      "description": "Group non-major updates for GitHub Actions",
       "matchManagers": [
         "github-actions"
-      ]
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest"
+      ],
+      "groupName": "github actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Keep major GitHub Action updates separate",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": null
     },
     {
       "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
