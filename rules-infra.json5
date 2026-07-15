@@ -11,6 +11,8 @@
       "matchUpdateTypes": [
         "minor",
         "patch",
+        "pin",
+        "pinDigest",
         "digest"
       ],
       "groupName": "github actions",
