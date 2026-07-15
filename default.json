@@ -60,8 +60,9 @@
   "recreateWhen": "conflicted",
   "timezone": "America/Vancouver",
   "schedule": [
-    "after 3am and before 9am every weekday"
+    "after 2am and before 8am every weekday"
   ],
+  "rebaseWhen": "behind-base-branch",
   "prConcurrentLimit": 5,
   "packageRules": [
     {
