@@ -116,6 +116,16 @@
       ],
       "groupName": "node dependencies",
       "groupSlug": "node"
+    },
+    {
+      "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
+      "matchPackageNames": [
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^mcr\\.microsoft\\.com\\/playwright/",
+        "/^microsoft\\/playwright-github-action/"
+      ],
+      "groupName": "playwright"
     }
     // Add additional rules below as needed
   ]
