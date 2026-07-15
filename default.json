@@ -63,6 +63,7 @@
     "after 2am and before 8am every weekday"
   ],
   "rebaseWhen": "behind-base-branch",
+  "updateNotScheduled": false,
   "prConcurrentLimit": 5,
   "packageRules": [
     {
