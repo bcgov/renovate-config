@@ -205,8 +205,10 @@ These settings in the shared config affect security posture:
 |---------|-------|---------|
 | `:enableVulnerabilityAlerts` | Enabled | Renovate creates PRs in response to GitHub vulnerability alerts |
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
-| `prConcurrentLimit` | 2 | Limits open PRs to reduce noise while maintaining coverage |
-| `schedule` | Before 6am weekdays | Updates arrive during low-traffic hours |
+| `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
+| `schedule` | Between 2am and 8am weekdays | Updates arrive during low-traffic hours |
+| `rebaseWhen` | `behind-base-branch` | Automatically rebases open PRs when default branch updates |
+| `updateNotScheduled` | `false` | Disables auto-updating/rebasing of PRs outside schedule window to prevent API throttling |
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
