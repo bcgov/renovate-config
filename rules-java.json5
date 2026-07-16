@@ -24,12 +24,6 @@
       "groupName": "java dependencies",
       "groupSlug": "java"
     },
-    // Example: Group all springframework dependencies
-    {
-      "description": "Group springframework",
-      "groupName": "springframework",
-      "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
-    },
     // Group all non-major Maven dependencies
     {
       "groupName": "maven all non-major dependencies",
@@ -42,6 +36,12 @@
         "patch"
       ],
       "minimumReleaseAge": "7 days"
+    },
+    // Example: Group all springframework dependencies
+    {
+      "description": "Group springframework",
+      "groupName": "springframework",
+      "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     }
     // Add more grouping rules as needed for your Java ecosystem
   ]
