@@ -14,6 +14,21 @@
       ],
       "pinDigests": true
     },
+    {
+      "description": "Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node"
+    },
     // Group vite dependencies
     {
       "description": "Group vite",

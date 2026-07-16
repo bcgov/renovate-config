@@ -11,6 +11,19 @@
       ],
       "pinDigests": true
     },
+    {
+      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "java dependencies",
+      "groupSlug": "java"
+    },
     // Example: Group all springframework dependencies
     {
       "description": "Group springframework",
