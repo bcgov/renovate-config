@@ -4,6 +4,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
+      "matchManagers": [
+        "terraform",
+        "dockerfile",
+        "kubernetes",
+        "helmv3",
+        "docker-compose"
+      ],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    },
+    {
       "description": "Group non-major updates for GitHub Actions",
       "matchManagers": [
         "github-actions"
@@ -47,18 +59,6 @@
         "major"
       ],
       "enabled": false
-    },
-    {
-      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
-      "matchManagers": [
-        "terraform",
-        "dockerfile",
-        "kubernetes",
-        "helmv3",
-        "docker-compose"
-      ],
-      "groupName": "infrastructure updates",
-      "groupSlug": "infra"
     }
   ]
 }

@@ -11,25 +11,6 @@
       ],
       "pinDigests": true
     },
-    // Example: Group all springframework dependencies
-    {
-      "description": "Group springframework",
-      "groupName": "springframework",
-      "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
-    },
-    // Group all non-major Maven dependencies
-    {
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
-      "matchManagers": [
-        "maven"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "minimumReleaseAge": "7 days"
-    },
     {
       "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
       "matchManagers": [
@@ -42,6 +23,12 @@
       ],
       "groupName": "java dependencies",
       "groupSlug": "java"
+    },
+    // Example: Group all springframework dependencies
+    {
+      "description": "Group springframework",
+      "groupName": "springframework",
+      "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
     }
     // Add more grouping rules as needed for your Java ecosystem
   ]
