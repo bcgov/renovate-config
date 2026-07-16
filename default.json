@@ -42,6 +42,15 @@
     "github>bcgov/renovate-config:rules-javascript.json5",
     "github>bcgov/renovate-config:rules-python.json5"
   ],
+  "vulnerabilityAlerts": {
+    "description": "Bypass schedule and concurrency limit for vulnerability PRs",
+    "dependencyDashboardApproval": false,
+    "minimumReleaseAge": null,
+    "schedule": [
+      "at any time"
+    ],
+    "prConcurrentLimit": 0
+  },
   "forkProcessing": "enabled",
   "ignorePresets": [
     ":ignoreModulesAndTests"
