@@ -42,6 +42,16 @@
     "github>bcgov/renovate-config:rules-javascript.json5",
     "github>bcgov/renovate-config:rules-python.json5"
   ],
+  "vulnerabilityAlerts": {
+    "description": "Prioritize security vulnerability resolution PRs",
+    "dependencyDashboardApproval": false,
+    "minimumReleaseAge": "3 days",
+    "schedule": [
+      "at any time"
+    ],
+    "prConcurrentLimit": 3,
+    "prHourlyLimit": 1
+  },
   "forkProcessing": "enabled",
   "ignorePresets": [
     ":ignoreModulesAndTests"
