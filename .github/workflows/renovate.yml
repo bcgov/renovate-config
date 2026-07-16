@@ -46,7 +46,7 @@ jobs:
       - name: Schema validation
         run: |
           echo "🔍 Stage 1: Schema validation..."
-          npx --yes --package renovate -- renovate-config-validator --strict default.json renovate.json rules-*.json5
+          npx --yes --package renovate -- renovate-config-validator --strict default.json renovate.json
 
       - name: Config resolution test
         run: |
@@ -63,14 +63,14 @@ jobs:
 
           # Check for pinning strategy
           echo "  Checking pinning strategy..."
-          if grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null && grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+          if grep -q '"pinDigests": true' default.json 2>/dev/null && grep -q '"pinDigests": false' default.json 2>/dev/null; then
             echo "✅ Pinning strategy: Global pin with specific unpins"
             echo "  This is our intended strategy - pin globally, unpin specific managers"
 
 
-          elif grep -q '"pinDigests": true' default.json rules-*.json5 2>/dev/null; then
+          elif grep -q '"pinDigests": true' default.json 2>/dev/null; then
             echo "✅ Pinning strategy: Global pinning enabled"
-          elif grep -q '"pinDigests": false' default.json rules-*.json5 2>/dev/null; then
+          elif grep -q '"pinDigests": false' default.json 2>/dev/null; then
             echo "✅ Pinning strategy: Specific unpinning rules"
           else
             echo "⚠️  No pinning rules found"
@@ -78,7 +78,7 @@ jobs:
 
           # Check for duplicate package rules
           echo "  Checking for duplicate package rules..."
-          DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json rules-*.json5 2>/dev/null | sort | uniq -d || true)
+          DUPLICATE_RULES=$(grep -h '"matchPackageNames"' default.json 2>/dev/null | sort | uniq -d || true)
           if [ -n "$DUPLICATE_RULES" ]; then
             echo "⚠️  Potential duplicate package rules found:"
             echo "$DUPLICATE_RULES"
@@ -89,7 +89,7 @@ jobs:
 
           # Check for valid update types
           echo "  Checking for valid update types..."
-          UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json rules-*.json5 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
+          UPDATE_TYPES=$(grep -h '"matchUpdateTypes"' default.json 2>/dev/null | sed -n 's/.*"matchUpdateTypes"[[:space:]]*:[[:space:]]*\[\([^]]*\)\].*/\1/p' || true)
           if [ -n "$UPDATE_TYPES" ]; then
             echo "✅ Found update types: $UPDATE_TYPES"
             INVALID_TYPES=$(echo "$UPDATE_TYPES" | grep -o '"[^"]*"' | grep -v -E '"(major|minor|patch|pin|pinDigest|digest|lockFileMaintenance|rollback|bump|replacement)"' || true)
@@ -104,7 +104,7 @@ jobs:
 
           # Check for invalid commitMessageAction values
           echo "  Checking for invalid commitMessageAction values..."
-          INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json rules-*.json5 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
+          INVALID_COMMIT_ACTIONS=$(grep -h '"commitMessageAction":[[:space:]]*"[^"]*"' default.json 2>/dev/null | grep -o '"[^"]*"$' | grep -v -E '"(replace|append|prepend)"' || true)
           if [ -n "$INVALID_COMMIT_ACTIONS" ]; then
             echo "❌ Invalid commitMessageAction values found:"
             echo "$INVALID_COMMIT_ACTIONS"
@@ -132,8 +132,8 @@ jobs:
 
 
           # Check for clear descriptions
-          UNDESCRIBED_RULES=$(grep -h '"description"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
-          TOTAL_RULES=$(grep -h '"packageRules"' default.json rules-*.json5 2>/dev/null | wc -l || echo "0")
+          UNDESCRIBED_RULES=$(grep -h '"description"' default.json 2>/dev/null | wc -l || echo "0")
+          TOTAL_RULES=$(grep -h '"packageRules"' default.json 2>/dev/null | wc -l || echo "0")
           if [ "$UNDESCRIBED_RULES" -lt "$TOTAL_RULES" ]; then
             echo "⚠️  Some rules may be missing descriptions"
             echo "  Consider adding descriptions to all package rules"
@@ -154,7 +154,7 @@ jobs:
               block=""
             }
             END {print count+0}
-          ' default.json rules-*.json5 2>/dev/null)
+          ' default.json 2>/dev/null)
           if [ "$COMPLEX_RULES" -gt 10 ]; then
             echo "⚠️  Some rules have many conditions ($COMPLEX_RULES)"
             echo "  Consider simplifying complex rules for better maintainability"
@@ -168,7 +168,7 @@ jobs:
       - name: Lint Config for Duplicates
         run: |
           npm install json5@^2.2.3 --no-save
-          node lint_renovate_duplicates.mjs *.json *.json5
+          node lint_renovate_duplicates.mjs *.json
 
   run:
     name: Dry-Run
