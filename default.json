@@ -43,13 +43,14 @@
     "github>bcgov/renovate-config:rules-python.json5"
   ],
   "vulnerabilityAlerts": {
-    "description": "Bypass schedule and concurrency limit for vulnerability PRs",
+    "description": "Prioritize security vulnerability resolution PRs",
     "dependencyDashboardApproval": false,
-    "minimumReleaseAge": null,
+    "minimumReleaseAge": "3 days",
     "schedule": [
       "at any time"
     ],
-    "prConcurrentLimit": 0
+    "prConcurrentLimit": 3,
+    "prHourlyLimit": 1
   },
   "forkProcessing": "enabled",
   "ignorePresets": [
