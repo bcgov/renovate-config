@@ -16,6 +16,24 @@
       ],
       "pinDigests": true
     },
+    {
+      "description": "Group Python ecosystem: Combine updates from all Python managers (pip_requirements, pip_setup, pipenv, poetry, uv, pep621, pip-compile) into single PRs to maintain compatibility.",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "python dependencies",
+      "groupSlug": "python"
+    },
     // Group boto3 and botocore dependencies for easier management
     {
       "description": "Group boto",
@@ -135,24 +153,6 @@
         "/^pip$/",
         "/^pip-tools$/"
       ]
-    },
-    {
-      "description": "Group Python ecosystem: Combine updates from all Python managers (pip_requirements, pip_setup, pipenv, poetry, uv, pep621, pip-compile) into single PRs to maintain compatibility.",
-      "matchManagers": [
-        "pip_requirements",
-        "pip_setup",
-        "pipenv",
-        "poetry",
-        "uv",
-        "pep621",
-        "pip-compile"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "python dependencies",
-      "groupSlug": "python"
     }
   ]
 }
