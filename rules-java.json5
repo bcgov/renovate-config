@@ -24,19 +24,6 @@
       "groupName": "java dependencies",
       "groupSlug": "java"
     },
-    // Group all non-major Maven dependencies
-    {
-      "groupName": "maven all non-major dependencies",
-      "groupSlug": "maven all-minor-patch",
-      "matchManagers": [
-        "maven"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "minimumReleaseAge": "7 days"
-    },
     // Example: Group all springframework dependencies
     {
       "description": "Group springframework",
