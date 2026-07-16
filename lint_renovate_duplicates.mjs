@@ -49,8 +49,8 @@ for (const path of files) {
   let data;
   try {
     const raw = fs.readFileSync(path, 'utf8');
-    // Use JSON5 parser for .json5, native JSON for .json
-    data = path.endsWith('.json5') ? json5.parse(raw) : JSON.parse(raw);
+    // Use JSON5 parser for all files to support comments (JSONC) in .json files
+    data = json5.parse(raw);
   } catch (e) {
     console.error(`[ERROR] └─ Could not parse ${path}: ${e}`);
     continue;

@@ -72,6 +72,9 @@
   "updateNotScheduled": false,
   "prConcurrentLimit": 5,
   "packageRules": [
+    // ==========================================
+    // ⚙️ Core Renovate Config & Global Policies
+    // ==========================================
     {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
       "matchPackageNames": [
@@ -92,6 +95,10 @@
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
     },
+
+    // ==========================================
+    // 🐳 Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
+    // ==========================================
     {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
@@ -149,6 +156,10 @@
       ],
       "enabled": false
     },
+
+    // ==========================================
+    // ☕ Java & JVM Ecosystem (Maven, Gradle, Spring)
+    // ==========================================
     {
       "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
@@ -178,6 +189,10 @@
         "/^spring-/"
       ]
     },
+
+    // ==========================================
+    // 🌐 JavaScript, TypeScript & Node.js Ecosystem
+    // ==========================================
     {
       "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
@@ -369,6 +384,10 @@
       ],
       "groupName": "playwright"
     },
+
+    // ==========================================
+    // 🐍 Python Ecosystem (pip, poetry, uv, pipenv, FastAPI, pytest)
+    // ==========================================
     {
       "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
       "matchManagers": [
