@@ -6,6 +6,7 @@
   ],
   "packageRules": [
     {
+      "description": "Disable auto-updates for this repository's own preset to ensure it always tests the main branch instead of pinning to past releases.",
       "matchPackageNames": [
         "bcgov/renovate-config"
       ],
