@@ -89,6 +89,10 @@ Historically, this configuration was split across multiple files. We have consol
 |------|---------|
 | `renovate.json` | Entry point for downstream repositories referencing this configuration. |
 | `default.json` | The single consolidated Renovate preset containing all shared configuration rules. |
+| `rules-*.json5` | **[LEGACY]** Old language-specific configurations. |
+
+> [!WARNING]
+> The `rules-*.json5` files are legacy configurations and will be deleted once our transition to the new system is fully complete.
 
 ### Why We Use a Single `default.json`
 
