@@ -1,3 +1,13 @@
+// IMPORTANT: This file uses JSONC (JSON with Comments) syntax.
+// Renovate's parseJson() routes all .json files through parseJsonc() (jsonc-weaver)
+// as the primary, non-deprecated code path. Standard // comments are safe here.
+//
+// We CANNOT rename this file to default.jsonc — Renovate hardcodes the fetch to
+// "default.json" when downstream repos omit a filename in their extends array.
+// Renaming would break all 124+ downstream consumers.
+//
+// Source: https://github.com/renovatebot/renovate/blob/main/lib/util/common.ts
+//   parseJson() → parseJsonWithFallback() → parseJsonc()  (first-choice path)
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
@@ -36,11 +46,7 @@
     ":preserveSemverRanges",
     ":rebaseStalePrs",
     ":semanticCommits",
-    ":semanticCommitScope(deps)",
-    "github>bcgov/renovate-config:rules-infra.json5",
-    "github>bcgov/renovate-config:rules-java.json5",
-    "github>bcgov/renovate-config:rules-javascript.json5",
-    "github>bcgov/renovate-config:rules-python.json5"
+    ":semanticCommitScope(deps)"
   ],
   "vulnerabilityAlerts": {
     "description": "Prioritize security vulnerability resolution PRs",
@@ -76,6 +82,9 @@
   "updateNotScheduled": false,
   "prConcurrentLimit": 5,
   "packageRules": [
+    // ==========================================
+    // ⚙️ Core Renovate Config & Global Policies
+    // ==========================================
     {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
       "matchPackageNames": [
@@ -95,6 +104,516 @@
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
+    },
+
+    // ==========================================
+    // 🐳 Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
+    // ==========================================
+    {
+      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
+      "matchManagers": [
+        "terraform",
+        "dockerfile",
+        "kubernetes",
+        "helmv3",
+        "docker-compose"
+      ],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    },
+    {
+      "description": "Group non-major updates for GitHub Actions",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest"
+      ],
+      "groupName": "github actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Keep major GitHub Action updates separate",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": null
+    },
+    {
+      "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
+      "matchPackageNames": [
+        "/^postgres$/",
+        "/^mysql$/",
+        "/^mariadb$/",
+        "/^mongo$/",
+        "/^mongodb$/",
+        "/^redis$/"
+      ],
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose",
+        "kubernetes"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+
+    // ==========================================
+    // ☕ Java & JVM Ecosystem (Maven, Gradle, Spring)
+    // ==========================================
+    {
+      "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "java dependencies",
+      "groupSlug": "java"
+    },
+    {
+      "description": "Group springframework",
+      "groupName": "springframework",
+      "matchPackageNames": [
+        "/^org\\.springframework/",
+        "/^spring-/"
+      ]
+    },
+
+    // ==========================================
+    // 🌐 JavaScript, TypeScript & Node.js Ecosystem
+    // ==========================================
+    {
+      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node"
+    },
+    {
+      "description": "Group vite",
+      "groupName": "vite",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^vite$/",
+        "/^@vitejs\\//"
+      ]
+    },
+    {
+      "description": "Group linters",
+      "groupName": "linters",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/eslint/",
+        "/^@prettier\\//",
+        "/^prettier-plugin-/"
+      ]
+    },
+    {
+      "description": "Group @angular",
+      "groupName": "angular",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@angular\\//",
+        "/^@angular-/"
+      ]
+    },
+    {
+      "description": "Group aws-amplify",
+      "groupName": "aws-amplify",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@aws-amplify\\//",
+        "/aws-amplify/"
+      ]
+    },
+    {
+      "description": "Group @testing-library",
+      "groupName": "testing-library",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@testing-library\\//"
+      ]
+    },
+    {
+      "description": "Group @nestjs",
+      "groupName": "nestjs",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@nestjs\\//",
+        "/^@swc\\//",
+        "/nestjs-/",
+        "/nest-winston/",
+        "/reflect-metadata/"
+      ]
+    },
+    {
+      "description": "Group lodash",
+      "groupName": "lodash",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^lodash$/"
+      ]
+    },
+    {
+      "description": "Group nodemailer",
+      "groupName": "nodemailer",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^nodemailer$/",
+        "/^mailparser$/"
+      ]
+    },
+    {
+      "description": "Group @mui",
+      "groupName": "mui",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@mui\\//"
+      ]
+    },
+    {
+      "description": "Group react-jsonschema-form (@rjsf) dependencies to ensure core, utils, validator, and theme packages are updated together.",
+      "groupName": "react-jsonschema-form",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@rjsf\\//"
+      ]
+    },
+    {
+      "description": "Group redux",
+      "groupName": "redux",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@redux-devtools\\//",
+        "/redux/",
+        "/react-redux/",
+        "/redux-thunk/"
+      ]
+    },
+    {
+      "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
+      "matchPackageNames": [
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^mcr\\.microsoft\\.com\\/playwright/",
+        "/^microsoft\\/playwright-github-action/"
+      ],
+      "groupName": "playwright"
+    },
+
+    // ==========================================
+    // 🐍 Python Ecosystem (pip, poetry, uv, pipenv, FastAPI, pytest)
+    // ==========================================
+    {
+      "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Python ecosystem: Combine updates from all Python managers (pip_requirements, pip_setup, pipenv, poetry, uv, pep621, pip-compile) into single PRs to maintain compatibility.",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "python dependencies",
+      "groupSlug": "python"
+    },
+    {
+      "description": "Group boto",
+      "groupName": "boto",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^boto3$/",
+        "/^botocore$/"
+      ]
+    },
+    {
+      "description": "Group pytest",
+      "groupName": "pytest",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^pytest$/",
+        "/^pytest-/",
+        "/^coverage$/",
+        "/^tox$/",
+        "/^mock$/",
+        "/^factory-boy$/",
+        "/^freezegun$/"
+      ]
+    },
+    {
+      "description": "Group sqlalchemy",
+      "groupName": "sqlalchemy",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^sqlalchemy$/",
+        "/^sqlmodel$/",
+        "/^sqlacodegen$/",
+        "/^mock-alchemy$/",
+        "/^alembic$/"
+      ]
+    },
+    {
+      "description": "Group python linters",
+      "groupName": "python linters",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^ruff$/",
+        "/^black$/",
+        "/^isort$/",
+        "/^pylint$/",
+        "/^flake8$/",
+        "/^mypy$/",
+        "/^bandit$/",
+        "/^pre-commit$/"
+      ]
+    },
+    {
+      "description": "Group pydantic",
+      "groupName": "pydantic",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^pydantic$/",
+        "/^pydantic-core$/",
+        "/^annotated-types$/"
+      ]
+    },
+    {
+      "description": "Group fastapi stack",
+      "groupName": "fastapi stack",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^fastapi$/",
+        "/^starlette$/",
+        "/^python-multipart$/",
+        "/^uvicorn$/",
+        "/^gunicorn$/",
+        "/^httpx$/",
+        "/^anyio$/"
+      ]
+    },
+    {
+      "description": "Group ai-ml",
+      "groupName": "ai-ml",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^huggingface-hub$/",
+        "/^tokenizers$/",
+        "/^hf-xet$/",
+        "/^onnxruntime$/",
+        "/^openai$/",
+        "/^langchain/",
+        "/^llama-index/"
+      ]
+    },
+    {
+      "description": "Group data science",
+      "groupName": "data science",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^numpy$/",
+        "/^pandas$/",
+        "/^scipy$/",
+        "/^matplotlib$/",
+        "/^seaborn$/",
+        "/^scikit-learn$/"
+      ]
+    },
+    {
+      "description": "Group python tools",
+      "groupName": "python tools",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^uv$/",
+        "/^setuptools$/",
+        "/^tomlkit$/",
+        "/^orjson$/",
+        "/^pip$/",
+        "/^pip-tools$/"
+      ]
     }
   ]
 }

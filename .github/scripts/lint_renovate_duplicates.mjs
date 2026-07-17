@@ -1,18 +1,18 @@
 #!/usr/bin/env node
-// lint_renovate_duplicates.mjs
+// .github/scripts/lint_renovate_duplicates.mjs
 // Lint Renovate JSON/JSON5 config for duplicate/overlapping packageRules by matchManagers and matchPackageNames
-// Usage: node lint_renovate_duplicates.mjs file1.json file2.json5 ...
+// Usage: node .github/scripts/lint_renovate_duplicates.mjs file1.json file2.json5 ...
 //
 // - Accepts any number of .json or .json5 files as arguments.
 // - Checks for exact duplicate and overlapping packageRules across all files.
 // - Prints clear warnings with file and rule index for each case.
 //
 // Adapt or extend as needed for your org's Renovate config structure!
-
+//
 // === USAGE & EXAMPLES ===
 //
 // Usage:
-//   node lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
+//   node .github/scripts/lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
 //
 // Example output:
 //   [INFO] Linting 3 files: default.json, rules-infra.json5, rules-javascript.json5
@@ -34,7 +34,7 @@ import process from 'process';
 import json5 from 'json5';
 
 if (process.argv.length < 3) {
-  console.error('Usage: node lint_renovate_duplicates.mjs <file1.json> [file2.json5 ...]');
+  console.error('Usage: node .github/scripts/lint_renovate_duplicates.mjs <file1.json> [file2.json5 ...]');
   process.exit(1);
 }
 
@@ -49,8 +49,8 @@ for (const path of files) {
   let data;
   try {
     const raw = fs.readFileSync(path, 'utf8');
-    // Use JSON5 parser for .json5, native JSON for .json
-    data = path.endsWith('.json5') ? json5.parse(raw) : JSON.parse(raw);
+    // Use JSON5 parser for all files to support comments (JSONC) in .json files
+    data = json5.parse(raw);
   } catch (e) {
     console.error(`[ERROR] └─ Could not parse ${path}: ${e}`);
     continue;
