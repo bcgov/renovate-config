@@ -7,7 +7,7 @@
 // Renaming would break all 124+ downstream consumers.
 //
 // Source: https://github.com/renovatebot/renovate/blob/main/lib/util/common.ts
-//   parseJson() → parseJsonWithFallback() → parseJsonc()  (first-choice path)
+//   parseJson() -> parseJsonWithFallback() -> parseJsonc()  (first-choice path)
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
@@ -83,7 +83,7 @@
   "prConcurrentLimit": 5,
   "packageRules": [
     // ==========================================
-    // ⚙️ Core Renovate Config & Global Policies
+    // Core Renovate Config & Global Policies
     // ==========================================
     {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
@@ -107,7 +107,7 @@
     },
 
     // ==========================================
-    // 🐳 Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
+    // Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
     // ==========================================
     {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
@@ -168,7 +168,7 @@
     },
 
     // ==========================================
-    // ☕ Java & JVM Ecosystem (Maven, Gradle, Spring)
+    // Java & JVM Ecosystem (Maven, Gradle, Spring)
     // ==========================================
     {
       "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
@@ -201,7 +201,7 @@
     },
 
     // ==========================================
-    // 🌐 JavaScript, TypeScript & Node.js Ecosystem
+    // JavaScript, TypeScript & Node.js Ecosystem
     // ==========================================
     {
       "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
@@ -396,7 +396,7 @@
     },
 
     // ==========================================
-    // 🐍 Python Ecosystem (pip, poetry, uv, pipenv, FastAPI, pytest)
+    // Python Ecosystem (pip, poetry, uv, pipenv, FastAPI, pytest)
     // ==========================================
     {
       "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",

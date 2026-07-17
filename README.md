@@ -63,10 +63,10 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
   "extends": ["github>bcgov/renovate-config#2026.4.0"]
 }
 ```
-✅ **Quarterly releases** (month segment reflects the release month) - thoroughly tested, stable updates.
-✅ **SemVer-Compatible CalVer** (`YYYY.M.Patch` format) ensures compatibility with automated tools like Renovate and Dependabot out of the box.
-✅ **No leading zeros in month segments** (e.g., use `.4` instead of `.04`).
-✅ **Always specify a third segment** (e.g., `.0` for the initial release) so standard SemVer parsers can compare versions correctly and trigger automatic downstream updates.
+- **Quarterly releases** (month segment reflects the release month) - thoroughly tested, stable updates.
+- **SemVer-Compatible CalVer** (`YYYY.M.Patch` format) ensures compatibility with automated tools like Renovate and Dependabot out of the box.
+- **No leading zeros in month segments** (e.g., use `.4` instead of `.04`).
+- **Always specify a third segment** (e.g., `.0` for the initial release) so standard SemVer parsers can compare versions correctly and trigger automatic downstream updates.
 
 **Testing Only (Not Recommended for Production):**
 ```json
@@ -74,20 +74,67 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
   "extends": ["github>bcgov/renovate-config"]
 }
 ```
-⚠️ Latest changes from main branch - may include breaking updates.
-⚠️ Use only for internal testing and development projects.
+Warning: Latest changes from main branch - may include breaking updates.
+Warning: Use only for internal testing and development projects.
 
 **Migration & Auto-Updates:**
-🔄 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
-🔄 **Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
+**Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
+**Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
 
-## Files
+## Configuration Architecture & Files
+
+Historically, this configuration was split across multiple files (e.g., `rules-*.json5`). Those legacy presets are no longer maintained on `main`; all rules are now consolidated into `default.json` to address key Renovate limitations and ensure version stability.
 
 | File | Purpose |
 |------|---------|
-| `renovate.json` | Entry point for downstream repos |
-| `default.json` | Main shared config |
-| `rules-*.json5` | Language-specific rules |
+| `renovate.json` | Entry point for downstream repositories referencing this configuration. |
+| `default.json` | The single consolidated Renovate preset containing all shared configuration rules. |
+| `rules-*.json5` | **[LEGACY]** Old language-specific configurations. |
+
+> [!WARNING]
+> The `rules-*.json5` files are legacy configurations and will be deleted once our transition to the new system is fully complete.
+
+### Why We Use a Single `default.json`
+
+Renovate has two design limitations that necessitate a single, consolidated configuration file:
+
+1. **Preset Tag/Branch Inheritance:** Renovate does not propagate the parent version tag/branch (e.g., `#2026.7.0`) down to nested preset extensions. If `default.json` extends sub-files (like `rules-java.json5`), downstream repositories that version-lock to `#2026.7.0` will resolve `default.json` correctly at that tag, but Renovate will fetch the nested rules from the default `main` branch. This breaks SemVer isolation. Consolidating all rules directly into `default.json` guarantees version locking.
+2. **Hardcoded Lookup:** When downstream configurations extend `github>bcgov/renovate-config#<version>` (omitting a specific file path), Renovate's resolver hardcodes the lookup specifically to `default.json`. We cannot rename the file to `default.jsonc` or `default.json5` without forcing all downstream repositories to explicitly update their `extends` targets.
+
+### Why Comments Are Safe in `default.json`
+
+Although standard JSON does not support comments, **Renovate parses all `.json` configuration and preset files through a JSONC-compliant parser (`jsonc-weaver`) as its primary code path.**
+Lines starting with `//` are safely stripped during Renovate's ingestion process.
+
+---
+
+## Configuration Sections Breakdown
+
+The `default.json` file is structured into the following sections using comment dividers:
+
+### Core Renovate Config & Global Policies
+Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM Pacific Time to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
+
+### Infrastructure & Container Orchestration
+Consolidates and groups non-major updates for infrastructure managers:
+- **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
+- **Actions:** Groups updates into a single `infrastructure updates` PR to reduce noise.
+- **GitHub Actions:** Groups non-major action updates while keeping major updates separate.
+- **Database Safety:** Explicitly blocks major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) to prevent accidental data loss or container start failures without manual migration.
+
+### Java & JVM Ecosystem
+- **Pinning:** Globally pins all digests and SHAs for Maven and Gradle dependencies to guarantee supply chain security.
+- **Grouping:** Combines Maven and Gradle non-major updates into a single `java dependencies` PR. Also groups Spring Framework updates.
+
+### JavaScript, TypeScript & Node.js Ecosystem
+- **Pinning:** Enforces SHA/digest pinning for package managers (`npm`, `yarn`, `pnpm`, `bun`).
+- **Grouping:** Consolidates non-major updates into a single `node dependencies` PR.
+- **Framework Bundles:** Automatically groups related library updates to prevent compilation errors (e.g., `@angular/*`, NestJS ecosystem, Vite, React Redux, Playwright, `@mui/*`, and frontend linters/Prettier/ESLint).
+
+### Python Ecosystem
+- **Pinning:** Pin digests/SHAs for Python package managers (`pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `uv`, `pep621`, `pip-compile`).
+- **Grouping:** Consolidates non-major dependencies into a single `python dependencies` PR.
+- **Library Bundles:** Automatically groups related library updates for common Python stacks (e.g., FastAPI/Starlette/Uvicorn, Pytest/coverage/mock, SQLAlchemy/Alembic/SQLModel, Boto3/Botocore, Pydantic, AI/ML libraries like HuggingFace and LangChain, and Python linters like Ruff/Black/Flake8).
 
 ## Contributing
 
