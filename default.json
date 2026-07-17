@@ -1,3 +1,13 @@
+// IMPORTANT: This file uses JSONC (JSON with Comments) syntax.
+// Renovate's parseJson() routes all .json files through parseJsonc() (jsonc-weaver)
+// as the primary, non-deprecated code path. Standard // comments are safe here.
+//
+// We CANNOT rename this file to default.jsonc — Renovate hardcodes the fetch to
+// "default.json" when downstream repos omit a filename in their extends array.
+// Renaming would break all 124+ downstream consumers.
+//
+// Source: https://github.com/renovatebot/renovate/blob/main/lib/util/common.ts
+//   parseJson() → parseJsonWithFallback() → parseJsonc()  (first-choice path)
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
