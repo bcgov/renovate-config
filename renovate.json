@@ -2,6 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Repository-specific Renovate config. Extends the shared bcgov/renovate-config preset. Downstream repos should reference this file for consistent update management.",
   "extends": [
-    "github>bcgov/renovate-config#2026.7.0"
+    "github>bcgov/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "Disable auto-updates for this repository's own preset to ensure it always tests the main branch instead of pinning to past releases.",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "enabled": false
+    }
   ]
 }
