@@ -46,7 +46,11 @@ jobs:
       - name: Schema validation
         run: |
           echo "🔍 Stage 1: Schema validation..."
-          npx --yes --package renovate -- renovate-config-validator --strict default.json renovate.json
+          docker run --rm \
+            -v "$(pwd):/github-action" \
+            -w /github-action \
+            ghcr.io/renovatebot/renovate:41 \
+            renovate-config-validator --strict default.json renovate.json
 
       - name: Config resolution test
         run: |
@@ -167,7 +171,6 @@ jobs:
 
       - name: Lint Config for Duplicates
         run: |
-          npm install json5@^2.2.3 --no-save
           node .github/scripts/lint_renovate_duplicates.mjs *.json
 
 
