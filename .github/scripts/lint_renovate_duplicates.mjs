@@ -31,11 +31,25 @@
 
 import fs from 'fs';
 import process from 'process';
-import json5 from 'json5';
 
 if (process.argv.length < 3) {
-  console.error('Usage: node .github/scripts/lint_renovate_duplicates.mjs <file1.json> [file2.json5 ...]');
+  console.error('Usage: node .github/scripts/lint_renovate_duplicates.mjs <file1.json> [file2.json ...]');
   process.exit(1);
+}
+
+/**
+ * Parses JSONC (JSON with comments) content natively.
+ * @param {string} text
+ * @returns {any}
+ */
+function parseJSONC(text) {
+  const clean = text.replace(/("([^"\\]|\\.)*")|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (match, string) => {
+    if (string) {
+      return match;
+    }
+    return '';
+  });
+  return JSON.parse(clean);
 }
 
 const files = process.argv.slice(2);
@@ -49,8 +63,8 @@ for (const path of files) {
   let data;
   try {
     const raw = fs.readFileSync(path, 'utf8');
-    // Use JSON5 parser for all files to support comments (JSONC) in .json files
-    data = json5.parse(raw);
+    // Use custom JSONC parser to support comments in .json files without external dependencies
+    data = parseJSONC(raw);
   } catch (e) {
     console.error(`[ERROR] └─ Could not parse ${path}: ${e}`);
     continue;

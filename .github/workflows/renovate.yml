@@ -44,9 +44,10 @@ jobs:
           echo "✅ Updated renovate.json to reference branch: $CURRENT_BRANCH"
 
       - name: Schema validation
-        run: |
-          echo "🔍 Stage 1: Schema validation..."
-          npx --yes --package renovate -- renovate-config-validator --strict default.json renovate.json
+        uses: docker://ghcr.io/renovatebot/renovate:43
+        with:
+          entrypoint: renovate-config-validator
+          args: --strict default.json renovate.json
 
       - name: Config resolution test
         run: |
@@ -167,7 +168,6 @@ jobs:
 
       - name: Lint Config for Duplicates
         run: |
-          npm install json5@^2.2.3 --no-save
           node .github/scripts/lint_renovate_duplicates.mjs *.json
 
 
@@ -215,20 +215,15 @@ jobs:
 
       # Run Renovate with proper error detection
       - name: Run Renovate Dry-Run
+        uses: docker://ghcr.io/renovatebot/renovate:43
+        env:
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+        with:
+          entrypoint: /bin/bash
+          args: -c "renovate --dry-run=full --config-file=renovate.json --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log || true"
+
+      - name: Validate Dry-Run Log
         run: |
-          echo "🔍 Running Renovate dry-run with configuration validation..."
-
-          # Run Renovate with dry-run and capture output
-          docker run --rm \
-            -v "$(pwd)/renovate.json:/github-action/renovate.json" \
-            -v /tmp:/tmp \
-            -e RENOVATE_TOKEN="${{ secrets.RENOVATE_TOKEN }}" \
-            ghcr.io/renovatebot/renovate:41 \
-            --dry-run=full \
-            --config-file=/github-action/renovate.json \
-            --log-level=${{ inputs.log_level || 'INFO' }} \
-            2>&1 | tee renovate_output.log || true
-
           # Check if configuration errors were found
           if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
             echo "❌ Configuration errors detected:"
