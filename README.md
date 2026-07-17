@@ -74,12 +74,12 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
   "extends": ["github>bcgov/renovate-config"]
 }
 ```
-⚠️ Latest changes from main branch - may include breaking updates.
-⚠️ Use only for internal testing and development projects.
+Warning: Latest changes from main branch - may include breaking updates.
+Warning: Use only for internal testing and development projects.
 
 **Migration & Auto-Updates:**
-🔄 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
-🔄 **Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
+**Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
+**Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
 
 ## Configuration Architecture & Files
 
@@ -112,26 +112,26 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 
 The `default.json` file is structured into the following sections using comment dividers:
 
-### ⚙️ Core Renovate Config & Global Policies
+### Core Renovate Config & Global Policies
 Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM PST to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
 
-### 🐳 Infrastructure & Container Orchestration
+### Infrastructure & Container Orchestration
 Consolidates and groups non-major updates for infrastructure managers:
 - **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
 - **Actions:** Groups updates into a single `infrastructure updates` PR to reduce noise.
 - **GitHub Actions:** Groups non-major action updates while keeping major updates separate.
 - **Database Safety:** Explicitly blocks major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) to prevent accidental data loss or container start failures without manual migration.
 
-### ☕ Java & JVM Ecosystem
+### Java & JVM Ecosystem
 - **Pinning:** Globally pins all digests and SHAs for Maven and Gradle dependencies to guarantee supply chain security.
 - **Grouping:** Combines Maven and Gradle non-major updates into a single `java dependencies` PR. Also groups Spring Framework updates.
 
-### 🌐 JavaScript, TypeScript & Node.js Ecosystem
+### JavaScript, TypeScript & Node.js Ecosystem
 - **Pinning:** Enforces SHA/digest pinning for package managers (`npm`, `yarn`, `pnpm`, `bun`).
 - **Grouping:** Consolidates non-major updates into a single `node dependencies` PR.
 - **Framework Bundles:** Automatically groups related library updates to prevent compilation errors (e.g., `@angular/*`, NestJS ecosystem, Vite, React Redux, Playwright, `@mui/*`, and frontend linters/Prettier/ESLint).
 
-### 🐍 Python Ecosystem
+### Python Ecosystem
 - **Pinning:** Pin digests/SHAs for Python package managers (`poetry`, `pip`, `uv`, `pipenv`, `pip-compile`).
 - **Grouping:** Consolidates non-major dependencies into a single `python dependencies` PR.
 - **Library Bundles:** Automatically groups related library updates for common Python stacks (e.g., FastAPI/Starlette/Uvicorn, Pytest/coverage/mock, SQLAlchemy/Alembic/SQLModel, Boto3/Botocore, Pydantic, AI/ML libraries like HuggingFace and LangChain, and Python linters like Ruff/Black/Flake8).
