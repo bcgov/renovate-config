@@ -83,7 +83,7 @@ Warning: Use only for internal testing and development projects.
 
 ## Configuration Architecture & Files
 
-Historically, this configuration was split across multiple files. We have consolidated all rules into a single file to address key Renovate limitations and ensure version stability.
+Historically, this configuration was split across multiple files (e.g., `rules-*.json5`). Those legacy presets are no longer maintained on `main`; all rules are now consolidated into `default.json` to address key Renovate limitations and ensure version stability.
 
 | File | Purpose |
 |------|---------|
