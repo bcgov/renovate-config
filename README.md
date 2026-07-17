@@ -113,7 +113,7 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
-Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM PST to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
+Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM Pacific Time to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
 
 ### Infrastructure & Container Orchestration
 Consolidates and groups non-major updates for infrastructure managers:
@@ -132,7 +132,7 @@ Consolidates and groups non-major updates for infrastructure managers:
 - **Framework Bundles:** Automatically groups related library updates to prevent compilation errors (e.g., `@angular/*`, NestJS ecosystem, Vite, React Redux, Playwright, `@mui/*`, and frontend linters/Prettier/ESLint).
 
 ### Python Ecosystem
-- **Pinning:** Pin digests/SHAs for Python package managers (`poetry`, `pip`, `uv`, `pipenv`, `pip-compile`).
+- **Pinning:** Pin digests/SHAs for Python package managers (`pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `uv`, `pep621`, `pip-compile`).
 - **Grouping:** Consolidates non-major dependencies into a single `python dependencies` PR.
 - **Library Bundles:** Automatically groups related library updates for common Python stacks (e.g., FastAPI/Starlette/Uvicorn, Pytest/coverage/mock, SQLAlchemy/Alembic/SQLModel, Boto3/Botocore, Pydantic, AI/ML libraries like HuggingFace and LangChain, and Python linters like Ruff/Black/Flake8).
 
