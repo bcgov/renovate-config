@@ -215,20 +215,15 @@ jobs:
 
       # Run Renovate with proper error detection
       - name: Run Renovate Dry-Run
+        uses: docker://ghcr.io/renovatebot/renovate:43
+        env:
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+        with:
+          entrypoint: /bin/bash
+          args: -c "renovate --dry-run=full --config-file=renovate.json --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log || true"
+
+      - name: Validate Dry-Run Log
         run: |
-          echo "🔍 Running Renovate dry-run with configuration validation..."
-
-          # Run Renovate with dry-run and capture output
-          docker run --rm \
-            -v "$(pwd)/renovate.json:/github-action/renovate.json" \
-            -v /tmp:/tmp \
-            -e RENOVATE_TOKEN="${{ secrets.RENOVATE_TOKEN }}" \
-            ghcr.io/renovatebot/renovate:43 \
-            --dry-run=full \
-            --config-file=/github-action/renovate.json \
-            --log-level=${{ inputs.log_level || 'INFO' }} \
-            2>&1 | tee renovate_output.log || true
-
           # Check if configuration errors were found
           if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
             echo "❌ Configuration errors detected:"
