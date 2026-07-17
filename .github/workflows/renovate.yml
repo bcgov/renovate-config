@@ -47,10 +47,11 @@ jobs:
         run: |
           echo "🔍 Stage 1: Schema validation..."
           docker run --rm \
+            --entrypoint renovate-config-validator \
             -v "$(pwd):/github-action" \
             -w /github-action \
             ghcr.io/renovatebot/renovate:43 \
-            renovate-config-validator --strict default.json renovate.json
+            --strict default.json renovate.json
 
       - name: Config resolution test
         run: |
