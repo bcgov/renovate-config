@@ -49,7 +49,7 @@ jobs:
           docker run --rm \
             -v "$(pwd):/github-action" \
             -w /github-action \
-            ghcr.io/renovatebot/renovate:41 \
+            ghcr.io/renovatebot/renovate:43 \
             renovate-config-validator --strict default.json renovate.json
 
       - name: Config resolution test
@@ -226,7 +226,7 @@ jobs:
             -v "$(pwd)/renovate.json:/github-action/renovate.json" \
             -v /tmp:/tmp \
             -e RENOVATE_TOKEN="${{ secrets.RENOVATE_TOKEN }}" \
-            ghcr.io/renovatebot/renovate:41 \
+            ghcr.io/renovatebot/renovate:43 \
             --dry-run=full \
             --config-file=/github-action/renovate.json \
             --log-level=${{ inputs.log_level || 'INFO' }} \
