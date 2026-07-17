@@ -3,5 +3,13 @@
   "description": "Repository-specific Renovate config. Extends the shared bcgov/renovate-config preset. Downstream repos should reference this file for consistent update management.",
   "extends": [
     "github>bcgov/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "enabled": false
+    }
   ]
 }
