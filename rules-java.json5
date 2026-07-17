@@ -1,0 +1,39 @@
+// WARNING: This file is deprecated. It has been consolidated into default.json.
+// It is preserved here strictly for legacy repositories pinned to older config releases (like v2026.7.0).
+// DO NOT revise or maintain this file. Any rule updates should be made directly in default.json.
+//
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Group Java dependencies for unified update PRs and easier management
+  "packageRules": [
+    // Pin Java dependencies for security
+    {
+      "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "java dependencies",
+      "groupSlug": "java"
+    },
+    // Example: Group all springframework dependencies
+    {
+      "description": "Group springframework",
+      "groupName": "springframework",
+      "matchPackageNames": ["/^org\\.springframework/", "/^spring-/"]
+    }
+    // Add more grouping rules as needed for your Java ecosystem
+  ]
+}

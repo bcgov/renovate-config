@@ -1,0 +1,136 @@
+// WARNING: This file is deprecated. It has been consolidated into default.json.
+// It is preserved here strictly for legacy repositories pinned to older config releases (like v2026.7.0).
+// DO NOT revise or maintain this file. Any rule updates should be made directly in default.json.
+//
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // Renovate packageRules for JavaScript/TypeScript dependencies.
+  // This file is intended to be referenced by downstream repositories for consistent update grouping and digest handling.
+  "packageRules": [
+    // Pin JavaScript/TypeScript dependencies for security
+    {
+      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node"
+    },
+    // Group vite dependencies
+    {
+      "description": "Group vite",
+      "groupName": "vite",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^vite$/", "/^@vitejs\\//"]
+    },
+    // Group linters
+    {
+      "description": "Group linters",
+      "groupName": "linters",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/eslint/", "/^@prettier\\//", "/^prettier-plugin-/"]
+    },
+    // Group @angular dependencies
+    {
+      "description": "Group @angular",
+      "groupName": "angular",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^@angular\\//", "/^@angular-/"]
+    },
+    // Group aws-amplify dependencies
+    {
+      "description": "Group aws-amplify",
+      "groupName": "aws-amplify",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^@aws-amplify\\//", "/^aws-amplify/"]
+    },
+    // Group @testing-library dependencies
+    {
+      "description": "Group @testing-library",
+      "groupName": "testing-library",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^@testing-library\\//"]
+    },
+    // Group @nestjs dependencies
+    {
+      "description": "Group @nestjs",
+      "groupName": "nestjs",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": [
+        "/^@nestjs\\//",
+        "/^@swc\\//",
+        "/nestjs-/",
+        "/nest-winston/",
+        "/reflect-metadata/"
+      ]
+    },
+    // Group lodash (frequent CVEs)
+    {
+      "description": "Group lodash",
+      "groupName": "lodash",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^lodash$/"]
+    },
+    // Group nodemailer (common SMTP vulnerabilities)
+    {
+      "description": "Group nodemailer",
+      "groupName": "nodemailer",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^nodemailer$/", "/^mailparser$/"]
+    },
+    // Group @mui dependencies
+    {
+      "description": "Group @mui",
+      "groupName": "mui",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^@mui\\//"]
+    },
+    // Group react-jsonschema-form (@rjsf) dependencies
+    {
+      "description": "Group react-jsonschema-form (@rjsf) dependencies to ensure core, utils, validator, and theme packages are updated together.",
+      "groupName": "react-jsonschema-form",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": ["/^@rjsf\\//"]
+    },
+    // Group redux dependencies
+    {
+      "description": "Group redux",
+      "groupName": "redux",
+      "matchManagers": ["npm", "yarn", "pnpm", "bun"],
+      "matchPackageNames": [
+        "/^@redux-devtools\\//",
+        "/redux/",
+        "/react-redux/",
+        "/redux-thunk/"
+      ]
+    },
+    {
+      "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
+      "matchPackageNames": [
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^mcr\\.microsoft\\.com\\/playwright/",
+        "/^microsoft\\/playwright-github-action/"
+      ],
+      "groupName": "playwright"
+    }
+    // Add additional rules below as needed
+  ]
+}
