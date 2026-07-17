@@ -1,18 +1,18 @@
 #!/usr/bin/env node
-// lint_renovate_duplicates.mjs
+// scripts/lint_renovate_duplicates.mjs
 // Lint Renovate JSON/JSON5 config for duplicate/overlapping packageRules by matchManagers and matchPackageNames
-// Usage: node lint_renovate_duplicates.mjs file1.json file2.json5 ...
+// Usage: node scripts/lint_renovate_duplicates.mjs file1.json file2.json5 ...
 //
 // - Accepts any number of .json or .json5 files as arguments.
 // - Checks for exact duplicate and overlapping packageRules across all files.
 // - Prints clear warnings with file and rule index for each case.
 //
 // Adapt or extend as needed for your org's Renovate config structure!
-
+//
 // === USAGE & EXAMPLES ===
 //
 // Usage:
-//   node lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
+//   node scripts/lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
 //
 // Example output:
 //   [INFO] Linting 3 files: default.json, rules-infra.json5, rules-javascript.json5
@@ -34,7 +34,7 @@ import process from 'process';
 import json5 from 'json5';
 
 if (process.argv.length < 3) {
-  console.error('Usage: node lint_renovate_duplicates.mjs <file1.json> [file2.json5 ...]');
+  console.error('Usage: node scripts/lint_renovate_duplicates.mjs <file1.json> [file2.json5 ...]');
   process.exit(1);
 }
 
