@@ -44,14 +44,10 @@ jobs:
           echo "✅ Updated renovate.json to reference branch: $CURRENT_BRANCH"
 
       - name: Schema validation
-        run: |
-          echo "🔍 Stage 1: Schema validation..."
-          docker run --rm \
-            --entrypoint renovate-config-validator \
-            -v "$(pwd):/github-action" \
-            -w /github-action \
-            ghcr.io/renovatebot/renovate:43 \
-            --strict default.json renovate.json
+        uses: docker://ghcr.io/renovatebot/renovate:43
+        with:
+          entrypoint: renovate-config-validator
+          args: --strict default.json renovate.json
 
       - name: Config resolution test
         run: |
