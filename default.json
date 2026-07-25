@@ -42,7 +42,7 @@
     "group:recommended",
     ":combinePatchMinorReleases",
     ":enableVulnerabilityAlerts",
-    ":maintainLockFilesMonthly",
+    ":maintainLockFilesWeekly",
     ":preserveSemverRanges",
     ":rebaseStalePrs",
     ":semanticCommits",
