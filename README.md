@@ -119,7 +119,7 @@ Configures global Renovate scheduler windows (such as processing updates on week
 Consolidates and groups non-major updates for infrastructure managers:
 - **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
 - **Actions:** Groups updates into a single `infrastructure updates` PR to reduce noise.
-- **GitHub Actions:** Groups non-major action updates while keeping major updates separate.
+- **GitHub Actions:** Groups all GitHub Action updates (including major upgrades) into a single `github actions` PR.
 - **Database Safety:** Explicitly blocks major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) to prevent accidental data loss or container start failures without manual migration.
 
 ### Java & JVM Ecosystem
