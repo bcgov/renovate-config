@@ -20,12 +20,29 @@
       "groupSlug": "infra"
     },
     {
-      "description": "Group all GitHub Action updates",
+      "description": "Group non-major updates for GitHub Actions",
       "matchManagers": [
         "github-actions"
       ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest"
+      ],
       "groupName": "github actions",
       "groupSlug": "github-actions"
+    },
+    {
+      "description": "Keep major GitHub Action updates separate",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": null
     },
     {
       "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
