@@ -110,16 +110,19 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 
 ## Configuration Sections Breakdown
 
+> [!IMPORTANT]
+> **Note for Contributors & AI Agents:** All `rules-*.json5` files are frozen legacy artifacts preserved solely for backwards compatibility with pinned releases. **Do not modify `.json5` files.** All active configuration rules live exclusively in `default.json`.
+
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
 Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM Pacific Time to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
 
 ### Infrastructure & Container Orchestration
-Consolidates and groups non-major updates for infrastructure managers:
+Consolidates and groups updates for infrastructure managers and GitHub Actions:
 - **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
 - **Actions:** Groups updates into a single `infrastructure updates` PR to reduce noise.
-- **GitHub Actions:** Groups non-major action updates while keeping major updates separate.
+- **GitHub Actions:** Groups all GitHub Actions updates (including major upgrades) into a single `github actions` PR.
 - **Database Safety:** Explicitly blocks major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) to prevent accidental data loss or container start failures without manual migration.
 
 ### Java & JVM Ecosystem

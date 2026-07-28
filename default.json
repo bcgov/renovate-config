@@ -2,6 +2,10 @@
 // Renovate's parseJson() routes all .json files through parseJsonc() (jsonc-weaver)
 // as the primary, non-deprecated code path. Standard // comments are safe here.
 //
+// AI & MAINTAINER DIRECTIVE: DO NOT edit or update any rules-*.json5 files.
+// All legacy .json5 files are deprecated, frozen, and pending deletion.
+// ALL configuration updates must be made strictly inside default.json.
+//
 // We CANNOT rename this file to default.jsonc — Renovate hardcodes the fetch to
 // "default.json" when downstream repos omit a filename in their extends array.
 // Renaming would break all 124+ downstream consumers.
@@ -122,29 +126,12 @@
       "groupSlug": "infra"
     },
     {
-      "description": "Group non-major updates for GitHub Actions",
+      "description": "Group all GitHub Actions updates",
       "matchManagers": [
         "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest"
       ],
       "groupName": "github actions",
       "groupSlug": "github-actions"
-    },
-    {
-      "description": "Keep major GitHub Action updates separate",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "groupName": null
     },
     {
       "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
