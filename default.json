@@ -126,7 +126,7 @@
       "groupSlug": "infra"
     },
     {
-      "description": "Group all GitHub Action updates",
+      "description": "Group all GitHub Actions updates",
       "matchManagers": [
         "github-actions"
       ],
