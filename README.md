@@ -110,6 +110,9 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 
 ## Configuration Sections Breakdown
 
+> [!IMPORTANT]
+> **Note for Contributors & AI Agents:** All `rules-*.json5` files are frozen legacy artifacts preserved solely for backwards compatibility with pinned releases. **Do not modify `.json5` files.** All active configuration rules live exclusively in `default.json`.
+
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
