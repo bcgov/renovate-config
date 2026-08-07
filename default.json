@@ -41,9 +41,10 @@
       "matchStrings": [
         "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/nodejs(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
       ],
-      "depNameTemplate": "node",
-      "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "FROM {{{registry}}}/nodejs{{{newVersionMajor}}}-debian{{{debianVersion}}}:{{{tag}}}",
+      "datasourceTemplate": "node-version",
+      "versioningTemplate": "loose",
+      "extractVersionTemplate": "^(?<version>\\d+)",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/nodejs{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
         "/(^|/)Dockerfile$/",
         "/(^|/)[^/]+\\.Dockerfile$/"
@@ -55,9 +56,10 @@
       "matchStrings": [
         "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/java(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
       ],
-      "depNameTemplate": "eclipse-temurin",
-      "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "FROM {{{registry}}}/java{{{newVersionMajor}}}-debian{{{debianVersion}}}:{{{tag}}}",
+      "datasourceTemplate": "java-version",
+      "versioningTemplate": "loose",
+      "extractVersionTemplate": "^(?<version>\\d+)",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/java{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
         "/(^|/)Dockerfile$/",
         "/(^|/)[^/]+\\.Dockerfile$/"
@@ -67,11 +69,11 @@
       "customType": "regex",
       "description": "Auto-upgrade Google Distroless Python runtime image major versions in Dockerfiles",
       "matchStrings": [
-        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/python(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
+        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/python(?<currentValue>\\d+(?:\\.\\d+)?)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
       ],
-      "depNameTemplate": "python",
-      "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "FROM {{{registry}}}/python{{{newVersionMajor}}}-debian{{{debianVersion}}}:{{{tag}}}",
+      "datasourceTemplate": "python-version",
+      "versioningTemplate": "loose",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/python{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
         "/(^|/)Dockerfile$/",
         "/(^|/)[^/]+\\.Dockerfile$/"
