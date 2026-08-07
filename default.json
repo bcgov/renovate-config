@@ -39,11 +39,39 @@
       "customType": "regex",
       "description": "Auto-upgrade Google Distroless Node.js runtime image major versions in Dockerfiles",
       "matchStrings": [
-        "FROM\\s+gcr\\.io/distroless/nodejs(?<currentValue>\\d+)-debian\\d+:(?<tag>[^\\s\\n]+)"
+        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/nodejs(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
       ],
       "depNameTemplate": "node",
       "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "FROM gcr.io/distroless/nodejs{{{newVersionMajor}}}-debian12:{{{tag}}}",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/nodejs{{{newVersionMajor}}}-debian{{{debianVersion}}}:{{{tag}}}",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/",
+        "/(^|/)[^/]+\\.Dockerfile$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Auto-upgrade Google Distroless Java runtime image major versions in Dockerfiles",
+      "matchStrings": [
+        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/java(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
+      ],
+      "depNameTemplate": "eclipse-temurin",
+      "datasourceTemplate": "docker",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/java{{{newVersionMajor}}}-debian{{{debianVersion}}}:{{{tag}}}",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/",
+        "/(^|/)[^/]+\\.Dockerfile$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Auto-upgrade Google Distroless Python runtime image major versions in Dockerfiles",
+      "matchStrings": [
+        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/python(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
+      ],
+      "depNameTemplate": "python",
+      "datasourceTemplate": "docker",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/python{{{newVersionMajor}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
         "/(^|/)Dockerfile$/",
         "/(^|/)[^/]+\\.Dockerfile$/"
