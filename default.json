@@ -43,8 +43,8 @@
       ],
       "depNameTemplate": "node",
       "datasourceTemplate": "node-version",
-      "versioningTemplate": "loose",
-      "extractVersionTemplate": "^(?<version>\\d+)",
+      "versioningTemplate": "semver-coerced",
+      "extractVersionTemplate": "^v?(?<version>\\d+)",
       "autoReplaceStringTemplate": "FROM {{{registry}}}/nodejs{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
         "/(^|/)Dockerfile$/",
@@ -59,7 +59,7 @@
       ],
       "depNameTemplate": "java-jre",
       "datasourceTemplate": "java-version",
-      "versioningTemplate": "loose",
+      "versioningTemplate": "semver-coerced",
       "extractVersionTemplate": "^(?<version>\\d+)",
       "autoReplaceStringTemplate": "FROM {{{registry}}}/java{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
@@ -71,11 +71,12 @@
       "customType": "regex",
       "description": "Auto-upgrade Google Distroless Python runtime image major versions in Dockerfiles",
       "matchStrings": [
-        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/python(?<currentValue>\\d+(?:\\.\\d+)?)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
+        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/python(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
       ],
       "depNameTemplate": "python",
       "datasourceTemplate": "python-version",
-      "versioningTemplate": "loose",
+      "versioningTemplate": "semver-coerced",
+      "extractVersionTemplate": "^(?<version>\\d+)",
       "autoReplaceStringTemplate": "FROM {{{registry}}}/python{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
       "managerFilePatterns": [
         "/(^|/)Dockerfile$/",
@@ -136,6 +137,15 @@
     // ==========================================
     // Core Renovate Config & Global Policies
     // ==========================================
+    {
+      "description": "Disable built-in Docker manager for Distroless images (handled by custom regex managers above)",
+      "matchPackageNames": [
+        "/^gcr\\.io\\/distroless\\//",
+        "/^ghcr\\.io\\/distroless\\//"
+      ],
+      "matchManagers": ["dockerfile"],
+      "enabled": false
+    },
     {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
       "matchPackageNames": [
