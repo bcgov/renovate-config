@@ -117,7 +117,7 @@
     {
       "description": "Group Google Distroless runtime image updates under infrastructure updates group",
       "matchPackageNames": ["node", "java-jre", "python"],
-      "matchManagers": ["regex"],
+      "matchManagers": ["custom.regex"],
       "groupName": "infrastructure updates",
       "groupSlug": "infra"
     },
