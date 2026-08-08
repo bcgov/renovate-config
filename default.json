@@ -115,6 +115,13 @@
       "enabled": false
     },
     {
+      "description": "Group Google Distroless runtime image updates under infrastructure updates group",
+      "matchPackageNames": ["node", "java-jre", "python"],
+      "matchManagers": ["regex"],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    },
+    {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
       "matchPackageNames": [
         "bcgov/renovate-config"
