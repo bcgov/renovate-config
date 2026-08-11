@@ -105,22 +105,7 @@
     // ==========================================
     // Core Renovate Config & Global Policies
     // ==========================================
-    {
-      "description": "Disable built-in Docker manager for Distroless images (handled by custom regex managers above)",
-      "matchPackageNames": [
-        "/^gcr\\.io\\/distroless\\//",
-        "/^ghcr\\.io\\/distroless\\//"
-      ],
-      "matchManagers": ["dockerfile"],
-      "enabled": false
-    },
-    {
-      "description": "Group Google Distroless runtime image updates under infrastructure updates group",
-      "matchPackageNames": ["node", "java-jre", "python"],
-      "matchManagers": ["custom.regex"],
-      "groupName": "infrastructure updates",
-      "groupSlug": "infra"
-    },
+
     {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
       "matchPackageNames": [
@@ -145,6 +130,22 @@
     // ==========================================
     // Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
     // ==========================================
+    {
+      "description": "Disable built-in Docker manager for Distroless images (handled by custom regex managers above)",
+      "matchPackageNames": [
+        "/^gcr\\.io\\/distroless\\//",
+        "/^ghcr\\.io\\/distroless\\//"
+      ],
+      "matchManagers": ["dockerfile"],
+      "enabled": false
+    },
+    {
+      "description": "Group Google Distroless runtime image updates under infrastructure updates group",
+      "matchPackageNames": ["node", "java-jre", "python"],
+      "matchManagers": ["custom.regex"],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    },
     {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
@@ -291,20 +292,6 @@
       ]
     },
     {
-      "description": "Group aws-amplify",
-      "groupName": "aws-amplify",
-      "matchManagers": [
-        "npm",
-        "yarn",
-        "pnpm",
-        "bun"
-      ],
-      "matchPackageNames": [
-        "/^@aws-amplify\\//",
-        "/aws-amplify/"
-      ]
-    },
-    {
       "description": "Group @testing-library",
       "groupName": "testing-library",
       "matchManagers": [
@@ -332,33 +319,6 @@
         "/nestjs-/",
         "/nest-winston/",
         "/reflect-metadata/"
-      ]
-    },
-    {
-      "description": "Group lodash",
-      "groupName": "lodash",
-      "matchManagers": [
-        "npm",
-        "yarn",
-        "pnpm",
-        "bun"
-      ],
-      "matchPackageNames": [
-        "/^lodash$/"
-      ]
-    },
-    {
-      "description": "Group nodemailer",
-      "groupName": "nodemailer",
-      "matchManagers": [
-        "npm",
-        "yarn",
-        "pnpm",
-        "bun"
-      ],
-      "matchPackageNames": [
-        "/^nodemailer$/",
-        "/^mailparser$/"
       ]
     },
     {
@@ -447,23 +407,6 @@
       ],
       "groupName": "python dependencies",
       "groupSlug": "python"
-    },
-    {
-      "description": "Group boto",
-      "groupName": "boto",
-      "matchManagers": [
-        "pip_requirements",
-        "pip_setup",
-        "pipenv",
-        "poetry",
-        "uv",
-        "pep621",
-        "pip-compile"
-      ],
-      "matchPackageNames": [
-        "/^boto3$/",
-        "/^botocore$/"
-      ]
     },
     {
       "description": "Group pytest",
