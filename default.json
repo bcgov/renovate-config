@@ -105,22 +105,7 @@
     // ==========================================
     // Core Renovate Config & Global Policies
     // ==========================================
-    {
-      "description": "Disable built-in Docker manager for Distroless images (handled by custom regex managers above)",
-      "matchPackageNames": [
-        "/^gcr\\.io\\/distroless\\//",
-        "/^ghcr\\.io\\/distroless\\//"
-      ],
-      "matchManagers": ["dockerfile"],
-      "enabled": false
-    },
-    {
-      "description": "Group Google Distroless runtime image updates under infrastructure updates group",
-      "matchPackageNames": ["node", "java-jre", "python"],
-      "matchManagers": ["custom.regex"],
-      "groupName": "infrastructure updates",
-      "groupSlug": "infra"
-    },
+
     {
       "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
       "matchPackageNames": [
@@ -145,6 +130,22 @@
     // ==========================================
     // Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
     // ==========================================
+    {
+      "description": "Disable built-in Docker manager for Distroless images (handled by custom regex managers above)",
+      "matchPackageNames": [
+        "/^gcr\\.io\\/distroless\\//",
+        "/^ghcr\\.io\\/distroless\\//"
+      ],
+      "matchManagers": ["dockerfile"],
+      "enabled": false
+    },
+    {
+      "description": "Group Google Distroless runtime image updates under infrastructure updates group",
+      "matchPackageNames": ["node", "java-jre", "python"],
+      "matchManagers": ["custom.regex"],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    },
     {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
