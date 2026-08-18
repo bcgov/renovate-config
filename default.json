@@ -364,6 +364,15 @@
       ]
     },
     {
+      "description": "Group Capacitor packages (core, plugins, capacitor-firebase, and the Swift PM) into a single PR",
+      "groupName": "capacitor",
+      "matchPackageNames": [
+        "/^@capacitor\\//",
+        "/^@capacitor-firebase\\//",
+        "/^ionic-team\\/capacitor-swift-pm$/"
+      ]
+    },
+    {
       "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
       "matchPackageNames": [
         "/^playwright/",
