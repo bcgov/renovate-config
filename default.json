@@ -373,14 +373,103 @@
       ]
     },
     {
-      "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
-      "matchPackageNames": [
-        "/^playwright/",
-        "/^@playwright\\//",
-        "/^mcr\\.microsoft\\.com\\/playwright/",
-        "/^microsoft\\/playwright-github-action/"
+      "description": "Group Vitest packages and plugins",
+      "groupName": "vitest",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
       ],
-      "groupName": "playwright"
+      "matchPackageNames": [
+        "/^vitest$/",
+        "/^@vitest\\//"
+      ]
+    },
+    {
+      "description": "Group Next.js framework, plugins, and lint configuration",
+      "groupName": "nextjs",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^next$/",
+        "/^@next\\//",
+        "/^eslint-config-next$/"
+      ]
+    },
+    {
+      "description": "Group TanStack libraries (React Query, Table, Router, Form, Virtual, etc.)",
+      "groupName": "tanstack",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@tanstack\\//"
+      ]
+    },
+    {
+      "description": "Group Prisma ORM CLI, client, and engine packages",
+      "groupName": "prisma",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^prisma$/",
+        "/^@prisma\\//"
+      ]
+    },
+    {
+      "description": "Group Drizzle ORM and Drizzle Kit CLI",
+      "groupName": "drizzle",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^drizzle-orm$/",
+        "/^drizzle-kit$/"
+      ]
+    },
+    {
+      "description": "Group Tailwind CSS, official plugins, and Prettier plugin",
+      "groupName": "tailwind",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^tailwindcss$/",
+        "/^@tailwindcss\\//",
+        "/^prettier-plugin-tailwindcss$/"
+      ]
+    },
+    {
+      "description": "Group OpenTelemetry JavaScript SDK, API, and instrumentations",
+      "groupName": "opentelemetry js",
+      "groupSlug": "opentelemetry-js",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@opentelemetry\\//"
+      ]
     },
 
     // ==========================================
@@ -585,6 +674,56 @@
         "/^pip$/",
         "/^pip-tools$/"
       ]
+    },
+    {
+      "description": "Group OpenTelemetry Python SDK, API, and instrumentations",
+      "groupName": "opentelemetry python",
+      "groupSlug": "opentelemetry-python",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^opentelemetry-/"
+      ]
+    },
+    {
+      "description": "Group Celery, Kombu, and Billiard task queue packages",
+      "groupName": "celery",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^celery$/",
+        "/^kombu$/",
+        "/^billiard$/"
+      ]
+    },
+
+    // ==========================================
+    // Cross-Ecosystem Testing & CI Tools
+    // ==========================================
+    {
+      "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
+      "matchPackageNames": [
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^pytest-playwright$/",
+        "/^mcr\\.microsoft\\.com\\/playwright/",
+        "/^microsoft\\/playwright-github-action/"
+      ],
+      "groupName": "playwright"
     }
   ]
 }
