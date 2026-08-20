@@ -459,7 +459,8 @@
     },
     {
       "description": "Group OpenTelemetry JavaScript SDK, API, and instrumentations",
-      "groupName": "opentelemetry",
+      "groupName": "opentelemetry js",
+      "groupSlug": "opentelemetry-js",
       "matchManagers": [
         "npm",
         "yarn",
@@ -676,7 +677,8 @@
     },
     {
       "description": "Group OpenTelemetry Python SDK, API, and instrumentations",
-      "groupName": "opentelemetry",
+      "groupName": "opentelemetry python",
+      "groupSlug": "opentelemetry-python",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
