@@ -530,7 +530,6 @@
       "groupName": "python runtime",
       "groupSlug": "python-runtime",
       "matchDatasources": ["docker", "python-version"],
-      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "python",
         "/^(?:docker\\.io\\/(?:library\\/)?)?python$/",
