@@ -19,7 +19,7 @@ on:
 
 # Cancel any other workflows (PR, cron or manual)
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
 permissions: {}
@@ -176,7 +176,7 @@ jobs:
     name: Dry-Run
     needs: validate
     env:
-      pr_set: bcgov/renovate-config bcgov/quickstart-openshift
+      pr_set: bcgov/renovate-config bcgov/quickstart-openshift bcgov/wps
     permissions:
       pull-requests: write
     runs-on: ubuntu-24.04
@@ -215,14 +215,14 @@ jobs:
 
       # Run Renovate with proper error detection
       - name: Run Renovate Dry-Run
-        uses: docker://ghcr.io/renovatebot/renovate:43
         env:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
-        with:
-          entrypoint: /bin/bash
-          args: -c "renovate --dry-run=full --config-file=renovate.json --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log || true"
+          RENOVATE_CONFIG_FILE: renovate.json
+        run: |
+          npx --yes renovate@43 --dry-run=full --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log
 
       - name: Validate Dry-Run Log
+        if: always()
         run: |
           # Check if configuration errors were found
           if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
