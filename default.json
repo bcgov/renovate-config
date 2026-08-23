@@ -217,6 +217,7 @@
       "groupName": "java runtime",
       "groupSlug": "java-runtime",
       "matchDatasources": ["docker", "java-version"],
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "java",
         "java-jre",
@@ -258,6 +259,7 @@
       "groupName": "node runtime",
       "groupSlug": "node-runtime",
       "matchDatasources": ["docker", "node-version"],
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "node",
         "nodejs",
@@ -528,6 +530,7 @@
       "groupName": "python runtime",
       "groupSlug": "python-runtime",
       "matchDatasources": ["docker", "python-version"],
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "python",
         "/^(?:docker\\.io\\/(?:library\\/)?)?python$/",
