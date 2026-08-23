@@ -218,8 +218,10 @@ jobs:
         env:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: renovate.json
+          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         run: |
-          npx --yes renovate@43 --dry-run=full --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log
+          set -o pipefail
+          npx --yes renovate@43 --dry-run=full 2>&1 | tee renovate_output.log
 
       - name: Validate Dry-Run Log
         if: always()
