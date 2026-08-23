@@ -529,9 +529,10 @@
       "description": "Group Python interpreter version and base container image updates together",
       "groupName": "python runtime",
       "groupSlug": "python-runtime",
-      "matchDatasources": ["docker", "python-version"],
+      "matchDatasources": ["docker", "python-version", "github-releases"],
       "matchPackageNames": [
         "python",
+        "actions/python-versions",
         "/^(?:docker\\.io\\/(?:library\\/)?)?python$/",
         "/^public\\.ecr\\.aws\\/docker\\/library\\/python$/"
       ]
