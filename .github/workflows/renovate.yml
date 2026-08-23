@@ -211,7 +211,7 @@ jobs:
           cat <<< $(jq '. | .repositories = ['${REPOS}']' renovate.json) > renovate.json
 
           # Dry run
-          cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
+          cat <<< $(jq '.+= {"dryRun": "full", "schedule": ["at any time"]}' renovate.json) > renovate.json
 
       - name: Setup Node
         uses: actions/setup-node@v4
