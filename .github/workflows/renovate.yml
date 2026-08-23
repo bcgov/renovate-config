@@ -19,7 +19,7 @@ on:
 
 # Cancel any other workflows (PR, cron or manual)
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
 permissions: {}
