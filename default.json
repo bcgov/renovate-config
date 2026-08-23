@@ -140,13 +140,6 @@
       "enabled": false
     },
     {
-      "description": "Group Google Distroless runtime image updates under infrastructure updates group",
-      "matchPackageNames": ["node", "java-jre", "python"],
-      "matchManagers": ["custom.regex"],
-      "groupName": "infrastructure updates",
-      "groupSlug": "infra"
-    },
-    {
       "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
       "matchManagers": [
         "terraform",
@@ -219,6 +212,19 @@
         "/^spring-/"
       ]
     },
+    {
+      "description": "Group Java runtime/JDK and base container image updates together",
+      "groupName": "java runtime",
+      "groupSlug": "java-runtime",
+      "matchDatasources": ["docker", "java-version"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "java",
+        "java-jre",
+        "/^(?:docker\\.io\\/(?:library\\/)?)?(?:eclipse-temurin|amazoncorretto|openjdk|ibm-semeru-runtimes)$/",
+        "/^public\\.ecr\\.aws\\/(?:docker\\/library\\/openjdk|amazoncorretto\\/amazoncorretto)$/"
+      ]
+    },
 
     // ==========================================
     // JavaScript, TypeScript & Node.js Ecosystem
@@ -247,6 +253,19 @@
       ],
       "groupName": "node dependencies",
       "groupSlug": "node"
+    },
+    {
+      "description": "Group Node.js runtime and base container image updates together",
+      "groupName": "node runtime",
+      "groupSlug": "node-runtime",
+      "matchDatasources": ["docker", "node-version"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "node",
+        "nodejs",
+        "/^(?:docker\\.io\\/(?:library\\/)?)?node$/",
+        "/^public\\.ecr\\.aws\\/docker\\/library\\/node$/"
+      ]
     },
     {
       "description": "Group vite",
@@ -505,6 +524,18 @@
       ],
       "groupName": "python dependencies",
       "groupSlug": "python"
+    },
+    {
+      "description": "Group Python interpreter version and base container image updates together",
+      "groupName": "python runtime",
+      "groupSlug": "python-runtime",
+      "matchDatasources": ["docker", "python-version"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "python",
+        "/^(?:docker\\.io\\/(?:library\\/)?)?python$/",
+        "/^public\\.ecr\\.aws\\/docker\\/library\\/python$/"
+      ]
     },
     {
       "description": "Group pytest",
