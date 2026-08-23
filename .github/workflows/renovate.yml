@@ -219,9 +219,10 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: renovate.json
         run: |
-          npx renovate --dry-run=full --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log || true
+          npx --yes renovate@43 --dry-run=full --log-level=${{ inputs.log_level || 'INFO' }} 2>&1 | tee renovate_output.log
 
       - name: Validate Dry-Run Log
+        if: always()
         run: |
           # Check if configuration errors were found
           if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
