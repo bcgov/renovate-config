@@ -176,7 +176,7 @@ jobs:
     name: Dry-Run
     needs: validate
     env:
-      pr_set: bcgov/renovate-config MinionTech/image-cull
+      pr_set: bcgov/renovate-config bcgov/quickstart-openshift bcgov/wps
     permissions:
       pull-requests: write
     runs-on: ubuntu-24.04
@@ -211,7 +211,7 @@ jobs:
           cat <<< $(jq '. | .repositories = ['${REPOS}']' renovate.json) > renovate.json
 
           # Dry run
-          cat <<< $(jq '.+= {"dryRun": "full", "schedule": ["at any time"]}' renovate.json) > renovate.json
+          cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
       - name: Setup Node
         uses: actions/setup-node@v4
