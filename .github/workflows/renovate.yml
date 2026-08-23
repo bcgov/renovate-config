@@ -176,7 +176,7 @@ jobs:
     name: Dry-Run
     needs: validate
     env:
-      pr_set: bcgov/renovate-config derekroberts/image-cull
+      pr_set: bcgov/renovate-config MinionTech/image-cull
     permissions:
       pull-requests: write
     runs-on: ubuntu-24.04
