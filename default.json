@@ -216,6 +216,7 @@
       "description": "Group Java runtime/JDK and base container image updates together",
       "groupName": "java runtime",
       "groupSlug": "java-runtime",
+      "matchDatasources": ["docker", "java-version"],
       "matchPackageNames": [
         "java",
         "java-jre",
@@ -256,6 +257,7 @@
       "description": "Group Node.js runtime and base container image updates together",
       "groupName": "node runtime",
       "groupSlug": "node-runtime",
+      "matchDatasources": ["docker", "node-version"],
       "matchPackageNames": [
         "node",
         "nodejs",
@@ -525,6 +527,7 @@
       "description": "Group Python interpreter version and base container image updates together",
       "groupName": "python runtime",
       "groupSlug": "python-runtime",
+      "matchDatasources": ["docker", "python-version"],
       "matchPackageNames": [
         "python",
         "/^(?:docker\\.io\\/(?:library\\/)?)?python$/",
