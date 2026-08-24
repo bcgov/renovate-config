@@ -214,7 +214,7 @@ jobs:
           cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
 
