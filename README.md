@@ -7,8 +7,6 @@
 
 # Mend Renovate - Automatic Dependency Updates
 
-> **Note:** This repository is marked as **Experimental**. The configuration is under active development and may change. Please provide feedback and expect improvements over time.
-
 ## Why Use Renovate?
 
 **Dependency updates are a leading cause of security incidents, outages, and technical debt.** Renovate automates this critical maintenance task, saving your team time and reducing risk.
