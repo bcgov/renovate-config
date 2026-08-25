@@ -126,6 +126,16 @@
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
     },
+    {
+      "description": "Ignore package overrides and resolutions: Overrides in package.json (and resolutions/pnpm.overrides) exist to patch security vulnerabilities or enforce transitive dependency pins. Renovate should not auto-upgrade them.",
+      "matchDepTypes": [
+        "override",
+        "overrides",
+        "resolutions",
+        "pnpm.overrides"
+      ],
+      "enabled": false
+    },
 
     // ==========================================
     // Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
