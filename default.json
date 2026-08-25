@@ -69,7 +69,8 @@
     ":semanticCommitScope(deps)"
   ],
   "vulnerabilityAlerts": {
-    "description": "Prioritize security vulnerability resolution PRs",
+    "description": "Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.",
+    "enabled": true,
     "dependencyDashboardApproval": false,
     "minimumReleaseAge": "3 days",
     "schedule": [
@@ -125,6 +126,16 @@
       "description": "Block prerelease updates globally: Prevent updates to alpha, beta, rc, next, preview, dev, experimental versions across all package managers. These are unstable and should be avoided in production.",
       "matchCurrentVersion": "/.*-(alpha|beta|rc|next|preview|dev|experimental).*/",
       "matchManagers": []
+    },
+    {
+      "description": "Ignore package overrides and resolutions: Overrides in package.json (and resolutions/pnpm.overrides) exist to patch security vulnerabilities or enforce transitive dependency pins. Renovate should not auto-upgrade them, except for security advisories (see vulnerabilityAlerts).",
+      "matchDepTypes": [
+        "pnpm-workspace.overrides",
+        "overrides",
+        "resolutions",
+        "pnpm.overrides"
+      ],
+      "enabled": false
     },
 
     // ==========================================
