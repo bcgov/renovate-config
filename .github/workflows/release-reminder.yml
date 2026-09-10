@@ -1,0 +1,80 @@
+name: Release Reminder
+
+on:
+  schedule:
+    # Run on the first day of each month at 02:00 UTC
+    - cron: "0 2 1 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-queue:
+    name: Check Release Queue
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check for unreleased human commits
+        id: check_commits
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -z "$LATEST_TAG" ]; then
+            RANGE="HEAD"
+            COMPARE_URL="${{ github.server_url }}/${{ github.repository }}/commits/main"
+          else
+            RANGE="$LATEST_TAG..HEAD"
+            COMPARE_URL="${{ github.server_url }}/${{ github.repository }}/compare/${LATEST_TAG}...main"
+          fi
+
+          # Get commits excluding Renovate and Dependabot
+          COMMITS=$(git log "$RANGE" --format="- %h %an: %s" | grep -vE '(renovate\[bot\]|dependabot\[bot\])' || true)
+
+          if [ -z "$COMMITS" ]; then
+            echo "ℹ️ No unreleased human commits found since ${LATEST_TAG:-initial commit}."
+            echo "should_notify=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          COMMIT_COUNT=$(echo "$COMMITS" | grep -c '^' || true)
+          echo "Found $COMMIT_COUNT unreleased human commit(s)."
+          echo "should_notify=true" >> "$GITHUB_OUTPUT"
+
+          TITLE="Release Triage: $COMMIT_COUNT unreleased change(s) since ${LATEST_TAG:-start}"
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+
+          DELIMITER="EOF_RELEASE_$(date +%s)"
+          {
+            echo "body<<$DELIMITER"
+            echo "## Release Triage Reminder"
+            echo ""
+            echo "There are **$COMMIT_COUNT** unreleased commit(s) from human contributors since \`${LATEST_TAG:-initial commit}\`:"
+            echo ""
+            echo "$COMMITS"
+            echo ""
+            echo "### Compare Changes"
+            echo "[View Diff on GitHub]($COMPARE_URL)"
+            echo ""
+            echo "---"
+            echo "*Automated monthly check excluding Renovate and Dependabot.*"
+            echo "$DELIMITER"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Notify CODEOWNERS via Issue
+        if: steps.check_commits.outputs.should_notify == 'true'
+        uses: bcgov/actions/workflow-notifier@da76e0da09b8a8ceef61486208cdac75dac616c6 # v0.6.0
+        with:
+          title: ${{ steps.check_commits.outputs.title }}
+          body: ${{ steps.check_commits.outputs.body }}
+          labels: ""
+          notify_codeowners: "true"
