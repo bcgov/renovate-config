@@ -37,8 +37,8 @@ jobs:
             COMPARE_URL="${{ github.server_url }}/${{ github.repository }}/compare/${LATEST_TAG}...main"
           fi
 
-          # Get commits excluding Renovate and Dependabot
-          COMMITS=$(git log "$RANGE" --format="- %h %an: %s" | grep -vE '(renovate\[bot\]|dependabot\[bot\])' || true)
+          # Get commits modifying default.json, excluding Renovate and Dependabot
+          COMMITS=$(git log "$RANGE" --format="- %h %an: %s" -- default.json | grep -vE '(renovate\[bot\]|dependabot\[bot\])' || true)
 
           if [ -z "$COMMITS" ]; then
             echo "ℹ️ No unreleased human commits found since ${LATEST_TAG:-initial commit}."
