@@ -31,8 +31,7 @@
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
         "/(^|/)renovate\\.json$/",
-        "/(^|/)renovate\\.json5$/",
-        "/(^|/)default\\.json$/"
+        "/(^|/)renovate\\.json5$/"
       ]
     },
     {
@@ -89,7 +88,7 @@
   "configWarningReuseIssue": true,
   "onboardingConfig": {
     "extends": [
-      "github>bcgov/renovate-config#2026.7.0"
+      "github>bcgov/renovate-config"
     ]
   },
   "platform": "github",
