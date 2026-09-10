@@ -765,7 +765,8 @@
         "/^mcr\\.microsoft\\.com\\/playwright/",
         "/^microsoft\\/playwright-github-action/"
       ],
-      "groupName": "playwright"
+      "groupName": "playwright",
+      "rangeStrategy": "bump"
     }
   ]
 }
