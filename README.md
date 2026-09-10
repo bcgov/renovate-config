@@ -61,7 +61,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
   "extends": ["github>bcgov/renovate-config#2026.4.0"]
 }
 ```
-- **Quarterly releases** (month segment reflects the release month) - thoroughly tested, stable updates.
+- **Monthly releases** (month segment reflects the release month) - scheduled on the 1st of each month when updates are available, plus out-of-band patches when urgent fixes land.
 - **SemVer-Compatible CalVer** (`YYYY.M.Patch` format) ensures compatibility with automated tools like Renovate and Dependabot out of the box.
 - **No leading zeros in month segments** (e.g., use `.4` instead of `.04`).
 - **Always specify a third segment** (e.g., `.0` for the initial release) so standard SemVer parsers can compare versions correctly and trigger automatic downstream updates.
