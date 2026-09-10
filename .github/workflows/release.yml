@@ -1,9 +1,6 @@
 name: CalVer Release
 
 on:
-  schedule:
-    # Run on the first day of each month at 10:00 UTC (2:00 AM PST)
-    - cron: "0 10 1 * *"
   workflow_dispatch:
     inputs:
       version:
@@ -27,45 +24,10 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
 
-      - name: Check for changes (Schedule only)
-        id: check_changes
+      - name: Validate CalVer version
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
-            if [ -n "$LATEST_TAG" ]; then
-              COMMITS_SINCE=$(git rev-list --count "$LATEST_TAG..HEAD")
-              if [ "$COMMITS_SINCE" -eq 0 ]; then
-                echo "ℹ️ No new commits since $LATEST_TAG. Skipping scheduled release."
-                echo "should_release=false" >> "$GITHUB_OUTPUT"
-                exit 0
-              fi
-              echo "Found $COMMITS_SINCE commit(s) since $LATEST_TAG."
-            fi
-          fi
-          echo "should_release=true" >> "$GITHUB_OUTPUT"
-
-      - name: Calculate CalVer version
-        if: steps.check_changes.outputs.should_release == 'true'
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            # Manual release - use input version
-            VERSION="${{ github.event.inputs.version }}"
-            echo "Using manual release version: $VERSION"
-          else
-            # Scheduled release - calculate monthly version (SemVer compatible)
-            YEAR=$(date +%Y)
-            MONTH=$(date +%-m)
-            EXISTING_TAGS=$(git tag -l "${YEAR}.${MONTH}.*" | sort -V)
-            if [ -z "$EXISTING_TAGS" ]; then
-              VERSION="${YEAR}.${MONTH}.0"
-            else
-              LATEST_MATCH=$(echo "$EXISTING_TAGS" | tail -n 1)
-              LATEST_PATCH="${LATEST_MATCH##*.}"
-              NEXT_PATCH=$((LATEST_PATCH + 1))
-              VERSION="${YEAR}.${MONTH}.${NEXT_PATCH}"
-            fi
-            echo "Calculated CalVer version: $VERSION"
-          fi
+          VERSION="${{ github.event.inputs.version }}"
+          echo "Using manual release version: $VERSION"
 
           # Validate version format (expected YYYY.M.Patch, no leading single-digit month zeroes, requires 3 segments)
           if [[ ! "$VERSION" =~ ^[0-9]{4}\.([1-9]|1[0-2])\.[0-9]+$ ]]; then
@@ -77,7 +39,6 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Verify release and tag are unique
-        if: steps.check_changes.outputs.should_release == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -94,21 +55,18 @@ jobs:
           echo "Tag $VERSION is available"
 
       - name: Create CalVer tag
-        if: steps.check_changes.outputs.should_release == 'true'
         run: |
           git tag -a "$VERSION" -m "Release $VERSION - CalVer release"
           git push origin "$VERSION"
           echo "Created and pushed tag: $VERSION"
 
       - name: Create GitHub release
-        if: steps.check_changes.outputs.should_release == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$VERSION" --title "Release $VERSION" --generate-notes
 
       - name: Verify release
-        if: steps.check_changes.outputs.should_release == 'true'
         run: |
           echo "Verifying created release:"
           echo "Tag: $VERSION"
