@@ -2,7 +2,7 @@
 
 [![Issues](https://img.shields.io/github/issues/bcgov/renovate-config)](/../../issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/bcgov/renovate-config)](/../../pulls)
-[![MIT License](https://img.shields.io/github/license/bcgov/renovate-config.svg)](/LICENSE.md)
+[![License](https://img.shields.io/github/license/bcgov/renovate-config.svg)](LICENSE)
 [![Lifecycle](https://img.shields.io/badge/Lifecycle-Stable-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 
 # Mend Renovate - Automatic Dependency Updates
@@ -51,7 +51,7 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 - Add custom rules after the `extends` line in your `renovate.json`. See the [Renovate docs](https://docs.renovatebot.com/configuration-options/).
 
 **Q: How do I get help?**
-- See [CONTRIBUTING.md](CONTRIBUTING.md) or open an issue.
+- See [Contributing](#contributing) or open an [issue](https://github.com/bcgov/renovate-config/issues).
 
 ## Version Control
 
