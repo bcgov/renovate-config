@@ -93,7 +93,7 @@
   },
   "platform": "github",
   "platformAutomerge": true,
-  "recreateWhen": "conflicted",
+  "recreateWhen": "never",
   "timezone": "America/Vancouver",
   "schedule": [
     "after 2am and before 8am every weekday"
@@ -336,6 +336,8 @@
     {
       "description": "Group @nestjs",
       "groupName": "nestjs",
+      "groupSlug": "nestjs-{{newVersion}}",
+      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
