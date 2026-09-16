@@ -159,8 +159,7 @@
         "docker-compose"
       ],
       "groupName": "infrastructure updates",
-      "groupSlug": "infra-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}"
+      "groupSlug": "infra"
     },
     {
       "description": "Group all GitHub Actions updates",
@@ -168,8 +167,7 @@
         "github-actions"
       ],
       "groupName": "github actions",
-      "groupSlug": "github-actions-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}"
+      "groupSlug": "github-actions"
     },
     {
       "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
@@ -214,14 +212,11 @@
         "patch"
       ],
       "groupName": "java dependencies",
-      "groupSlug": "java-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}"
+      "groupSlug": "java"
     },
     {
       "description": "Group springframework",
       "groupName": "springframework",
-      "groupSlug": "springframework-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchPackageNames": [
         "/^org\\.springframework/",
         "/^spring-/"
@@ -230,8 +225,7 @@
     {
       "description": "Group Java runtime/JDK and base container image updates together",
       "groupName": "java runtime",
-      "groupSlug": "java-runtime-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
+      "groupSlug": "java-runtime",
       "matchDatasources": ["docker", "java-version"],
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
@@ -268,14 +262,12 @@
         "patch"
       ],
       "groupName": "node dependencies",
-      "groupSlug": "node-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}"
+      "groupSlug": "node"
     },
     {
       "description": "Group Node.js runtime and base container image updates together",
       "groupName": "node runtime",
-      "groupSlug": "node-runtime-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
+      "groupSlug": "node-runtime",
       "matchDatasources": ["docker", "node-version"],
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
@@ -288,8 +280,6 @@
     {
       "description": "Group vite",
       "groupName": "vite",
-      "groupSlug": "vite-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -304,8 +294,6 @@
     {
       "description": "Group linters",
       "groupName": "linters",
-      "groupSlug": "linters-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -337,8 +325,6 @@
     {
       "description": "Group @testing-library",
       "groupName": "testing-library",
-      "groupSlug": "testing-library-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -350,7 +336,7 @@
       ]
     },
     {
-      "description": "Group @nestjs",
+      "description": "Group @nestjs framework packages",
       "groupName": "nestjs",
       "groupSlug": "nestjs-{{newVersion}}",
       "commitMessageExtra": "to {{newVersion}}",
@@ -361,7 +347,19 @@
         "bun"
       ],
       "matchPackageNames": [
-        "/^@nestjs\\//",
+        "/^@nestjs\\//"
+      ]
+    },
+    {
+      "description": "Group NestJS ecosystem utilities and plugins",
+      "groupName": "nestjs ecosystem",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
         "/^@swc\\//",
         "/nestjs-/",
         "/nest-winston/",
@@ -401,8 +399,6 @@
     {
       "description": "Group redux",
       "groupName": "redux",
-      "groupSlug": "redux-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -419,8 +415,6 @@
     {
       "description": "Group Capacitor packages (core, plugins, capacitor-firebase, and the Swift PM) into a single PR",
       "groupName": "capacitor",
-      "groupSlug": "capacitor-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchPackageNames": [
         "/^@capacitor\\//",
         "/^@capacitor-firebase\\//",
@@ -463,8 +457,6 @@
     {
       "description": "Group TanStack libraries (React Query, Table, Router, Form, Virtual, etc.)",
       "groupName": "tanstack",
-      "groupSlug": "tanstack-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -494,8 +486,6 @@
     {
       "description": "Group Drizzle ORM and Drizzle Kit CLI",
       "groupName": "drizzle",
-      "groupSlug": "drizzle-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -510,8 +500,6 @@
     {
       "description": "Group Tailwind CSS, official plugins, and Prettier plugin",
       "groupName": "tailwind",
-      "groupSlug": "tailwind-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -527,8 +515,7 @@
     {
       "description": "Group OpenTelemetry JavaScript SDK, API, and instrumentations",
       "groupName": "opentelemetry js",
-      "groupSlug": "opentelemetry-js-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
+      "groupSlug": "opentelemetry-js",
       "matchManagers": [
         "npm",
         "yarn",
@@ -572,14 +559,12 @@
         "patch"
       ],
       "groupName": "python dependencies",
-      "groupSlug": "python-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}"
+      "groupSlug": "python"
     },
     {
       "description": "Group Python interpreter version and base container image updates together",
       "groupName": "python runtime",
-      "groupSlug": "python-runtime-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
+      "groupSlug": "python-runtime",
       "matchDatasources": ["docker", "python-version", "github-releases"],
       "matchPackageNames": [
         "python",
@@ -591,8 +576,6 @@
     {
       "description": "Group pytest",
       "groupName": "pytest",
-      "groupSlug": "pytest-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -615,8 +598,6 @@
     {
       "description": "Group sqlalchemy",
       "groupName": "sqlalchemy",
-      "groupSlug": "sqlalchemy-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -637,8 +618,6 @@
     {
       "description": "Group python linters",
       "groupName": "python linters",
-      "groupSlug": "python-linters-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -662,8 +641,6 @@
     {
       "description": "Group pydantic",
       "groupName": "pydantic",
-      "groupSlug": "pydantic-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -682,8 +659,6 @@
     {
       "description": "Group fastapi stack",
       "groupName": "fastapi stack",
-      "groupSlug": "fastapi-stack-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -706,8 +681,6 @@
     {
       "description": "Group ai-ml",
       "groupName": "ai-ml",
-      "groupSlug": "ai-ml-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -730,8 +703,6 @@
     {
       "description": "Group data science",
       "groupName": "data science",
-      "groupSlug": "data-science-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -753,8 +724,6 @@
     {
       "description": "Group python tools",
       "groupName": "python tools",
-      "groupSlug": "python-tools-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -776,8 +745,7 @@
     {
       "description": "Group OpenTelemetry Python SDK, API, and instrumentations",
       "groupName": "opentelemetry python",
-      "groupSlug": "opentelemetry-python-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
+      "groupSlug": "opentelemetry-python",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -794,8 +762,6 @@
     {
       "description": "Group Celery, Kombu, and Billiard task queue packages",
       "groupName": "celery",
-      "groupSlug": "celery-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -825,8 +791,6 @@
         "/^microsoft\\/playwright-github-action/"
       ],
       "groupName": "playwright",
-      "groupSlug": "playwright-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "rangeStrategy": "bump"
     }
   ]
