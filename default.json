@@ -336,10 +336,8 @@
       ]
     },
     {
-      "description": "Group @nestjs framework packages",
+      "description": "Group @nestjs",
       "groupName": "nestjs",
-      "groupSlug": "nestjs-{{newVersion}}",
-      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
@@ -347,19 +345,7 @@
         "bun"
       ],
       "matchPackageNames": [
-        "/^@nestjs\\//"
-      ]
-    },
-    {
-      "description": "Group NestJS ecosystem utilities and plugins",
-      "groupName": "nestjs ecosystem",
-      "matchManagers": [
-        "npm",
-        "yarn",
-        "pnpm",
-        "bun"
-      ],
-      "matchPackageNames": [
+        "/^@nestjs\\//",
         "/^@swc\\//",
         "/nestjs-/",
         "/nest-winston/",
