@@ -338,6 +338,7 @@
     {
       "description": "Group @nestjs",
       "groupName": "nestjs",
+      "commitMessageExtra": "to {{newVersion}}",
       "matchManagers": [
         "npm",
         "yarn",
