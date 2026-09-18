@@ -93,7 +93,11 @@
   },
   "platform": "github",
   "platformAutomerge": true,
-  "recreateWhen": "conflicted",
+  "recreateWhen": "never",
+  "group": {
+    "commitMessageTopic": "{{{groupName}}}{{#with (distinct (lookupArray upgrades \"newVersion\"))}}{{#if this.length}} to {{#each this}}{{#unless @first}}, {{/unless}}{{this}}{{/each}}{{/if}}{{/with}}",
+    "commitMessageExtra": ""
+  },
   "timezone": "America/Vancouver",
   "schedule": [
     "after 2am and before 8am every weekday"
