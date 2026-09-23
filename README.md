@@ -260,6 +260,27 @@ These settings in the shared config affect security posture:
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
+### Why there is no shared schedule
+
+The preset does not set `schedule`. Ordinary pull requests open any time Renovate runs. That is Renovate's default (`at any time`). A schedule does not start runs. It only skips branch creation when a run falls outside the window.
+
+This preset used to limit ordinary updates to weekdays, 2 AM–8 AM Pacific. Pull requests opened in that window, then fell behind `main` after one of them merged. After 8 AM Renovate would not rebase them until the next morning, so automerge waited on the Dependency Dashboard rebase checkbox. Vulnerability fixes already ignore `schedule`, so that window never applied to every pull request.
+
+`rebaseWhen` is `behind-base-branch` and `updateNotScheduled` is `true`. Open pull requests rebase when `main` moves, including outside a schedule set by a single repository.
+
+Two schedules remain. Vulnerability fixes use `at any time`. Lock-file maintenance stays weekly through `:maintainLockFilesWeekly`.
+
+A repository that wants quiet hours sets `schedule` in its own `renovate.json`. That value replaces the preset for that repository. Hours use `timezone` from this preset (`America/Vancouver`) unless the repository sets its own. The minutes field must be `*`.
+
+```json
+{
+  "extends": ["github>bcgov/renovate-config"],
+  "schedule": ["* 19-23,0-6 * * 1-5", "* * * * 0,6"]
+}
+```
+
+That example is 7 PM–7 AM on weekdays, and all day on weekends.
+
 ## Escalation
 
 If you encounter:
