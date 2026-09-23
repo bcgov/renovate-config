@@ -99,11 +99,8 @@
     "commitMessageExtra": ""
   },
   "timezone": "America/Vancouver",
-  "schedule": [
-    "after 2am and before 8am every weekday"
-  ],
+  // No shared schedule: ordinary PRs open any time Renovate runs. A repo that wants quiet hours sets its own schedule in renovate.json. true keeps rebases running outside that repo-level window.
   "rebaseWhen": "behind-base-branch",
-  // Keep rebasing open PRs after the 2am–8am window. false skips those rebases until the next morning; the dashboard checkbox is the only bypass. New PRs are still created only inside the schedule.
   "updateNotScheduled": true,
   "prConcurrentLimit": 5,
   "packageRules": [

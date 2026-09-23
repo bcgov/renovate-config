@@ -114,7 +114,7 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
-Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM Pacific Time to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
+Configures automerge, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.). Ordinary pull requests are not limited to a shared schedule. A repository sets `schedule` in its own `renovate.json` when it wants quiet hours.
 
 ### Infrastructure & Container Orchestration
 Consolidates and groups updates for infrastructure managers and GitHub Actions:
@@ -254,9 +254,9 @@ These settings in the shared config affect security posture:
 | `:enableVulnerabilityAlerts` | Enabled | Renovate creates PRs in response to GitHub vulnerability alerts |
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
-| `schedule` | Between 2am and 8am weekdays | Updates arrive during low-traffic hours |
+| `schedule` | Unset | Ordinary PRs open any time Renovate runs. A repository overrides this in its own `renovate.json` |
 | `rebaseWhen` | `behind-base-branch` | Automatically rebases open PRs when default branch updates |
-| `updateNotScheduled` | `true` | Rebases open PRs when main moves, including after the 2am–8am window. New PRs are still created only inside that window |
+| `updateNotScheduled` | `true` | A repository schedule does not stop rebases of open PRs |
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
