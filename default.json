@@ -103,7 +103,8 @@
     "after 2am and before 8am every weekday"
   ],
   "rebaseWhen": "behind-base-branch",
-  "updateNotScheduled": false,
+  // Keep rebasing open PRs after the 2am–8am window. false skips those rebases until the next morning; the dashboard checkbox is the only bypass. New PRs are still created only inside the schedule.
+  "updateNotScheduled": true,
   "prConcurrentLimit": 5,
   "packageRules": [
     // ==========================================
