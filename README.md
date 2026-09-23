@@ -266,20 +266,22 @@ The preset does not set `schedule`. Ordinary pull requests open any time Renovat
 
 This preset used to limit ordinary updates to weekdays, 2 AM–8 AM Pacific. Pull requests opened in that window, then fell behind `main` after one of them merged. After 8 AM Renovate would not rebase them until the next morning, so automerge waited on the Dependency Dashboard rebase checkbox. Vulnerability fixes already ignore `schedule`, so that window never applied to every pull request.
 
-`rebaseWhen` is `behind-base-branch` and `updateNotScheduled` is `true`. Open pull requests rebase when `main` moves, including outside a schedule set by a single repository.
+Open pull requests rebase whenever `main` moves. `rebaseWhen` is `behind-base-branch`.
 
-Two schedules remain. Vulnerability fixes use `at any time`. Lock-file maintenance stays weekly through `:maintainLockFilesWeekly`.
+Vulnerability fixes use `at any time`. Lock-file maintenance stays weekly through `:maintainLockFilesWeekly`.
 
-A repository that wants quiet hours sets `schedule` in its own `renovate.json`. That value replaces the preset for that repository. Hours use `timezone` from this preset (`America/Vancouver`) unless the repository sets its own. The minutes field must be `*`.
+A repository `schedule` replaces the preset for that repository and limits when new pull requests open. Hours use `timezone` from this preset (`America/Vancouver`) unless the repository sets its own. The minutes field must be `*`.
+
+No new pull requests between 7 AM and 7 PM on weekdays. Weekends stay open all day:
 
 ```json
 {
   "extends": ["github>bcgov/renovate-config"],
-  "schedule": ["* 19-23,0-6 * * 1-5", "* * * * 0,6"]
+  "schedule": ["* 0-6,19-23 * * 1-5", "* * * * 0,6"]
 }
 ```
 
-That example is 7 PM–7 AM on weekdays, and all day on weekends.
+`* 0-6,19-23 * * 1-5` is midnight–7 AM and 7 PM–midnight, Monday through Friday. `* * * * 0,6` is all day Saturday and Sunday.
 
 ## Escalation
 
