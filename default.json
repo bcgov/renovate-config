@@ -19,13 +19,44 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Pin local> and github> bcgov/renovate-config extends to the latest release tag. An explicit #main ref is left unchanged.",
+      "description": "An extends line with no release, local> or github>, is pinned to the latest release.",
       "matchStrings": [
-        "\"(?:local|github)>bcgov/renovate-config(?:#v?(?<currentValue>main[^\\\"]+|mai[^n\\\"][^\\\"]*|ma[^i\\\"][^\\\"]*|m[^a\\\"][^\\\"]*|[^m\\\"][^\\\"]*|m|ma|mai))?\""
+        "\"(?:local|github)>bcgov/renovate-config\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
-      "currentValueTemplate": "{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}",
+      "currentValueTemplate": "0.0.0",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "managerFilePatterns": [
+        "/(^|/)renovate\\.json$/",
+        "/(^|/)renovate\\.json5$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "An extends line set to #main is replaced with the latest release.",
+      "matchStrings": [
+        "\"(?:local|github)>bcgov/renovate-config#main\""
+      ],
+      "depNameTemplate": "bcgov/renovate-config",
+      "datasourceTemplate": "github-tags",
+      "currentValueTemplate": "0.0.0",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "managerFilePatterns": [
+        "/(^|/)renovate\\.json$/",
+        "/(^|/)renovate\\.json5$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "An extends line pinned to a numeric release is bumped when a newer release exists.",
+      "matchStrings": [
+        "\"(?:local|github)>bcgov/renovate-config#v?(?<currentValue>\\d[^\\\"]*)\""
+      ],
+      "depNameTemplate": "bcgov/renovate-config",
+      "datasourceTemplate": "github-tags",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
