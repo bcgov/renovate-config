@@ -263,8 +263,6 @@ These settings in the shared config affect security posture:
 
 The preset does not set `schedule`. Ordinary pull requests open any time Renovate runs. A schedule does not start runs. It only skips branch creation when a run falls outside the window.
 
-This preset used to limit ordinary updates to weekdays, 2 AM–8 AM Pacific. Pull requests opened in that window, then fell behind `main` after one of them merged. After 8 AM Renovate would not rebase them until the next morning, so automerge waited on the Dependency Dashboard rebase checkbox. Vulnerability fixes already ignore `schedule`, so that window never applied to every pull request.
-
 Open pull requests rebase whenever `main` moves. `rebaseWhen` is `behind-base-branch`.
 
 Vulnerability fixes use `at any time`. Lock-file maintenance stays weekly through `:maintainLockFilesWeekly`.
