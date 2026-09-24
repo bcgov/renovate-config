@@ -114,7 +114,7 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
-Configures global Renovate scheduler windows (such as processing updates on weekdays between 2 AM and 8 AM Pacific Time to avoid peak hours), automerge capabilities, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
+Configures automerge, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
 
 ### Infrastructure & Container Orchestration
 Consolidates and groups updates for infrastructure managers and GitHub Actions:
@@ -254,9 +254,6 @@ These settings in the shared config affect security posture:
 | `:enableVulnerabilityAlerts` | Enabled | Renovate creates PRs in response to GitHub vulnerability alerts |
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
-| `schedule` | Between 2am and 8am weekdays | Updates arrive during low-traffic hours |
-| `rebaseWhen` | `behind-base-branch` | Automatically rebases open PRs when default branch updates |
-| `updateNotScheduled` | `false` | Disables auto-updating/rebasing of PRs outside schedule window to prevent API throttling |
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
