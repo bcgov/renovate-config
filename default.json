@@ -16,7 +16,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
   "configMigration": true,
-  "dependencyDashboard": true,
   "customManagers": [
     {
       "customType": "regex",
@@ -56,33 +55,22 @@
     "config:recommended",
     "group:definitelyTyped",
     "group:linters",
-    "group:monorepos",
     "group:react",
-    "group:recommended",
-    ":combinePatchMinorReleases",
     ":enableVulnerabilityAlerts",
     ":maintainLockFilesWeekly",
     ":preserveSemverRanges",
-    ":semanticCommits",
-    ":semanticCommitScope(deps)"
+    ":semanticCommits"
   ],
   "vulnerabilityAlerts": {
     "description": "Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.",
-    "enabled": true,
-    "dependencyDashboardApproval": false,
     "minimumReleaseAge": "3 days",
-    "schedule": [
-      "at any time"
-    ],
-    "prConcurrentLimit": 3,
-    "prHourlyLimit": 1
+    "prConcurrentLimit": 3
   },
   "forkProcessing": "enabled",
   "ignorePresets": [
     ":ignoreModulesAndTests"
   ],
   "minimumReleaseAge": "7 days",
-  "mode": "full",
   "onboarding": true,
   "configWarningReuseIssue": true,
   "onboardingConfig": {
@@ -91,7 +79,6 @@
     ]
   },
   "platform": "github",
-  "platformAutomerge": true,
   "recreateWhen": "never",
   "group": {
     "commitMessageTopic": "{{{groupName}}}{{#with (distinct (lookupArray upgrades \"newVersion\"))}}{{#if this.length}} to {{#each this}}{{#unless @first}}, {{/unless}}{{this}}{{/each}}{{/if}}{{/with}}",
