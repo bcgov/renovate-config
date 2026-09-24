@@ -63,7 +63,6 @@
     ":enableVulnerabilityAlerts",
     ":maintainLockFilesWeekly",
     ":preserveSemverRanges",
-    ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)"
   ],
@@ -99,7 +98,6 @@
     "commitMessageExtra": ""
   },
   "timezone": "America/Vancouver",
-  "rebaseWhen": "behind-base-branch",
   "prConcurrentLimit": 5,
   "packageRules": [
     // ==========================================

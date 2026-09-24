@@ -255,15 +255,12 @@ These settings in the shared config affect security posture:
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
 | `schedule` | Unset | Ordinary PRs open any time Renovate runs. A repository overrides this in its own `renovate.json` |
-| `rebaseWhen` | `behind-base-branch` | Automatically rebases open PRs when default branch updates |
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
 ### Why there is no shared schedule
 
 The preset does not set `schedule`. Ordinary pull requests open any time Renovate runs. A schedule does not start runs. It only skips branch creation when a run falls outside the window.
-
-Open pull requests rebase whenever `main` moves. `rebaseWhen` is `behind-base-branch`.
 
 Vulnerability fixes use `at any time`. Lock-file maintenance stays weekly through `:maintainLockFilesWeekly`.
 
