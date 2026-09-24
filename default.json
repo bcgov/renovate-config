@@ -99,9 +99,7 @@
     "commitMessageExtra": ""
   },
   "timezone": "America/Vancouver",
-  // No shared schedule: ordinary PRs open any time Renovate runs. A repo that wants quiet hours sets its own schedule in renovate.json. true keeps rebases running outside that repo-level window.
   "rebaseWhen": "behind-base-branch",
-  "updateNotScheduled": true,
   "prConcurrentLimit": 5,
   "packageRules": [
     // ==========================================

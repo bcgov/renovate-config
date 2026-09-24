@@ -256,13 +256,12 @@ These settings in the shared config affect security posture:
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
 | `schedule` | Unset | Ordinary PRs open any time Renovate runs. A repository overrides this in its own `renovate.json` |
 | `rebaseWhen` | `behind-base-branch` | Automatically rebases open PRs when default branch updates |
-| `updateNotScheduled` | `true` | A repository schedule does not stop rebases of open PRs |
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
 ### Why there is no shared schedule
 
-The preset does not set `schedule`. Ordinary pull requests open any time Renovate runs. That is Renovate's default (`at any time`). A schedule does not start runs. It only skips branch creation when a run falls outside the window.
+The preset does not set `schedule`. Ordinary pull requests open any time Renovate runs. A schedule does not start runs. It only skips branch creation when a run falls outside the window.
 
 This preset used to limit ordinary updates to weekdays, 2 AM–8 AM Pacific. Pull requests opened in that window, then fell behind `main` after one of them merged. After 8 AM Renovate would not rebase them until the next morning, so automerge waited on the Dependency Dashboard rebase checkbox. Vulnerability fixes already ignore `schedule`, so that window never applied to every pull request.
 
