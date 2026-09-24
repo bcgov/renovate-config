@@ -20,9 +20,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
+      "description": "Pin local> and github> bcgov/renovate-config extends to the latest release tag.",
       "matchStrings": [
-        "\"github>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
+        "\"(?:local|github)>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
