@@ -20,9 +20,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Pin local> and github> bcgov/renovate-config extends to the latest release tag.",
+      "description": "Pin local> and github> bcgov/renovate-config extends to the latest release tag. An explicit #main ref is left unchanged.",
       "matchStrings": [
-        "\"(?:local|github)>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
+        "\"(?:local|github)>bcgov/renovate-config(?:#v?(?<currentValue>main[^\\\"]+|mai[^n\\\"][^\\\"]*|ma[^i\\\"][^\\\"]*|m[^a\\\"][^\\\"]*|[^m\\\"][^\\\"]*|m|ma|mai))?\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
