@@ -19,44 +19,13 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "An extends line with no release, local> or github>, is pinned to the latest release.",
+      "description": "Pin local> or github> bcgov/renovate-config to a release. No tag and #main are 0.0.0.",
       "matchStrings": [
-        "\"(?:local|github)>bcgov/renovate-config\""
+        "\"(?:local|github)>bcgov/renovate-config(?:#v?(?<currentValue>[^\"]+))?\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
-      "currentValueTemplate": "0.0.0",
-      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "managerFilePatterns": [
-        "/(^|/)renovate\\.json$/",
-        "/(^|/)renovate\\.json5$/"
-      ]
-    },
-    {
-      "customType": "regex",
-      "description": "An extends line set to #main is replaced with the latest release.",
-      "matchStrings": [
-        "\"(?:local|github)>bcgov/renovate-config#main\""
-      ],
-      "depNameTemplate": "bcgov/renovate-config",
-      "datasourceTemplate": "github-tags",
-      "currentValueTemplate": "0.0.0",
-      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "managerFilePatterns": [
-        "/(^|/)renovate\\.json$/",
-        "/(^|/)renovate\\.json5$/"
-      ]
-    },
-    {
-      "customType": "regex",
-      "description": "An extends line pinned to a numeric release is bumped when a newer release exists.",
-      "matchStrings": [
-        "\"(?:local|github)>bcgov/renovate-config#v?(?<currentValue>\\d[^\\\"]*)\""
-      ],
-      "depNameTemplate": "bcgov/renovate-config",
-      "datasourceTemplate": "github-tags",
+      "currentValueTemplate": "{{#if (equals currentValue 'main')}}0.0.0{{else}}{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}{{/if}}",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
