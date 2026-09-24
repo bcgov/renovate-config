@@ -15,7 +15,6 @@
 - **Security:** Global pinning to SHAs/digests for supply chain security
 - **Efficiency:** Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
 - **Safety:** Automerge for safe updates (minor, patch, linters, etc.)
-- **Stability:** Prerelease blocking (e.g., `-alpha`, `-beta`, `-rc`, etc.)
 - **Management:** Dependency dashboard for tracking
 - **No immortal PRs:** Closed PRs are not recreated
 - **Smart timing:** Minimum release age (7 days) to avoid just-published breaking changes
@@ -114,7 +113,7 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
-Configures automerge, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
+Configures automerge and vulnerability alert priorities.
 
 ### Infrastructure & Container Orchestration
 Consolidates and groups updates for infrastructure managers and GitHub Actions:
@@ -255,7 +254,6 @@ These settings in the shared config affect security posture:
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
 | `automerge` | true | Safe updates merge automatically |
-| Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
 
 ## Escalation
 
