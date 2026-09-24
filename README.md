@@ -114,7 +114,7 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 The `default.json` file is structured into the following sections using comment dividers:
 
 ### Core Renovate Config & Global Policies
-Configures automerge, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.). Ordinary pull requests are not limited to a shared schedule. A repository sets `schedule` in its own `renovate.json` when it wants quiet hours.
+Configures automerge, vulnerability alert priorities, and a global block list that prevents updates to unstable pre-release versions (alpha, beta, rc, dev, etc.).
 
 ### Infrastructure & Container Orchestration
 Consolidates and groups updates for infrastructure managers and GitHub Actions:
@@ -254,28 +254,8 @@ These settings in the shared config affect security posture:
 | `:enableVulnerabilityAlerts` | Enabled | Renovate creates PRs in response to GitHub vulnerability alerts |
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
-| `schedule` | Unset | Ordinary PRs open any time Renovate runs. A repository overrides this in its own `renovate.json` |
 | `automerge` | true | Safe updates merge automatically |
 | Prerelease blocking | Enabled | `-alpha`, `-beta`, `-rc`, etc. are never merged |
-
-### Why there is no shared schedule
-
-The preset does not set `schedule`. Ordinary pull requests open any time Renovate runs. A schedule does not start runs. It only skips branch creation when a run falls outside the window.
-
-Vulnerability fixes use `at any time`. Lock-file maintenance stays weekly through `:maintainLockFilesWeekly`.
-
-A repository `schedule` replaces the preset for that repository and limits when new pull requests open. Hours use `timezone` from this preset (`America/Vancouver`) unless the repository sets its own. The minutes field must be `*`.
-
-No new pull requests between 7 AM and 7 PM on weekdays. Weekends stay open all day:
-
-```json
-{
-  "extends": ["github>bcgov/renovate-config"],
-  "schedule": ["* 0-6,19-23 * * 1-5", "* * * * 0,6"]
-}
-```
-
-`* 0-6,19-23 * * 1-5` is midnight–7 AM and 7 PM–midnight, Monday through Friday. `* * * * 0,6` is all day Saturday and Sunday.
 
 ## Escalation
 
