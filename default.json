@@ -21,7 +21,7 @@
       "customType": "regex",
       "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
       "matchStrings": [
-        "\"github>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
+        "\"(?:local|github)>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
