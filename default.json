@@ -3,9 +3,9 @@
 // as the primary, non-deprecated code path. Standard // comments are safe here.
 //
 // AI & MAINTAINER DIRECTIVE: DO NOT edit grouping rules in rules-*.json5.
-// Those files are frozen, except rules-java.json5, which carries the custom
-// manager that bumps extends pins for presets through 2026.7.0.
-// ALL other configuration updates must be made strictly inside default.json.
+// rules-java.json5 carries the custom manager that bumps extends pins for
+// presets through 2026.7.0. rules-actions.json5 is an empty stub so v1.0.0
+// can resolve. ALL other configuration updates belong in default.json.
 //
 // We CANNOT rename this file to default.jsonc — Renovate hardcodes the fetch to
 // "default.json" when downstream repos omit a filename in their extends array.

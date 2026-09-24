@@ -1,0 +1,6 @@
+// Compatibility stub. The v1.0.0 preset extends this filename from the default
+// branch. Without the file, preset resolution fails before rules-java.json5
+// can bump the pin. No rules live here.
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+}
