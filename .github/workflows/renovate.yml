@@ -218,6 +218,10 @@ jobs:
         with:
           node-version: 24
 
+      # Renovate spawns uv and poetry to update Python lockfiles in bcgov/wps
+      - name: Install lockfile tools
+        run: pipx install uv && pipx install poetry
+
       # Run Renovate with proper error detection
       - name: Run Renovate Dry-Run
         env:
