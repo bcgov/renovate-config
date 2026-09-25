@@ -176,7 +176,7 @@ jobs:
     name: Dry-Run
     needs: validate
     env:
-      pr_set: bcgov/renovate-config bcgov/quickstart-openshift
+      pr_set: bcgov/renovate-config bcgov/quickstart-openshift bcgov/wps
     permissions:
       pull-requests: write
     runs-on: ubuntu-24.04
@@ -217,6 +217,10 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24
+
+      # Renovate spawns uv and poetry to update Python lockfiles in bcgov/wps
+      - name: Install lockfile tools
+        run: pipx install uv && pipx install poetry
 
       # Run Renovate with proper error detection
       - name: Run Renovate Dry-Run
