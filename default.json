@@ -26,6 +26,7 @@
       ],
       "depNameTemplate": "bcgov/renovate-config",
       "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)(?:\\.(?<minor>\\d+))?(?:\\.(?<patch>\\d+))?$",
       "currentValueTemplate": "{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}",
       "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
       "extractVersionTemplate": "^v?(?<version>.*)$",

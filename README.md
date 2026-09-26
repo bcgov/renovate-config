@@ -54,16 +54,15 @@ That's it! Renovate will automatically keep your dependencies up to date and sec
 
 ## Version Control
 
-**Use Versioned Releases (SemVer-Compatible Calendar Versioning):**
+**Use Versioned Releases (Calendar Versioning):**
 ```json
 {
   "extends": ["github>bcgov/renovate-config#2026.4.0"]
 }
 ```
 - **Curated releases** (month segment reflects the release month) - published on demand when meaningful configuration or security updates land, avoiding downstream PR churn.
-- **SemVer-Compatible CalVer** (`YYYY.M.Patch` format) ensures compatibility with automated tools like Renovate and Dependabot out of the box.
-- **No leading zeros in month segments** (e.g., use `.4` instead of `.04`).
-- **Always specify a third segment** (e.g., `.0` for the initial release) so standard SemVer parsers can compare versions correctly and trigger automatic downstream updates.
+- **CalVer** (`YYYY.M.Patch` or `YYYY.MM.Patch`). The pin manager compares the numeric parts, so `2026.09.24` is newer than `2026.9.9` and equal to `2026.9.24`.
+- **Always specify a third segment** (e.g., `.0` for the initial release) so the pin manager can compare versions and open downstream updates.
 
 **Testing Only (Not Recommended for Production):**
 ```json
@@ -76,7 +75,7 @@ Warning: Use only for internal testing and development projects.
 
 **Migration & Auto-Updates:**
 **Three-Segment Standard**: All releases are published as `YYYY.Month.Patch` (e.g., `2025.10.1`, `2026.4.0`).
-**Seamless Propagation**: By maintaining three-segment SemVer compatibility, Renovate will naturally detect newer releases and open automated PRs to update your repositories' pins.
+**Seamless Propagation**: With three numeric segments, Renovate detects newer releases, including tags with a zero-padded month, and opens pull requests to update repository pins.
 
 ## Configuration Architecture & Files
 
