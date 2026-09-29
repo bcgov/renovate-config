@@ -50,6 +50,38 @@
         "/(^|/)Dockerfile$/",
         "/(^|/)[^/]+\\.Dockerfile$/"
       ]
+    },
+    {
+      "customType": "regex",
+      "description": "Migrate unquoted legacy bcgov/action-* refs to bcgov/actions/<path>, SHA-pinned. Renovate replacementName cannot target an action subpath (github-actions depName is owner/repo). Migrated refs also match so Renovate can confirm the rewrite; packageRules below skip them.",
+      "matchStrings": [
+        "uses:[ \\t]+bcgov/action(?:-(?<legacy>builder-ghcr|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)|s/(?<path>builder|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor))@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+))"
+      ],
+      "depNameTemplate": "bcgov/actions/{{#if legacy}}{{#if (equals legacy 'builder-ghcr')}}builder{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
+      "packageNameTemplate": "bcgov/actions",
+      "datasourceTemplate": "github-tags",
+      "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else}}{{{ref}}}{{/if}}",
+      "autoReplaceStringTemplate": "uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
+      "managerFilePatterns": [
+        "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
+        "/(^|/)action\\.ya?ml$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Migrate unquoted legacy bcgov/action-* refs to bcgov/actions-openshift/<path>, SHA-pinned. Renovate replacementName cannot target an action subpath (github-actions depName is owner/repo). Migrated refs also match so Renovate can confirm the rewrite; packageRules below skip them.",
+      "matchStrings": [
+        "uses:[ \\t]+bcgov/action(?:-(?<legacy>deployer-openshift|oc-runner)|s-openshift/(?<path>deployer|oc-runner))@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+))"
+      ],
+      "depNameTemplate": "bcgov/actions-openshift/{{#if legacy}}{{#if (equals legacy 'deployer-openshift')}}deployer{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
+      "packageNameTemplate": "bcgov/actions-openshift",
+      "datasourceTemplate": "github-tags",
+      "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else}}{{{ref}}}{{/if}}",
+      "autoReplaceStringTemplate": "uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
+      "managerFilePatterns": [
+        "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
+        "/(^|/)action\\.ya?ml$/"
+      ]
     }
   ],
   "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
@@ -150,6 +182,30 @@
       ],
       "groupName": "github actions",
       "groupSlug": "github-actions"
+    },
+    {
+      "description": "Legacy bcgov/action-* migration (custom regex managers above): pin tag-only refs to a digest; no automerge, renamed inputs are silently dropped so a human reviews each PR",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "bcgov/actions",
+        "bcgov/actions-openshift"
+      ],
+      "pinDigests": true,
+      "automerge": false
+    },
+    {
+      "description": "Legacy bcgov/action-* migration: skip refs already on the consolidated repos (the github-actions manager updates those)",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "bcgov/actions",
+        "bcgov/actions-openshift"
+      ],
+      "matchCurrentValue": "!/^v0\\.0\\.0$/",
+      "enabled": false
     },
     {
       "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
