@@ -55,13 +55,14 @@
       "customType": "regex",
       "description": "Migrate unquoted legacy bcgov/action-* refs to bcgov/actions/<path>, SHA-pinned. Renovate replacementName cannot target an action subpath (github-actions depName is owner/repo). Migrated refs also match so Renovate can confirm the rewrite; packageRules below skip them.",
       "matchStrings": [
-        "uses:[ \\t]+bcgov/action(?:-(?<legacy>builder-ghcr|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)@(?:[0-9a-f]{40}(?:[ \\t]+#[ \\t]*[^\\s]+)?|[^\\s#]+)|s/(?<path>builder|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+)))"
+        "(?m)^(?<indentation>[ \\t]*)(?<dash>-[ \\t]+)?uses:[ \\t]+bcgov/action(?:-(?<legacy>builder-ghcr|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)@(?:[0-9a-f]{40}(?:[ \\t]+#[ \\t]*[^\\s]+)?|[^\\s#]+)|s/(?<path>builder|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+)))"
       ],
       "depNameTemplate": "bcgov/actions/{{#if legacy}}{{#if (equals legacy 'builder-ghcr')}}builder{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
       "packageNameTemplate": "bcgov/actions",
       "datasourceTemplate": "github-tags",
       "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else if ref}}{{{ref}}}{{else}}consolidated{{/if}}",
-      "autoReplaceStringTemplate": "uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
+      "depTypeTemplate": "{{#if dash}}list-step{{else}}step{{/if}}",
+      "autoReplaceStringTemplate": "{{{indentation}}}{{#if (equals depType 'list-step')}}- {{/if}}uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
       "managerFilePatterns": [
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
         "/(^|/)action\\.ya?ml$/"
@@ -71,13 +72,14 @@
       "customType": "regex",
       "description": "Migrate unquoted legacy bcgov/action-* refs to bcgov/actions-openshift/<path>, SHA-pinned. Renovate replacementName cannot target an action subpath (github-actions depName is owner/repo). Migrated refs also match so Renovate can confirm the rewrite; packageRules below skip them.",
       "matchStrings": [
-        "uses:[ \\t]+bcgov/action(?:-(?<legacy>deployer-openshift|oc-runner)@(?:[0-9a-f]{40}(?:[ \\t]+#[ \\t]*[^\\s]+)?|[^\\s#]+)|s-openshift/(?<path>deployer|oc-runner)@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+)))"
+        "(?m)^(?<indentation>[ \\t]*)(?<dash>-[ \\t]+)?uses:[ \\t]+bcgov/action(?:-(?<legacy>deployer-openshift|oc-runner)@(?:[0-9a-f]{40}(?:[ \\t]+#[ \\t]*[^\\s]+)?|[^\\s#]+)|s-openshift/(?<path>deployer|oc-runner)@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+)))"
       ],
       "depNameTemplate": "bcgov/actions-openshift/{{#if legacy}}{{#if (equals legacy 'deployer-openshift')}}deployer{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
       "packageNameTemplate": "bcgov/actions-openshift",
       "datasourceTemplate": "github-tags",
       "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else if ref}}{{{ref}}}{{else}}consolidated{{/if}}",
-      "autoReplaceStringTemplate": "uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
+      "depTypeTemplate": "{{#if dash}}list-step{{else}}step{{/if}}",
+      "autoReplaceStringTemplate": "{{{indentation}}}{{#if (equals depType 'list-step')}}- {{/if}}uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
       "managerFilePatterns": [
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
         "/(^|/)action\\.ya?ml$/"
