@@ -55,7 +55,7 @@
       "customType": "regex",
       "description": "Migrate unquoted legacy bcgov/action-* refs to bcgov/actions/<path>, SHA-pinned. Renovate replacementName cannot target an action subpath (github-actions depName is owner/repo). Migrated refs also match so Renovate can confirm the rewrite; packageRules below skip them.",
       "matchStrings": [
-        "uses:[ \\t]+bcgov/action(?:-(?<legacy>builder-ghcr|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)|s/(?<path>builder|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor))@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+))"
+        "uses:[ \\t]+bcgov/action(?:-(?<legacy>builder-ghcr|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)@(?:[0-9a-f]{40}(?:[ \\t]+#[ \\t]*[^\\s]+)?|[^\\s#]+)|s/(?<path>builder|diff-triggers|pr-description-add|test-and-analyse|sysdig-monitor)@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+)))"
       ],
       "depNameTemplate": "bcgov/actions/{{#if legacy}}{{#if (equals legacy 'builder-ghcr')}}builder{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
       "packageNameTemplate": "bcgov/actions",
@@ -71,7 +71,7 @@
       "customType": "regex",
       "description": "Migrate unquoted legacy bcgov/action-* refs to bcgov/actions-openshift/<path>, SHA-pinned. Renovate replacementName cannot target an action subpath (github-actions depName is owner/repo). Migrated refs also match so Renovate can confirm the rewrite; packageRules below skip them.",
       "matchStrings": [
-        "uses:[ \\t]+bcgov/action(?:-(?<legacy>deployer-openshift|oc-runner)|s-openshift/(?<path>deployer|oc-runner))@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+))"
+        "uses:[ \\t]+bcgov/action(?:-(?<legacy>deployer-openshift|oc-runner)@(?:[0-9a-f]{40}(?:[ \\t]+#[ \\t]*[^\\s]+)?|[^\\s#]+)|s-openshift/(?<path>deployer|oc-runner)@(?:(?<currentDigest>[0-9a-f]{40})(?:[ \\t]+#[ \\t]*(?<tag>[^\\s]+))?|(?<ref>[^\\s#]+)))"
       ],
       "depNameTemplate": "bcgov/actions-openshift/{{#if legacy}}{{#if (equals legacy 'deployer-openshift')}}deployer{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
       "packageNameTemplate": "bcgov/actions-openshift",
