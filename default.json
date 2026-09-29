@@ -60,7 +60,7 @@
       "depNameTemplate": "bcgov/actions/{{#if legacy}}{{#if (equals legacy 'builder-ghcr')}}builder{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
       "packageNameTemplate": "bcgov/actions",
       "datasourceTemplate": "github-tags",
-      "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else}}{{{ref}}}{{/if}}",
+      "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else if ref}}{{{ref}}}{{else}}consolidated{{/if}}",
       "autoReplaceStringTemplate": "uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
       "managerFilePatterns": [
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
@@ -76,7 +76,7 @@
       "depNameTemplate": "bcgov/actions-openshift/{{#if legacy}}{{#if (equals legacy 'deployer-openshift')}}deployer{{else}}{{{legacy}}}{{/if}}{{else}}{{{path}}}{{/if}}",
       "packageNameTemplate": "bcgov/actions-openshift",
       "datasourceTemplate": "github-tags",
-      "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else}}{{{ref}}}{{/if}}",
+      "currentValueTemplate": "{{#if legacy}}v0.0.0{{else if tag}}{{{tag}}}{{else if ref}}{{{ref}}}{{else}}consolidated{{/if}}",
       "autoReplaceStringTemplate": "uses: {{{depName}}}@{{{newDigest}}} # {{{newValue}}}",
       "managerFilePatterns": [
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
