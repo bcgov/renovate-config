@@ -43,8 +43,9 @@ jobs:
           sed -E -i "s|github>bcgov/renovate-config(#[^\"']*)?|github>bcgov/renovate-config#$CURRENT_BRANCH|" renovate.json
           echo "✅ Updated renovate.json to reference branch: $CURRENT_BRANCH"
 
+      # Mend bumps this image tag (github-actions docker). Use the -full tag: slim images omit uv and poetry.
       - name: Schema validation
-        uses: docker://ghcr.io/renovatebot/renovate:43
+        uses: docker://ghcr.io/renovatebot/renovate:44.131.3-full
         with:
           entrypoint: renovate-config-validator
           args: --strict default.json renovate.json
@@ -213,28 +214,24 @@ jobs:
           # Dry run
           cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
-      - name: Setup Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-
-      # Renovate spawns uv and poetry to update Python lockfiles in bcgov/wps
-      - name: Install lockfile tools
-        run: pipx install uv && pipx install poetry
-
-      # Run Renovate with proper error detection
+      # Same image tag as schema validation. -full includes uv and poetry for bcgov/wps lockfiles.
       - name: Run Renovate Dry-Run
+        uses: docker://ghcr.io/renovatebot/renovate:44.131.3-full
         env:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: renovate.json
           LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
-        run: |
-          set -o pipefail
-          npx --yes renovate@latest --dry-run=full 2>&1 | tee renovate_output.log
+          LOG_FILE: /github/workspace/renovate_output.log
+        with:
+          args: --dry-run=full
 
       - name: Validate Dry-Run Log
         if: always()
         run: |
+          if [[ ! -s renovate_output.log ]]; then
+            echo "Renovate did not write renovate_output.log"
+            exit 1
+          fi
           # Check if configuration errors were found
           if grep -q "validationError\|config-validation\|Cannot find preset" renovate_output.log; then
             echo "❌ Configuration errors detected:"
