@@ -176,6 +176,8 @@ jobs:
     name: Dry-Run
     needs: validate
     env:
+      # Pin: renovate@latest (44.131.1+) fails npm install on Node 24 as of 2026-10-02
+      RENOVATE_CLI_VERSION: "44.131.0"
       pr_set: bcgov/renovate-config bcgov/quickstart-openshift bcgov/wps
     permissions:
       pull-requests: write
@@ -230,7 +232,7 @@ jobs:
           LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         run: |
           set -o pipefail
-          npx --yes renovate@latest --dry-run=full 2>&1 | tee renovate_output.log
+          npx --yes "renovate@${RENOVATE_CLI_VERSION}" --dry-run=full 2>&1 | tee renovate_output.log
 
       - name: Validate Dry-Run Log
         if: always()
