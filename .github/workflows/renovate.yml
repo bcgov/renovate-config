@@ -223,6 +223,7 @@ jobs:
           LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
           LOG_FILE: /github/workspace/renovate_output.log
         with:
+          entrypoint: renovate
           args: --dry-run=full
 
       - name: Validate Dry-Run Log
