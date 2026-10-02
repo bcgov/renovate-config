@@ -214,17 +214,30 @@ jobs:
           # Dry run
           cat <<< $(jq '.+= {"dryRun": "full"}' renovate.json) > renovate.json
 
-      # Same image tag as schema validation. -full includes uv and poetry for bcgov/wps lockfiles.
+      # Uses the image tag from Schema validation so Mend's bump applies here too.
+      # -full includes uv and poetry. Do not set LOG_FILE: 44.131.3 exits before logging.
       - name: Run Renovate Dry-Run
-        uses: docker://ghcr.io/renovatebot/renovate:44.131.3-full
         env:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: renovate.json
           LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
-          LOG_FILE: /github/workspace/renovate_output.log
-        with:
-          entrypoint: renovate
-          args: --dry-run=full
+        run: |
+          set -o pipefail
+          image=$(grep -oE 'docker://ghcr.io/renovatebot/renovate:[0-9]+\.[0-9]+\.[0-9]+-full' .github/workflows/renovate.yml | head -1)
+          image=${image#docker://}
+          if [[ -z "$image" ]]; then
+            echo "No ghcr.io/renovatebot/renovate:<semver>-full tag in this workflow"
+            exit 1
+          fi
+          docker run --rm \
+            --entrypoint renovate \
+            -v "${GITHUB_WORKSPACE}:/github/workspace" \
+            -w /github/workspace \
+            -e RENOVATE_TOKEN \
+            -e RENOVATE_CONFIG_FILE \
+            -e LOG_LEVEL \
+            "$image" \
+            --dry-run=full 2>&1 | tee renovate_output.log
 
       - name: Validate Dry-Run Log
         if: always()
