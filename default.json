@@ -69,9 +69,6 @@
     "prConcurrentLimit": 3
   },
   "forkProcessing": "enabled",
-  "ignorePresets": [
-    ":ignoreModulesAndTests"
-  ],
   "minimumReleaseAge": "7 days",
   "onboarding": true,
   "configWarningReuseIssue": true,

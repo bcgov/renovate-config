@@ -116,6 +116,23 @@ The `default.json` file is structured into the following sections using comment 
 ### Core Renovate Config & Global Policies
 Configures automerge and vulnerability alert priorities.
 
+**Ignored folders:** The preset keeps Renovate's default `:ignoreModulesAndTests`, so package files under `node_modules`, `bower_components`, `vendor`, `examples`, `__tests__`, `test`, `tests` and `__fixtures__` aren't scanned. To scan one of those folders in your repo, set `ignorePaths` in your own `renovate.json` to the default list minus that folder. `ignorePaths` isn't merged, so your list replaces the default. For example, to scan `tests/`:
+
+```json
+{
+  "extends": ["github>bcgov/renovate-config#<version>"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/__fixtures__/**"
+  ]
+}
+```
+
 ### Infrastructure & Container Orchestration
 Consolidates and groups updates for infrastructure managers and GitHub Actions:
 - **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
@@ -255,6 +272,7 @@ These settings in the shared config affect security posture:
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
 | `automerge` | true | Safe updates merge automatically |
+| `:ignoreModulesAndTests` | Enabled (Renovate default) | Skips package files in vendored, example and test folders; repos can opt back in with `ignorePaths` |
 
 ## Escalation
 
