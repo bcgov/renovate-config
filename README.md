@@ -116,7 +116,9 @@ The `default.json` file is structured into the following sections using comment 
 ### Core Renovate Config & Global Policies
 Configures automerge and vulnerability alert priorities.
 
-**Ignored folders:** The preset keeps Renovate's default `:ignoreModulesAndTests`, so package files under `node_modules`, `bower_components`, `vendor`, `examples`, `__tests__`, `test`, `tests` and `__fixtures__` aren't scanned. NuGet is the exception: Renovate still scans its `__tests__`, `test` and `tests` folders, and a NuGet repo changes its list with `nuget.ignorePaths`. To scan one of those folders in your repo, set `ignorePaths` in your own `renovate.json` to the default list minus that folder. `ignorePaths` isn't merged, so your list replaces the default. For example, to scan `tests/`:
+**Ignored folders:** `ignorePaths` is Renovate's default `:ignoreModulesAndTests` list minus the test folders. Renovate skips package files under `node_modules`, `bower_components`, `vendor`, `examples` and `__fixtures__`. Test folders (`test`, `tests`, `__tests__`) stay scanned, so quickstart-style integration and smoke tests keep their updates. NuGet already uses this same list in Renovate's default; a NuGet repo changes its list with `nuget.ignorePaths`.
+
+To stop updates in test folders, set the full list in your own `renovate.json`. A repo's `ignorePaths` replaces the preset's, so include every entry:
 
 ```json
 {
@@ -126,9 +128,10 @@ Configures automerge and vulnerability alert priorities.
     "**/bower_components/**",
     "**/vendor/**",
     "**/examples/**",
+    "**/__fixtures__/**",
     "**/__tests__/**",
     "**/test/**",
-    "**/__fixtures__/**"
+    "**/tests/**"
   ]
 }
 ```
@@ -272,7 +275,7 @@ These settings in the shared config affect security posture:
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
 | `automerge` | true | Safe updates merge automatically |
-| `:ignoreModulesAndTests` | Enabled (Renovate default) | Skips package files in vendored, example and test folders (NuGet still scans test folders); repos can opt back in with `ignorePaths` (`nuget.ignorePaths` for NuGet) |
+| `ignorePaths` | Renovate default minus test folders | Skips `node_modules`, `bower_components`, `vendor`, `examples` and `__fixtures__`; test folders stay scanned. A repo's own `ignorePaths` replaces this list |
 
 ## Escalation
 

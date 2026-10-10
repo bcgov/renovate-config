@@ -69,6 +69,16 @@
     "prConcurrentLimit": 3
   },
   "forkProcessing": "enabled",
+  // Renovate's :ignoreModulesAndTests list minus the test folders. Test folders
+  // (test, tests, __tests__) stay scanned so quickstart-style integration and smoke
+  // tests keep their updates. A repo's own ignorePaths replaces this list.
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__fixtures__/**"
+  ],
   "minimumReleaseAge": "7 days",
   "onboarding": true,
   "configWarningReuseIssue": true,
