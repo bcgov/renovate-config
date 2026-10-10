@@ -156,7 +156,7 @@
       "matchDepNames": [
         "/(^|\\/)postgres$/",
         "/(^|\\/)postgresql$/",
-        "/(^|\\/)postgis\\/postgis$/",
+        "/(^|\\/)postgis$/",
         "/(^|\\/)mysql$/",
         "/(^|\\/)mariadb$/",
         "/(^|\\/)mongo$/",
