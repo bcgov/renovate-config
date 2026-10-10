@@ -121,7 +121,7 @@ Consolidates and groups updates for infrastructure managers and GitHub Actions:
 - **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
 - **Actions:** Groups updates into a single `infrastructure updates` PR to reduce noise.
 - **GitHub Actions:** Groups all GitHub Actions updates (including major upgrades) into a single `github actions` PR.
-- **Database Safety:** Major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) get PRs like any other major update, but never automerge. A person merges after migrating the data, so an upgrade can't cause data loss or a failed container start on its own. Close a PR to skip that major.
+- **Database Safety:** Major database upgrades (PostgreSQL, PostGIS, MySQL, MariaDB, MongoDB, Redis) get their own PR, one per database, but never automerge. A person merges after migrating the data, so an upgrade can't cause data loss or a failed container start on its own. Close a PR to skip that major. The rule matches the image name's last segment, so registry-prefixed images (`docker.io/library/postgres`, `quay.io/...`, `ghcr.io` mirrors) and images set in Dockerfiles, Compose, Kubernetes manifests, Helm values and Kustomize are covered; look-alikes such as `postgres-exporter` are not.
 
 ### Java & JVM Ecosystem
 - **Pinning:** Globally pins all digests and SHAs for Maven and Gradle dependencies to guarantee supply chain security.

@@ -152,19 +152,25 @@
       "groupSlug": "github-actions"
     },
     {
-      "description": "Database images: Renovate opens major updates as usual, one PR per database (outside the infrastructure group, so they don't hold up its automerge), and they never automerge. A person merges after migrating the data (dump/restore or an automated upgrade step).",
-      "matchPackageNames": [
-        "/^postgres$/",
-        "/^mysql$/",
-        "/^mariadb$/",
-        "/^mongo$/",
-        "/^mongodb$/",
-        "/^redis$/"
+      "description": "Database images: Renovate opens major updates as usual, one PR per database (outside the infrastructure group, so they don't hold up its automerge), and they never automerge. A person merges after migrating the data (dump/restore or an automated upgrade step). Matches the image's final path segment, so registry-prefixed names (docker.io/library/postgres, quay.io/..., ghcr.io mirrors) and Helm or Kustomize image settings are covered, as are bitnami/postgresql and mongodb/mongodb-community-server, but look-alikes such as postgres-exporter or redis-commander are not.",
+      "matchDepNames": [
+        "/(^|\\/)postgres$/",
+        "/(^|\\/)postgresql$/",
+        "/(^|\\/)postgis\\/postgis$/",
+        "/(^|\\/)mysql$/",
+        "/(^|\\/)mariadb$/",
+        "/(^|\\/)mongo$/",
+        "/(^|\\/)mongodb$/",
+        "/(^|\\/)mongodb-community-server$/",
+        "/(^|\\/)redis$/"
       ],
       "matchManagers": [
         "dockerfile",
         "docker-compose",
-        "kubernetes"
+        "kubernetes",
+        "helm-values",
+        "helmv3",
+        "kustomize"
       ],
       "matchUpdateTypes": [
         "major"
