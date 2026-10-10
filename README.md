@@ -121,7 +121,7 @@ Consolidates and groups updates for infrastructure managers and GitHub Actions:
 - **Managers covered:** Terraform, Dockerfile, Kubernetes, Helm, and Docker Compose.
 - **Actions:** Groups updates into a single `infrastructure updates` PR to reduce noise.
 - **GitHub Actions:** Groups all GitHub Actions updates (including major upgrades) into a single `github actions` PR.
-- **Database Safety:** Explicitly blocks major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) to prevent accidental data loss or container start failures without manual migration.
+- **Database Safety:** Major database upgrades (PostgreSQL, MySQL, MariaDB, MongoDB, Redis) get PRs like any other major update, but never automerge. A person merges after migrating the data, so an upgrade can't cause data loss or a failed container start on its own. Close a PR to skip that major.
 
 ### Java & JVM Ecosystem
 - **Pinning:** Globally pins all digests and SHAs for Maven and Gradle dependencies to guarantee supply chain security.
@@ -182,7 +182,7 @@ The following require manual review before merging:
 
 - **Major version bumps** — check changelog/release notes for breaking changes
 - **Infrastructure updates** (Terraform, Docker, Kubernetes, Helm) — verify compatibility with your deployment
-- **Database image updates** — major DB version updates are blocked by default; minor/patch still need review
+- **Database image updates** — major DB version PRs never automerge; migrate the data (dump/restore or an automated upgrade step) before merging
 - **Security-flagged updates** — Renovate may label PRs with known CVEs
 
 ### Review Checklist for Renovate PRs

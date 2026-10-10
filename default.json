@@ -152,7 +152,7 @@
       "groupSlug": "github-actions"
     },
     {
-      "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
+      "description": "Database images: Renovate opens major updates as usual, one PR per database (outside the infrastructure group, so they don't hold up its automerge), and they never automerge. A person merges after migrating the data (dump/restore or an automated upgrade step).",
       "matchPackageNames": [
         "/^postgres$/",
         "/^mysql$/",
@@ -169,7 +169,8 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "enabled": false
+      "groupName": null,
+      "automerge": false
     },
 
     // ==========================================
