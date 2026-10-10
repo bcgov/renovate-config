@@ -152,24 +152,15 @@
       "groupSlug": "github-actions"
     },
     {
-      "description": "Database images: Block major updates (require migration/backup-restore), allow patch and minor updates",
+      "description": "Database images: major updates never automerge (data needs migrating first)",
       "matchPackageNames": [
-        "/^postgres$/",
-        "/^mysql$/",
-        "/^mariadb$/",
-        "/^mongo$/",
-        "/^mongodb$/",
-        "/^redis$/"
-      ],
-      "matchManagers": [
-        "dockerfile",
-        "docker-compose",
-        "kubernetes"
+        "/(^|\\/)(postgres|postgresql|postgis|mysql|mariadb|mongo|mongodb|mongodb-community-server|redis)$/"
       ],
       "matchUpdateTypes": [
         "major"
       ],
-      "enabled": false
+      "groupName": null,
+      "automerge": false
     },
 
     // ==========================================
