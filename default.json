@@ -251,6 +251,19 @@
       ]
     },
     {
+      "description": "Keep Playwright npm packages and container images in sync to prevent browser revision mismatch crashes",
+      "groupName": "playwright",
+      "groupSlug": "playwright",
+      "matchPackageNames": [
+        "@playwright/test",
+        "playwright",
+        "playwright-core",
+        "mcr.microsoft.com/playwright"
+      ],
+      "rangeStrategy": "bump",
+      "minimumReleaseAge": null
+    },
+    {
       "description": "Group vite",
       "groupName": "vite",
       "matchManagers": [
