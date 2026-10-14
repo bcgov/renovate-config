@@ -14,7 +14,7 @@
 **What you get with this shared configuration:**
 - **Security:** Global pinning to SHAs/digests for supply chain security
 - **Efficiency:** Grouped PRs by ecosystem (JS/TS, Python, Java, Actions, Docker, etc.)
-- **Safety:** Automerge for safe updates (minor, patch, linters, etc.)
+- **Automation:** Automerge enabled across updates once CI checks pass (database major updates excluded)
 - **Management:** Dependency dashboard for tracking
 - **No immortal PRs:** Closed PRs are not recreated
 - **Smart timing:** Minimum release age (7 days) to avoid just-published breaking changes
@@ -168,22 +168,32 @@ This policy covers how teams should handle automated dependency updates from **R
 
 ### Routine Updates (Automerge Enabled)
 
-Renovate is configured to automerge safe updates. These typically merge without manual intervention:
+Renovate is configured with `automerge: true` globally. All dependency updates (patch, minor, and major) will automerge once required CI checks and branch protection rules pass.
 
-- **Patch and minor** semver-compatible updates
-- **Linters and devDependency** updates
-- **Lock file maintenance**
-
-**Action:** Let automerge handle these. Monitor CI for failures.
+**Action:** Let automerge handle these as long as CI tests pass.
 
 ### PRs Requiring Review
 
-The following require manual review before merging:
+The following updates do not automerge and require manual review:
 
-- **Major version bumps** — check changelog/release notes for breaking changes
-- **Infrastructure updates** (Terraform, Docker, Kubernetes, Helm) — verify compatibility with your deployment
-- **Database image updates** — major versions never automerge; migrate the data first
-- **Security-flagged updates** — Renovate may label PRs with known CVEs
+- **Database image updates** — major updates never automerge (`automerge: false`); migrate data first.
+- **Repositories without auto-merge** — if GitHub auto-merge is disabled in repo settings, all PRs remain open for manual review and merge.
+
+### Disabling Automerge for Major Updates
+
+If your repository requires manual review for major version upgrades, add this package rule to your `renovate.json`:
+
+```json
+{
+  "packageRules": [
+    {
+      "description": "Disable automerge for major updates",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ]
+}
+```
 
 ### Review Checklist for Renovate PRs
 
@@ -254,7 +264,7 @@ These settings in the shared config affect security posture:
 | `:enableVulnerabilityAlerts` | Enabled | Renovate creates PRs in response to GitHub vulnerability alerts |
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
 | `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
-| `automerge` | true | Safe updates merge automatically |
+| `automerge` | true | Updates merge automatically when CI passes (database major updates excluded) |
 
 ## Escalation
 
