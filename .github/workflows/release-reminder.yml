@@ -72,7 +72,7 @@ jobs:
 
       - name: Notify CODEOWNERS via Issue
         if: steps.check_commits.outputs.should_notify == 'true'
-        uses: bcgov/actions/workflow-notifier@4026bfd276b8a5839029106099b13edfb594b2c3 # v0.8.0
+        uses: bcgov/actions/workflow-notifier@79aefe3a7abb2d0d00b1b3ea4cfbf12727a10638 # v0.9.0
         with:
           title: ${{ steps.check_commits.outputs.title }}
           body: ${{ steps.check_commits.outputs.body }}
