@@ -79,24 +79,18 @@ Warning: Use only for internal testing and development projects.
 
 ## Configuration Architecture & Files
 
-Historically, this configuration was split across multiple files (e.g., `rules-*.json5`). Grouping rules in those files are no longer maintained on `main`; all rules are now consolidated into `default.json` to address key Renovate limitations and ensure version stability. Two files stay on `main` for old pins: `rules-java.json5` bumps `extends` pins for presets through `2026.7.0`, and `rules-actions.json5` is an empty stub so the `v1.0.0` preset can resolve.
+Historically, this configuration was split across multiple files (e.g., `rules-*.json5`). Those files have been removed from `main`; all rules are consolidated into `default.json` to address key Renovate limitations and ensure version stability. Pins through `2026.7.0` and `v1.0.0` extended those files from `main` and must move to `#2026.9.26` or newer.
 
 | File | Purpose |
 |------|---------|
 | `renovate.json` | Entry point for downstream repositories referencing this configuration. |
 | `default.json` | The single consolidated Renovate preset containing all shared configuration rules. |
-| `rules-java.json5` | Pin-bump manager for presets through `2026.7.0`. Do not add grouping rules. |
-| `rules-actions.json5` | Empty stub. `v1.0.0` extends this filename from `main`. |
-| `rules-*.json5` | **[LEGACY]** Frozen language-specific configurations. |
-
-> [!WARNING]
-> Grouping rules in `rules-*.json5` are frozen and will be deleted once presets through `2026.7.0` no longer need them. Until then, `rules-java.json5` and `rules-actions.json5` stay on `main`.
 
 ### Why We Use a Single `default.json`
 
 Renovate has two design limitations that necessitate a single, consolidated configuration file:
 
-1. **Preset Tag/Branch Inheritance:** Renovate does not propagate the parent version tag/branch (e.g., `#2026.7.0`) down to nested preset extensions. If `default.json` extends sub-files (like `rules-java.json5`), downstream repositories that version-lock to `#2026.7.0` will resolve `default.json` correctly at that tag, but Renovate will fetch the nested rules from the default `main` branch. This breaks SemVer isolation. Consolidating all rules directly into `default.json` guarantees version locking.
+1. **Preset Tag/Branch Inheritance:** Renovate does not propagate the parent version tag/branch (e.g., `#2026.7.0`) down to nested preset extensions. If `default.json` extends sub-files (like a `rules-*.json5` file), downstream repositories that version-lock to `#2026.7.0` will resolve `default.json` correctly at that tag, but Renovate will fetch the nested rules from the default `main` branch. This breaks SemVer isolation. Consolidating all rules directly into `default.json` guarantees version locking.
 2. **Hardcoded Lookup:** When downstream configurations extend `github>bcgov/renovate-config#<version>` (omitting a specific file path), Renovate's resolver hardcodes the lookup specifically to `default.json`. We cannot rename the file to `default.jsonc` or `default.json5` without forcing all downstream repositories to explicitly update their `extends` targets.
 
 ### Why Comments Are Safe in `default.json`
@@ -109,7 +103,7 @@ Lines starting with `//` are safely stripped during Renovate's ingestion process
 ## Configuration Sections Breakdown
 
 > [!IMPORTANT]
-> **Note for Contributors & AI Agents:** Do not modify `.json5` grouping rules. The only maintained `.json5` content is the pin-bump manager in `rules-java.json5` and the empty `rules-actions.json5` stub. All other configuration lives in `default.json`.
+> **Note for Contributors & AI Agents:** All configuration lives in `default.json`. Do not add nested preset files.
 
 The `default.json` file is structured into the following sections using comment dividers:
 

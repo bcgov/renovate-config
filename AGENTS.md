@@ -4,7 +4,7 @@ Repository facts for automated coding assistants. Teams may edit or remove this 
 
 ## Layout
 - Shared preset: `default.json` (JSONC). Downstream `github>bcgov/renovate-config` resolves that file. `renovate.json` is this repository's config.
-- `rules-java.json5` bumps `extends` pins for presets through `2026.7.0`. `rules-actions.json5` is an empty stub so the `v1.0.0` preset can resolve. Other `rules-*.json5` grouping rules are frozen. Don't add grouping rules there.
+- All shared rules live in `default.json`. Don't add other preset files.
 - Workflows live in `.github/workflows/`: `renovate.yml` (schema check and dry-run), `pr-validate.yml`, `release-reminder.yml`. Duplicate-rule lint: `.github/scripts/lint_renovate_duplicates.mjs`.
 
 ## Build, test, deploy
