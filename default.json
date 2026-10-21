@@ -2,10 +2,7 @@
 // Renovate's parseJson() routes all .json files through parseJsonc() (jsonc-weaver)
 // as the primary, non-deprecated code path. Standard // comments are safe here.
 //
-// AI & MAINTAINER DIRECTIVE: DO NOT edit grouping rules in rules-*.json5.
-// rules-java.json5 carries the custom manager that bumps extends pins for
-// presets through 2026.7.0. rules-actions.json5 is an empty stub so v1.0.0
-// can resolve. ALL other configuration updates belong in default.json.
+// AI & MAINTAINER DIRECTIVE: ALL configuration updates belong in default.json.
 //
 // We CANNOT rename this file to default.jsonc — Renovate hardcodes the fetch to
 // "default.json" when downstream repos omit a filename in their extends array.
