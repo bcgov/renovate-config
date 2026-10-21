@@ -1,30 +1,28 @@
 #!/usr/bin/env node
 // .github/scripts/lint_renovate_duplicates.mjs
-// Lint Renovate JSON/JSON5 config for duplicate/overlapping packageRules by matchManagers and matchPackageNames
-// Usage: node .github/scripts/lint_renovate_duplicates.mjs file1.json file2.json5 ...
+// Lint Renovate JSON (JSONC) config for duplicate/overlapping packageRules by matchManagers and matchPackageNames
+// Usage: node .github/scripts/lint_renovate_duplicates.mjs default.json [renovate.json ...]
 //
-// - Accepts any number of .json or .json5 files as arguments.
+// - Accepts one or more .json files (comments allowed) as arguments.
 // - Checks for exact duplicate and overlapping packageRules across all files.
 // - Prints clear warnings with file and rule index for each case.
 //
-// Adapt or extend as needed for your org's Renovate config structure!
-//
 // === USAGE & EXAMPLES ===
 //
-// Usage:
-//   node .github/scripts/lint_renovate_duplicates.mjs file1.json file2.json5 file3.json ...
+// CI runs:
+//   node .github/scripts/lint_renovate_duplicates.mjs *.json
 //
 // Example output:
-//   [INFO] Linting 3 files: default.json, rules-a.json5, rules-b.json5
+//   [INFO] Linting 2 files: default.json, renovate.json
 //   [INFO] ├─ Parsing default.json ...
-//   [INFO] │   Found 1 packageRules in default.json
+//   [INFO] │   Found 12 packageRules in default.json
 //   ...
-//   [WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[npm] and matchPackageNames=[/eslint/] at: rules-b.json5[8], default.json[2]
-//   [WARN][OVERLAP] Overlapping matchPackageNames in rules-b.json5[0] and rules-b.json5[1] for matchManagers=[npm]: [/eslint/]
+//   [WARN][DUPLICATE] Exact duplicate packageRules for matchManagers=[npm] and matchPackageNames=[/eslint/] at: default.json[3], default.json[8]
+//   [WARN][OVERLAP] Overlapping matchPackageNames in default.json[0] and default.json[1] for matchManagers=[npm]: [/eslint/]
 //   [INFO] === Rule Coverage Report ===
 //   [INFO] Managers covered by rules:
-//     [MULTI] github-actions (covered by 3 rules): rules-a.json5[0], rules-a.json5[1], rules-a.json5[2]
-//     [OK]    npm           (covered by 1 rule): rules-b.json5[8]
+//     [MULTI] github-actions (covered by 3 rules): default.json[4], default.json[5], default.json[6]
+//     [OK]    npm           (covered by 1 rule): default.json[8]
 //   ...
 //
 // See README.md for more details.
