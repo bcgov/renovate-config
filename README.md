@@ -122,6 +122,7 @@ Consolidates and groups updates for infrastructure managers and GitHub Actions:
 - **Pinning:** Enforces SHA/digest pinning for package managers (`npm`, `yarn`, `pnpm`, `bun`).
 - **Grouping:** Consolidates non-major updates into a single `node dependencies` PR.
 - **Framework Bundles:** Automatically groups related library updates to prevent compilation errors (e.g., `@angular/*`, NestJS ecosystem, Vite, React Redux, Playwright, `@mui/*`, and frontend linters/Prettier/ESLint).
+- **Corepack:** Node.js 25+ no longer bundles Corepack, so `corepack@X.Y.Z` pins in Dockerfiles, GitHub Actions workflows, and `action.yml` files are upgraded and grouped with non-major Node.js runtime updates in the `node runtime` PR.
 
 ### Python Ecosystem
 - **Pinning:** Pin digests/SHAs for Python package managers (`pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `uv`, `pep621`, `pip-compile`).

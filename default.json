@@ -47,6 +47,21 @@
         "/(^|/)Dockerfile$/",
         "/(^|/)[^/]+\\.Dockerfile$/"
       ]
+    },
+    {
+      "customType": "regex",
+      "description": "Upgrade Corepack pins installed via npm, since Node.js 25+ no longer bundles Corepack",
+      "matchStrings": [
+        "corepack@(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "corepack",
+      "datasourceTemplate": "npm",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile[^/]*$/",
+        "/(^|/)[^/]+\\.Dockerfile$/",
+        "/^\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)action\\.ya?ml$/"
+      ]
     }
   ],
   "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
@@ -246,6 +261,14 @@
         "/^(?:docker\\.io\\/(?:library\\/)?)?node$/",
         "/^public\\.ecr\\.aws\\/docker\\/library\\/node$/"
       ]
+    },
+    {
+      "description": "Group Corepack with the Node.js runtime, since Node.js 25+ no longer bundles it",
+      "groupName": "node runtime",
+      "groupSlug": "node-runtime",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["corepack"]
     },
     {
       "description": "Keep Playwright npm packages and container images in sync to prevent browser revision mismatch crashes",
