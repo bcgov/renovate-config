@@ -255,7 +255,7 @@ These settings in the shared config affect security posture:
 |---------|-------|---------|
 | `:enableVulnerabilityAlerts` | Enabled | Renovate creates PRs in response to GitHub vulnerability alerts |
 | `minimumReleaseAge` | 7 days | Avoids adopting newly published (potentially compromised) packages immediately |
-| `prConcurrentLimit` | 5 | Limits open PRs to reduce noise while maintaining coverage |
+| `prConcurrentLimit` | 3 | Limits open PRs to reduce noise while maintaining coverage; teams can raise it in their own `renovate.json` for more concurrency |
 | `automerge` | true | Updates merge automatically when CI passes (database major updates excluded) |
 
 ## Escalation
