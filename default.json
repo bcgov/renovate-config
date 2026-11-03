@@ -1,1 +1,777 @@
-{"$schema":"https://docs.renovatebot.com/renovate-schema.json","automerge":true,"configMigration":true,"customManagers":[{"customType":"regex","description":"Auto-upgrade and pin downstream extends references to bcgov/renovate-config","matchStrings":["\"(?:local|github)>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""],"depNameTemplate":"bcgov/renovate-config","datasourceTemplate":"github-tags","versioningTemplate":"regex:^(?<major>\\d+)(?:\\.(?<minor>\\d+))?(?:\\.(?<patch>\\d+))?$","currentValueTemplate":"{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}","autoReplaceStringTemplate":"\"github>bcgov/renovate-config#{{{newValue}}}\"","extractVersionTemplate":"^v?(?<version>.*)$","managerFilePatterns":["/(^|/)renovate\\.json$/","/(^|/)renovate\\.json5$/"]},{"customType":"regex","description":"Auto-upgrade Google Distroless runtime image major versions in Dockerfiles","matchStrings":["FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/(?<imageType>nodejs|java|python)(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"],"depNameTemplate":"{{#if (equals imageType 'nodejs')}}node{{else}}{{#if (equals imageType 'java')}}java-jre{{else}}python{{/if}}{{/if}}","datasourceTemplate":"{{#if (equals imageType 'nodejs')}}node-version{{else}}{{{imageType}}}-version{{/if}}","versioningTemplate":"semver-coerced","extractVersionTemplate":"^v?(?<version>\\d+)","autoReplaceStringTemplate":"FROM {{{registry}}}/{{{imageType}}}{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}","managerFilePatterns":["/(^|/)Dockerfile$/","/(^|/)[^/]+\\.Dockerfile$/"]},{"customType":"regex","description":"Upgrade Corepack pins installed via npm, since Node.js 25+ no longer bundles Corepack","matchStrings":["corepack@(?<currentValue>\\d+\\.\\d+\\.\\d+)"],"depNameTemplate":"corepack","datasourceTemplate":"npm","managerFilePatterns":["/(^|/)Dockerfile[^/]*$/","/(^|/)[^/]+\\.Dockerfile$/","/^\\.github/workflows/[^/]+\\.ya?ml$/","/(^|/)action\\.ya?ml$/"]}],"description":"Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.","extends":["config:recommended","group:definitelyTyped","group:linters","group:react",":enableVulnerabilityAlerts",":maintainLockFilesWeekly",":preserveSemverRanges",":semanticCommits"],"vulnerabilityAlerts":{"description":"Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.","minimumReleaseAge":"3 days","prConcurrentLimit":3},"forkProcessing":"enabled","ignorePresets":[":ignoreModulesAndTests"],"minimumReleaseAge":"7 days","onboarding":true,"configWarningReuseIssue":true,"onboardingConfig":{"extends":["github>bcgov/renovate-config"]},"platform":"github","recreateWhen":"never","group":{"commitMessageTopic":"{{{groupName}}}{{#with (distinct (lookupArray upgrades \"newVersion\"))}}{{#if this.length}} to {{#each this}}{{#unless @first}}, {{/unless}}{{this}}{{/each}}{{/if}}{{/with}}","commitMessageExtra":""},"timezone":"America/Vancouver","prConcurrentLimit":3,"packageRules":[{"description":"Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)","matchPackageNames":["bcgov/renovate-config"],"maxMajorIncrement":0,"minimumReleaseAge":null},{"description":"Lock file maintenance: no minimumReleaseAge check (doesn't upgrade versions)","matchUpdateTypes":["lockFileMaintenance"],"minimumReleaseAge":null},{"description":"Ignore package overrides and resolutions: Overrides in package.json (and resolutions/pnpm.overrides) exist to patch security vulnerabilities or enforce transitive dependency pins. Renovate should not auto-upgrade them, except for security advisories (see vulnerabilityAlerts).","matchDepTypes":["pnpm-workspace.overrides","overrides","resolutions","pnpm.overrides"],"enabled":false},{"description":"Disable built-in Docker manager for Distroless images (handled by custom regex managers above)","matchPackageNames":["/^gcr\\.io\\/distroless\\//","/^ghcr\\.io\\/distroless\\//"],"matchManagers":["dockerfile"],"enabled":false},{"description":"Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.","matchManagers":["terraform","dockerfile","kubernetes","helmv3","docker-compose"],"groupName":"infrastructure updates","groupSlug":"infra"},{"description":"Group all GitHub Actions updates","matchManagers":["github-actions"],"groupName":"github actions","groupSlug":"github-actions"},{"description":"Database images: major updates never automerge (data needs migrating first)","matchPackageNames":["/(^|\\/)(postgres|postgresql|postgis|mysql|mariadb|mongo|mongodb|mongodb-community-server|redis)$/"],"matchUpdateTypes":["major"],"groupName":null,"automerge":false},{"description":"Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.","matchManagers":["maven","gradle"],"pinDigests":true},{"description":"Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.","matchManagers":["maven","gradle"],"matchUpdateTypes":["minor","patch"],"groupName":"java dependencies","groupSlug":"java"},{"description":"Group springframework","groupName":"springframework","matchPackageNames":["/^org\\.springframework/","/^spring-/"]},{"description":"Group Java runtime/JDK and base container image updates together","groupName":"java runtime","groupSlug":"java-runtime","matchDatasources":["docker","java-version"],"matchUpdateTypes":["minor","patch"],"matchPackageNames":["java","java-jre","/^(?:docker\\.io\\/(?:library\\/)?)?(?:eclipse-temurin|amazoncorretto|openjdk|ibm-semeru-runtimes)$/","/^public\\.ecr\\.aws\\/(?:docker\\/library\\/openjdk|amazoncorretto\\/amazoncorretto)$/"]},{"description":"Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.","matchManagers":["npm","yarn","pnpm","bun"],"pinDigests":true},{"description":"Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.","matchManagers":["npm","yarn","pnpm","bun"],"matchUpdateTypes":["minor","patch"],"groupName":"node dependencies","groupSlug":"node"},{"description":"Group Node.js runtime and base container image updates together","groupName":"node runtime","groupSlug":"node-runtime","matchDatasources":["docker","node-version"],"matchUpdateTypes":["minor","patch"],"matchPackageNames":["node","nodejs","/^(?:docker\\.io\\/(?:library\\/)?)?node$/","/^public\\.ecr\\.aws\\/docker\\/library\\/node$/"]},{"description":"Group Corepack with the Node.js runtime, since Node.js 25+ no longer bundles it","groupName":"node runtime","groupSlug":"node-runtime","matchManagers":["custom.regex"],"matchUpdateTypes":["minor","patch"],"matchPackageNames":["corepack"]},{"description":"Keep Playwright npm packages and container images in sync to prevent browser revision mismatch crashes","groupName":"playwright","groupSlug":"playwright","matchPackageNames":["@playwright/test","playwright","playwright-core","mcr.microsoft.com/playwright"],"rangeStrategy":"bump","minimumReleaseAge":null},{"description":"Group vite","groupName":"vite","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^vite$/","/^@vitejs\\//"]},{"description":"Group linters","groupName":"linters","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/eslint/","/^@prettier\\//","/^prettier-plugin-/"]},{"description":"Group @angular","groupName":"angular","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@angular\\//","/^@angular-/"]},{"description":"Group @testing-library","groupName":"testing-library","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@testing-library\\//"]},{"description":"Group @nestjs","groupName":"nestjs","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@nestjs\\//","/^@swc\\//","/nestjs-/","/nest-winston/","/reflect-metadata/"]},{"description":"Group @mui","groupName":"mui","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@mui\\//"]},{"description":"Group react-jsonschema-form (@rjsf) dependencies to ensure core, utils, validator, and theme packages are updated together.","groupName":"react-jsonschema-form","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@rjsf\\//"]},{"description":"Group redux","groupName":"redux","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@redux-devtools\\//","/redux/","/react-redux/","/redux-thunk/"]},{"description":"Group Capacitor packages (core, plugins, capacitor-firebase, and the Swift PM) into a single PR","groupName":"capacitor","matchPackageNames":["/^@capacitor\\//","/^@capacitor-firebase\\//","/^ionic-team\\/capacitor-swift-pm$/"]},{"description":"Group Vitest packages and plugins","groupName":"vitest","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^vitest$/","/^@vitest\\//"]},{"description":"Group Next.js framework, plugins, and lint configuration","groupName":"nextjs","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^next$/","/^@next\\//","/^eslint-config-next$/"]},{"description":"Group TanStack libraries (React Query, Table, Router, Form, Virtual, etc.)","groupName":"tanstack","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@tanstack\\//"]},{"description":"Group Prisma ORM CLI, client, and engine packages","groupName":"prisma","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^prisma$/","/^@prisma\\//"]},{"description":"Group Drizzle ORM and Drizzle Kit CLI","groupName":"drizzle","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^drizzle-orm$/","/^drizzle-kit$/"]},{"description":"Group Tailwind CSS, official plugins, and Prettier plugin","groupName":"tailwind","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^tailwindcss$/","/^@tailwindcss\\//","/^prettier-plugin-tailwindcss$/"]},{"description":"Group OpenTelemetry JavaScript SDK, API, and instrumentations","groupName":"opentelemetry js","groupSlug":"opentelemetry-js","matchManagers":["npm","yarn","pnpm","bun"],"matchPackageNames":["/^@opentelemetry\\//"]},{"description":"Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"pinDigests":true},{"description":"Group Python ecosystem: Combine updates from all Python managers (pip_requirements, pip_setup, pipenv, poetry, uv, pep621, pip-compile) into single PRs to maintain compatibility.","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchUpdateTypes":["minor","patch"],"groupName":"python dependencies","groupSlug":"python"},{"description":"Group Python interpreter version and base container image updates together","groupName":"python runtime","groupSlug":"python-runtime","matchDatasources":["docker","python-version","github-releases"],"matchPackageNames":["python","actions/python-versions","/^(?:docker\\.io\\/(?:library\\/)?)?python$/","/^public\\.ecr\\.aws\\/docker\\/library\\/python$/"]},{"description":"Group pytest","groupName":"pytest","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^pytest$/","/^pytest-/","/^coverage$/","/^tox$/","/^mock$/","/^factory-boy$/","/^freezegun$/"]},{"description":"Group sqlalchemy","groupName":"sqlalchemy","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^sqlalchemy$/","/^sqlmodel$/","/^sqlacodegen$/","/^mock-alchemy$/","/^alembic$/"]},{"description":"Group python linters","groupName":"python linters","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^ruff$/","/^black$/","/^isort$/","/^pylint$/","/^flake8$/","/^mypy$/","/^bandit$/","/^pre-commit$/"]},{"description":"Group pydantic","groupName":"pydantic","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^pydantic$/","/^pydantic-core$/","/^annotated-types$/"]},{"description":"Group fastapi stack","groupName":"fastapi stack","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^fastapi$/","/^starlette$/","/^python-multipart$/","/^uvicorn$/","/^gunicorn$/","/^httpx$/","/^anyio$/"]},{"description":"Group ai-ml","groupName":"ai-ml","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^huggingface-hub$/","/^tokenizers$/","/^hf-xet$/","/^onnxruntime$/","/^openai$/","/^langchain/","/^llama-index/"]},{"description":"Group data science","groupName":"data science","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^numpy$/","/^pandas$/","/^scipy$/","/^matplotlib$/","/^seaborn$/","/^scikit-learn$/"]},{"description":"Group python tools","groupName":"python tools","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^uv$/","/^setuptools$/","/^tomlkit$/","/^orjson$/","/^pip$/","/^pip-tools$/"]},{"description":"Group OpenTelemetry Python SDK, API, and instrumentations","groupName":"opentelemetry python","groupSlug":"opentelemetry-python","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^opentelemetry-/"]},{"description":"Group Celery, Kombu, and Billiard task queue packages","groupName":"celery","matchManagers":["pip_requirements","pip_setup","pipenv","poetry","uv","pep621","pip-compile"],"matchPackageNames":["/^celery$/","/^kombu$/","/^billiard$/"]},{"description":"Group Playwright packages, docker images, and GitHub Actions into a single PR","matchPackageNames":["/^playwright/","/^@playwright\\//","/^pytest-playwright$/","/^mcr\\.microsoft\\.com\\/playwright/","/^microsoft\\/playwright-github-action/"],"groupName":"playwright","rangeStrategy":"bump"}]}
+// IMPORTANT: This file uses JSONC (JSON with Comments) syntax.
+// Renovate's parseJson() routes all .json files through parseJsonc() (jsonc-weaver)
+// as the primary, non-deprecated code path. Standard // comments are safe here.
+//
+// AI & MAINTAINER DIRECTIVE: ALL configuration updates belong in default.json.
+//
+// We CANNOT rename this file to default.jsonc — Renovate hardcodes the fetch to
+// "default.json" when downstream repos omit a filename in their extends array.
+// Renaming would break all 124+ downstream consumers.
+//
+// Source: https://github.com/renovatebot/renovate/blob/main/lib/util/common.ts
+//   parseJson() -> parseJsonWithFallback() -> parseJsonc()  (first-choice path)
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "automerge": true,
+  "configMigration": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Auto-upgrade and pin downstream extends references to bcgov/renovate-config",
+      "matchStrings": [
+        "\"(?:local|github)>bcgov/renovate-config(#v?(?<currentValue>[^\"]+))?\""
+      ],
+      "depNameTemplate": "bcgov/renovate-config",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)(?:\\.(?<minor>\\d+))?(?:\\.(?<patch>\\d+))?$",
+      "currentValueTemplate": "{{#if currentValue}}{{{currentValue}}}{{else}}0.0.0{{/if}}",
+      "autoReplaceStringTemplate": "\"github>bcgov/renovate-config#{{{newValue}}}\"",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "managerFilePatterns": [
+        "/(^|/)renovate\\.json$/",
+        "/(^|/)renovate\\.json5$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Auto-upgrade Google Distroless runtime image major versions in Dockerfiles",
+      "matchStrings": [
+        "FROM\\s+(?<registry>(?:gcr\\.io/distroless|ghcr\\.io/distroless|distroless))/(?<imageType>nodejs|java|python)(?<currentValue>\\d+)-debian(?<debianVersion>\\d+):(?<tag>[^\\s\\n]+)"
+      ],
+      "depNameTemplate": "{{#if (equals imageType 'nodejs')}}node{{else}}{{#if (equals imageType 'java')}}java-jre{{else}}python{{/if}}{{/if}}",
+      "datasourceTemplate": "{{#if (equals imageType 'nodejs')}}node-version{{else}}{{{imageType}}}-version{{/if}}",
+      "versioningTemplate": "semver-coerced",
+      "extractVersionTemplate": "^v?(?<version>\\d+)",
+      "autoReplaceStringTemplate": "FROM {{{registry}}}/{{{imageType}}}{{{newValue}}}-debian{{{debianVersion}}}:{{{tag}}}",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/",
+        "/(^|/)[^/]+\\.Dockerfile$/"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "Upgrade Corepack pins installed via npm, since Node.js 25+ no longer bundles Corepack",
+      "matchStrings": [
+        "corepack@(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "corepack",
+      "datasourceTemplate": "npm",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile[^/]*$/",
+        "/(^|/)[^/]+\\.Dockerfile$/",
+        "/^\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)action\\.ya?ml$/"
+      ]
+    }
+  ],
+  "description": "Default preset for use with Renovate's repos. Main Renovate configuration preset for downstream repositories. Extends shared and language-specific rules.",
+  "extends": [
+    "config:recommended",
+    "group:definitelyTyped",
+    "group:linters",
+    "group:react",
+    ":enableVulnerabilityAlerts",
+    ":maintainLockFilesWeekly",
+    ":preserveSemverRanges",
+    ":semanticCommits"
+  ],
+  "vulnerabilityAlerts": {
+    "description": "Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.",
+    "minimumReleaseAge": "3 days",
+    "prConcurrentLimit": 3
+  },
+  "forkProcessing": "enabled",
+  "ignorePresets": [
+    ":ignoreModulesAndTests"
+  ],
+  "minimumReleaseAge": "7 days",
+  "onboarding": true,
+  "configWarningReuseIssue": true,
+  "onboardingConfig": {
+    "extends": [
+      "github>bcgov/renovate-config"
+    ]
+  },
+  "platform": "github",
+  "recreateWhen": "never",
+  "group": {
+    "commitMessageTopic": "{{{groupName}}}{{#with (distinct (lookupArray upgrades \"newVersion\"))}}{{#if this.length}} to {{#each this}}{{#unless @first}}, {{/unless}}{{this}}{{/each}}{{/if}}{{/with}}",
+    "commitMessageExtra": ""
+  },
+  "timezone": "America/Vancouver",
+  "prConcurrentLimit": 3,
+  "packageRules": [
+    // ==========================================
+    // Core Renovate Config & Global Policies
+    // ==========================================
+
+    {
+      "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
+      "matchPackageNames": [
+        "bcgov/renovate-config"
+      ],
+      "maxMajorIncrement": 0,
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Lock file maintenance: no minimumReleaseAge check (doesn't upgrade versions)",
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Ignore package overrides and resolutions: Overrides in package.json (and resolutions/pnpm.overrides) exist to patch security vulnerabilities or enforce transitive dependency pins. Renovate should not auto-upgrade them, except for security advisories (see vulnerabilityAlerts).",
+      "matchDepTypes": [
+        "pnpm-workspace.overrides",
+        "overrides",
+        "resolutions",
+        "pnpm.overrides"
+      ],
+      "enabled": false
+    },
+
+    // ==========================================
+    // Infrastructure & Container Orchestration (Terraform, Docker, Compose, K8s, Helm, Actions)
+    // ==========================================
+    {
+      "description": "Disable built-in Docker manager for Distroless images (handled by custom regex managers above)",
+      "matchPackageNames": [
+        "/^gcr\\.io\\/distroless\\//",
+        "/^ghcr\\.io\\/distroless\\//"
+      ],
+      "matchManagers": ["dockerfile"],
+      "enabled": false
+    },
+    {
+      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
+      "matchManagers": [
+        "terraform",
+        "dockerfile",
+        "kubernetes",
+        "helmv3",
+        "docker-compose"
+      ],
+      "groupName": "infrastructure updates",
+      "groupSlug": "infra"
+    },
+    {
+      "description": "Group all GitHub Actions updates",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "github actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Database images: major updates never automerge (data needs migrating first)",
+      "matchPackageNames": [
+        "/(^|\\/)(postgres|postgresql|postgis|mysql|mariadb|mongo|mongodb|mongodb-community-server|redis)$/"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": null,
+      "automerge": false
+    },
+
+    // ==========================================
+    // Java & JVM Ecosystem (Maven, Gradle, Spring)
+    // ==========================================
+    {
+      "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
+      "matchManagers": [
+        "maven",
+        "gradle"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "java dependencies",
+      "groupSlug": "java"
+    },
+    {
+      "description": "Group springframework",
+      "groupName": "springframework",
+      "matchPackageNames": [
+        "/^org\\.springframework/",
+        "/^spring-/"
+      ]
+    },
+    {
+      "description": "Group Java runtime/JDK and base container image updates together",
+      "groupName": "java runtime",
+      "groupSlug": "java-runtime",
+      "matchDatasources": ["docker", "java-version"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "java",
+        "java-jre",
+        "/^(?:docker\\.io\\/(?:library\\/)?)?(?:eclipse-temurin|amazoncorretto|openjdk|ibm-semeru-runtimes)$/",
+        "/^public\\.ecr\\.aws\\/(?:docker\\/library\\/openjdk|amazoncorretto\\/amazoncorretto)$/"
+      ]
+    },
+
+    // ==========================================
+    // JavaScript, TypeScript & Node.js Ecosystem
+    // ==========================================
+    {
+      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node"
+    },
+    {
+      "description": "Group Node.js runtime and base container image updates together",
+      "groupName": "node runtime",
+      "groupSlug": "node-runtime",
+      "matchDatasources": ["docker", "node-version"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "node",
+        "nodejs",
+        "/^(?:docker\\.io\\/(?:library\\/)?)?node$/",
+        "/^public\\.ecr\\.aws\\/docker\\/library\\/node$/"
+      ]
+    },
+    {
+      "description": "Group Corepack with the Node.js runtime, since Node.js 25+ no longer bundles it",
+      "groupName": "node runtime",
+      "groupSlug": "node-runtime",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["corepack"]
+    },
+    {
+      "description": "Keep Playwright npm packages and container images in sync to prevent browser revision mismatch crashes",
+      "groupName": "playwright",
+      "groupSlug": "playwright",
+      "matchPackageNames": [
+        "@playwright/test",
+        "playwright",
+        "playwright-core",
+        "mcr.microsoft.com/playwright"
+      ],
+      "rangeStrategy": "bump",
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Group vite",
+      "groupName": "vite",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^vite$/",
+        "/^@vitejs\\//"
+      ]
+    },
+    {
+      "description": "Group linters",
+      "groupName": "linters",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/eslint/",
+        "/^@prettier\\//",
+        "/^prettier-plugin-/"
+      ]
+    },
+    {
+      "description": "Group @angular",
+      "groupName": "angular",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@angular\\//",
+        "/^@angular-/"
+      ]
+    },
+    {
+      "description": "Group @testing-library",
+      "groupName": "testing-library",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@testing-library\\//"
+      ]
+    },
+    {
+      "description": "Group @nestjs",
+      "groupName": "nestjs",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@nestjs\\//",
+        "/^@swc\\//",
+        "/nestjs-/",
+        "/nest-winston/",
+        "/reflect-metadata/"
+      ]
+    },
+    {
+      "description": "Group @mui",
+      "groupName": "mui",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@mui\\//"
+      ]
+    },
+    {
+      "description": "Group react-jsonschema-form (@rjsf) dependencies to ensure core, utils, validator, and theme packages are updated together.",
+      "groupName": "react-jsonschema-form",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@rjsf\\//"
+      ]
+    },
+    {
+      "description": "Group redux",
+      "groupName": "redux",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@redux-devtools\\//",
+        "/redux/",
+        "/react-redux/",
+        "/redux-thunk/"
+      ]
+    },
+    {
+      "description": "Group Capacitor packages (core, plugins, capacitor-firebase, and the Swift PM) into a single PR",
+      "groupName": "capacitor",
+      "matchPackageNames": [
+        "/^@capacitor\\//",
+        "/^@capacitor-firebase\\//",
+        "/^ionic-team\\/capacitor-swift-pm$/"
+      ]
+    },
+    {
+      "description": "Group Vitest packages and plugins",
+      "groupName": "vitest",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^vitest$/",
+        "/^@vitest\\//"
+      ]
+    },
+    {
+      "description": "Group Next.js framework, plugins, and lint configuration",
+      "groupName": "nextjs",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^next$/",
+        "/^@next\\//",
+        "/^eslint-config-next$/"
+      ]
+    },
+    {
+      "description": "Group TanStack libraries (React Query, Table, Router, Form, Virtual, etc.)",
+      "groupName": "tanstack",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@tanstack\\//"
+      ]
+    },
+    {
+      "description": "Group Prisma ORM CLI, client, and engine packages",
+      "groupName": "prisma",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^prisma$/",
+        "/^@prisma\\//"
+      ]
+    },
+    {
+      "description": "Group Drizzle ORM and Drizzle Kit CLI",
+      "groupName": "drizzle",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^drizzle-orm$/",
+        "/^drizzle-kit$/"
+      ]
+    },
+    {
+      "description": "Group Tailwind CSS, official plugins, and Prettier plugin",
+      "groupName": "tailwind",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^tailwindcss$/",
+        "/^@tailwindcss\\//",
+        "/^prettier-plugin-tailwindcss$/"
+      ]
+    },
+    {
+      "description": "Group OpenTelemetry JavaScript SDK, API, and instrumentations",
+      "groupName": "opentelemetry js",
+      "groupSlug": "opentelemetry-js",
+      "matchManagers": [
+        "npm",
+        "yarn",
+        "pnpm",
+        "bun"
+      ],
+      "matchPackageNames": [
+        "/^@opentelemetry\\//"
+      ]
+    },
+
+    // ==========================================
+    // Python Ecosystem (pip, poetry, uv, pipenv, FastAPI, pytest)
+    // ==========================================
+    {
+      "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Group Python ecosystem: Combine updates from all Python managers (pip_requirements, pip_setup, pipenv, poetry, uv, pep621, pip-compile) into single PRs to maintain compatibility.",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "python dependencies",
+      "groupSlug": "python"
+    },
+    {
+      "description": "Group Python interpreter version and base container image updates together",
+      "groupName": "python runtime",
+      "groupSlug": "python-runtime",
+      "matchDatasources": ["docker", "python-version", "github-releases"],
+      "matchPackageNames": [
+        "python",
+        "actions/python-versions",
+        "/^(?:docker\\.io\\/(?:library\\/)?)?python$/",
+        "/^public\\.ecr\\.aws\\/docker\\/library\\/python$/"
+      ]
+    },
+    {
+      "description": "Group pytest",
+      "groupName": "pytest",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^pytest$/",
+        "/^pytest-/",
+        "/^coverage$/",
+        "/^tox$/",
+        "/^mock$/",
+        "/^factory-boy$/",
+        "/^freezegun$/"
+      ]
+    },
+    {
+      "description": "Group sqlalchemy",
+      "groupName": "sqlalchemy",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^sqlalchemy$/",
+        "/^sqlmodel$/",
+        "/^sqlacodegen$/",
+        "/^mock-alchemy$/",
+        "/^alembic$/"
+      ]
+    },
+    {
+      "description": "Group python linters",
+      "groupName": "python linters",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^ruff$/",
+        "/^black$/",
+        "/^isort$/",
+        "/^pylint$/",
+        "/^flake8$/",
+        "/^mypy$/",
+        "/^bandit$/",
+        "/^pre-commit$/"
+      ]
+    },
+    {
+      "description": "Group pydantic",
+      "groupName": "pydantic",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^pydantic$/",
+        "/^pydantic-core$/",
+        "/^annotated-types$/"
+      ]
+    },
+    {
+      "description": "Group fastapi stack",
+      "groupName": "fastapi stack",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^fastapi$/",
+        "/^starlette$/",
+        "/^python-multipart$/",
+        "/^uvicorn$/",
+        "/^gunicorn$/",
+        "/^httpx$/",
+        "/^anyio$/"
+      ]
+    },
+    {
+      "description": "Group ai-ml",
+      "groupName": "ai-ml",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^huggingface-hub$/",
+        "/^tokenizers$/",
+        "/^hf-xet$/",
+        "/^onnxruntime$/",
+        "/^openai$/",
+        "/^langchain/",
+        "/^llama-index/"
+      ]
+    },
+    {
+      "description": "Group data science",
+      "groupName": "data science",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^numpy$/",
+        "/^pandas$/",
+        "/^scipy$/",
+        "/^matplotlib$/",
+        "/^seaborn$/",
+        "/^scikit-learn$/"
+      ]
+    },
+    {
+      "description": "Group python tools",
+      "groupName": "python tools",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^uv$/",
+        "/^setuptools$/",
+        "/^tomlkit$/",
+        "/^orjson$/",
+        "/^pip$/",
+        "/^pip-tools$/"
+      ]
+    },
+    {
+      "description": "Group OpenTelemetry Python SDK, API, and instrumentations",
+      "groupName": "opentelemetry python",
+      "groupSlug": "opentelemetry-python",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^opentelemetry-/"
+      ]
+    },
+    {
+      "description": "Group Celery, Kombu, and Billiard task queue packages",
+      "groupName": "celery",
+      "matchManagers": [
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "uv",
+        "pep621",
+        "pip-compile"
+      ],
+      "matchPackageNames": [
+        "/^celery$/",
+        "/^kombu$/",
+        "/^billiard$/"
+      ]
+    },
+
+    // ==========================================
+    // Cross-Ecosystem Testing & CI Tools
+    // ==========================================
+    {
+      "description": "Group Playwright packages, docker images, and GitHub Actions into a single PR",
+      "matchPackageNames": [
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^pytest-playwright$/",
+        "/^mcr\\.microsoft\\.com\\/playwright/",
+        "/^microsoft\\/playwright-github-action/"
+      ],
+      "groupName": "playwright",
+      "rangeStrategy": "bump"
+    }
+  ]
+}
