@@ -5,7 +5,7 @@ Repository facts for automated coding assistants. Teams may edit or remove this 
 ## Layout
 - Shared preset: `default.json` (JSONC). Downstream `github>bcgov/renovate-config` resolves that file. `renovate.json` is this repository's config.
 - All shared rules live in `default.json`. Don't add other preset files.
-- Architectural and configuration decisions are recorded in `docs/adr/`. When proposing non-trivial configuration changes to presets or workflows, include an ADR in `docs/adr/`.
+- Architectural and configuration decisions are recorded in `docs/adr/`. When proposing non-trivial configuration changes to presets or workflows, include an ADR in `docs/adr/` identifying the accountable team or role (`Deciders`).
 - Workflows live in `.github/workflows/`: `renovate.yml` (schema check and dry-run), `pr-validate.yml`, `release-reminder.yml`. Duplicate-rule lint: `.github/scripts/lint_renovate_duplicates.mjs`.
 
 ## Build, test, deploy

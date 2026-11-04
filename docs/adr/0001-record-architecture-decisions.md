@@ -1,6 +1,7 @@
 # 1. Record Architecture Decisions
 
 Date: 2026-11-04
+Deciders: Repository Maintainers (@bcgov/renovate-config CODEOWNERS)
 
 ## Status
 
@@ -17,6 +18,7 @@ Decisions prior to November 2026 are captured in git commit history and inline c
 We will use Architectural Decision Records (ADRs) to document significant changes and policy decisions for `bcgov/renovate-config`.
 
 - ADRs are stored as markdown files in `docs/adr/` using sequential numbering (`0001-record-architecture-decisions.md`, `0002-...`).
+- Each ADR must specify the accountable group or role in its header (`Deciders:` e.g., Repository Maintainers, DevOps Platform Team).
 - Contributors and automated assistants should add an ADR when introducing architectural shifts or non-trivial configuration changes.
 - Routine maintenance, regex adjustments, and minor dependency grouping tweaks do not strictly require an ADR when inline comments or PR descriptions suffice.
 - Historical decisions prior to this record remain documented in git history and inline comments and will not be retroactively backfilled.
