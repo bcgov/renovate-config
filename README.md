@@ -187,6 +187,24 @@ If your repository requires manual review for major version upgrades, add this p
 }
 ```
 
+### Opting In: Unstick Digest PRs Pending on `renovate/stability-days`
+
+Digest and pinDigest updates (e.g. GitHub Actions SHA pins) can sit on a pending `renovate/stability-days` status forever because of an upstream Renovate bug ([renovatebot/renovate#45236](https://github.com/renovatebot/renovate/issues/45236), see [#457](https://github.com/bcgov/renovate-config/issues/457)). The shared preset does **not** change this behaviour for you; each team decides for itself. To opt in, add this rule after the `extends` line in your `renovate.json`:
+
+```json
+{
+  "packageRules": [
+    {
+      "description": "Opt-in workaround for renovatebot/renovate#45236: don't hold digest updates on a missing release timestamp. Remove once the upstream fix lands.",
+      "matchUpdateTypes": ["digest", "pinDigest"],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
+    }
+  ]
+}
+```
+
+Trade-off: digests with no timestamp at all (e.g. unversioned tags like `latest`) are no longer held by `minimumReleaseAge`. Add `"matchManagers": ["github-actions"]` to limit the rule to Actions pins. See [ADR-0003](docs/adr/0003-digest-timestamp-optional-workaround.md).
+
 ### Review Checklist for Renovate PRs
 
 1. **Read the PR description** — Renovate includes release notes, changelog links, and upgrade guides
