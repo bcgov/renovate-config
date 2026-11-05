@@ -73,12 +73,15 @@
     ":enableVulnerabilityAlerts",
     ":maintainLockFilesWeekly",
     ":preserveSemverRanges",
-    ":semanticCommits",
-    // Restrict PR creation to weekdays during office hours (Option 3 / #458).
-    // Applies to regular and security/vulnerability updates; lockFileMaintenance
-    // keeps its own weekly schedule via :maintainLockFilesWeekly.
-    // Preset must live in extends — schedule arrays cannot reference preset names.
-    "schedule:officeHours"
+    ":semanticCommits"
+  ],
+  // Quiet weekend window (Option 3 / #458): no PR creation Fri 17:00 -> Mon 00:00
+  // America/Vancouver. Mon-Thu all day; Fri until 16:59. Applies to regular and
+  // security/vulnerability updates; lockFileMaintenance keeps its own weekly
+  // schedule via :maintainLockFilesWeekly. Cron only — no preset names here.
+  "schedule": [
+    "* * * * 1-4",
+    "* 0-16 * * 5"
   ],
   "vulnerabilityAlerts": {
     "description": "Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.",
