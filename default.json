@@ -99,6 +99,10 @@
     "commitMessageExtra": ""
   },
   "timezone": "America/Vancouver",
+  // Restrict PR creation to weekdays during office hours (Option 3 / #458).
+  // Applies to regular and security/vulnerability updates; lockFileMaintenance
+  // keeps its own weekly schedule via :maintainLockFilesWeekly.
+  "schedule": ["schedule:officeHours"],
   "prConcurrentLimit": 5,
   "packageRules": [
     // ==========================================
