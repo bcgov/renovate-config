@@ -75,7 +75,7 @@
     ":preserveSemverRanges",
     ":semanticCommits"
   ],
-  // Ref: ADR-0002
+  // See ADR-0002
   "schedule": [
     "* * * * 1-4",
     "* 0-16 * * 5"
