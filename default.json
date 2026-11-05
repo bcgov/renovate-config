@@ -75,10 +75,7 @@
     ":preserveSemverRanges",
     ":semanticCommits"
   ],
-  // Quiet weekend window (Option 3 / #458): no PR creation Fri 17:00 -> Mon 00:00
-  // America/Vancouver. Mon-Thu all day; Fri until 16:59. Applies to regular and
-  // security/vulnerability updates; lockFileMaintenance keeps its own weekly
-  // schedule via :maintainLockFilesWeekly. Cron only — no preset names here.
+  // Ref: ADR-0002
   "schedule": [
     "* * * * 1-4",
     "* 0-16 * * 5"
