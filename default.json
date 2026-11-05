@@ -81,7 +81,7 @@
     "* 0-16 * * 5"
   ],
   "vulnerabilityAlerts": {
-    "description": "Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.",
+    "description": "Prioritize security vulnerability resolution PRs. See docs/rules.md#vulnerability-alerts",
     "minimumReleaseAge": "3 days",
     "prConcurrentLimit": 3
   },
@@ -111,7 +111,7 @@
     // ==========================================
 
     {
-      "description": "Bypass stability wait and allow unlimited major version upgrades for bcgov/renovate-config to support CalVer transitions (where maxMajorIncrement: 0 disables the default increment limit)",
+      "description": "Bypass stability wait and allow unlimited major upgrades for bcgov/renovate-config. See docs/rules.md#bcgovrenovate-config-calver-upgrades",
       "matchPackageNames": [
         "bcgov/renovate-config"
       ],
@@ -126,7 +126,7 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "Ignore package overrides and resolutions: Overrides in package.json (and resolutions/pnpm.overrides) exist to patch security vulnerabilities or enforce transitive dependency pins. Renovate should not auto-upgrade them, except for security advisories (see vulnerabilityAlerts).",
+      "description": "Ignore package overrides and resolutions. See docs/rules.md#package-overrides-and-resolutions",
       "matchDepTypes": [
         "pnpm-workspace.overrides",
         "overrides",
@@ -149,7 +149,7 @@
       "enabled": false
     },
     {
-      "description": "Group infrastructure providers: Combine Terraform, Docker, Kubernetes, Helm, and Docker Compose updates into single PRs. Infrastructure changes should be reviewed together for consistency.",
+      "description": "Group infrastructure providers. See docs/rules.md#infrastructure-providers-grouping",
       "matchManagers": [
         "terraform",
         "dockerfile",
@@ -184,7 +184,7 @@
     // Java & JVM Ecosystem (Maven, Gradle, Spring)
     // ==========================================
     {
-      "description": "Pin Java dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "description": "Pin Java dependencies. See docs/rules.md#java-pinning",
       "matchManagers": [
         "maven",
         "gradle"
@@ -192,7 +192,7 @@
       "pinDigests": true
     },
     {
-      "description": "Group Java ecosystem: Combine Maven and Gradle updates into single PRs. Java dependencies should be updated together to maintain compatibility and avoid version conflicts.",
+      "description": "Group Java ecosystem. See docs/rules.md#java-ecosystem-grouping",
       "matchManagers": [
         "maven",
         "gradle"
@@ -230,7 +230,7 @@
     // JavaScript, TypeScript & Node.js Ecosystem
     // ==========================================
     {
-      "description": "Pin JavaScript/TypeScript dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "description": "Pin JavaScript/TypeScript dependencies. See docs/rules.md#javascript-typescript-pinning",
       "matchManagers": [
         "npm",
         "yarn",
@@ -240,7 +240,7 @@
       "pinDigests": true
     },
     {
-      "description": "Group Node.js ecosystem: Combine updates from all JavaScript managers (npm, yarn, pnpm, bun) into single PRs. JavaScript/TypeScript dependencies should be updated together to maintain compatibility.",
+      "description": "Group Node.js ecosystem. See docs/rules.md#nodejs-ecosystem-grouping",
       "matchManagers": [
         "npm",
         "yarn",
@@ -516,7 +516,7 @@
     // Python Ecosystem (pip, poetry, uv, pipenv, FastAPI, pytest)
     // ==========================================
     {
-      "description": "Pin Python dependencies: Pin all digests/SHAs for supply chain security. This ensures reproducible builds and prevents dependency substitution attacks.",
+      "description": "Pin Python dependencies. See docs/rules.md#python-pinning",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
@@ -529,7 +529,7 @@
       "pinDigests": true
     },
     {
-      "description": "Group Python ecosystem: Combine updates from all Python managers (pip_requirements, pip_setup, pipenv, poetry, uv, pep621, pip-compile) into single PRs to maintain compatibility.",
+      "description": "Group Python ecosystem. See docs/rules.md#python-ecosystem-grouping",
       "matchManagers": [
         "pip_requirements",
         "pip_setup",
