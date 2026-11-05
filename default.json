@@ -75,6 +75,11 @@
     ":preserveSemverRanges",
     ":semanticCommits"
   ],
+  // See ADR-0002
+  "schedule": [
+    "* * * * 1-4",
+    "* 0-16 * * 5"
+  ],
   "vulnerabilityAlerts": {
     "description": "Prioritize security vulnerability resolution PRs. `enabled` is forced true so advisories can still bump deps that packageRules disable, e.g. overrides and resolutions.",
     "minimumReleaseAge": "3 days",
