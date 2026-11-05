@@ -29,7 +29,7 @@ Restricting PR creation to weekday office hours aligns automation with when team
 
 ## Decision
 
-Add a global Renovate schedule using the `schedule:officeHours` preset (`* 8-17 * * 1-5` in `America/Vancouver`) so regular and security/vulnerability PRs open only during weekday office hours. Lock file maintenance keeps its own weekly schedule from `:maintainLockFilesWeekly`.
+Extend the shared preset with `schedule:officeHours` (`* 8-17 * * 1-5` in `America/Vancouver`) so regular and security/vulnerability PRs open only during weekday office hours. The preset is listed in `extends` (schedule arrays cannot reference preset names). Lock file maintenance keeps its own weekly schedule from `:maintainLockFilesWeekly`.
 
 ## Consequences
 
