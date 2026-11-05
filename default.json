@@ -121,6 +121,11 @@
       "minimumReleaseAge": null
     },
     {
+      "description": "Workaround for renovatebot/renovate#45236: don't hold digest updates on a release timestamp the branch status check can't see. Remove once the upstream fix lands.",
+      "matchUpdateTypes": ["digest", "pinDigest"],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
       "description": "Ignore package overrides and resolutions: Overrides in package.json (and resolutions/pnpm.overrides) exist to patch security vulnerabilities or enforce transitive dependency pins. Renovate should not auto-upgrade them, except for security advisories (see vulnerabilityAlerts).",
       "matchDepTypes": [
         "pnpm-workspace.overrides",
