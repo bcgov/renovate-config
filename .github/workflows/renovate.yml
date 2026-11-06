@@ -171,6 +171,11 @@ jobs:
         run: |
           node .github/scripts/lint_renovate_duplicates.mjs *.json
 
+      - name: Lint Config for Policy Violations
+        run: |
+          node .github/scripts/lint_renovate_policy.mjs *.json
+          node --test .github/scripts/lint_renovate_policy.test.mjs
+
 
 
   run:
