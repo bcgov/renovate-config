@@ -10,7 +10,8 @@ Repository facts for automated coding assistants. Teams may edit or remove this 
 
 ## Build, test, deploy
 - Schema check: `renovate-config-validator --strict default.json renovate.json`, using the `ghcr.io/renovatebot/renovate:<semver>-full` tag in `.github/workflows/renovate.yml`.
-- Lint: `node .github/scripts/lint_renovate_duplicates.mjs *.json` (Node 24).
+- Lint: `node .github/scripts/lint_renovate_duplicates.mjs *.json` and `node .github/scripts/lint_renovate_policy.mjs *.json` (Node 24).
+- Tests: `node --test .github/scripts/lint_renovate_policy.test.mjs` (Node 24).
 - Dry-run is the `Dry-Run` job in `renovate.yml`. It points `renovate.json` at the pull-request branch and runs that image with `--dry-run=full` on `bcgov/renovate-config`, `bcgov/quickstart-openshift`, and `bcgov/wps`. It needs `RENOVATE_TOKEN`.
 - A release is a CalVer tag `YYYY.M.Patch` (third segment required). Downstream pins `github>bcgov/renovate-config#YYYY.M.Patch`. `release-reminder.yml` opens an issue when human commits to `default.json` are unreleased.
 
