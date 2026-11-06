@@ -6,7 +6,7 @@
 // 1. `minimumReleaseAge: null` is forbidden on packageRules unless explicitly allowlisted:
 //    - bcgov/renovate-config (to support zero-delay CalVer transitions downstream)
 //    - lockFileMaintenance (doesn't upgrade versions, only updates in-range lockfiles)
-// 2. Any explicit `minimumReleaseAge` must not be zero or negative (e.g. "0 days", "0 hours").
+// 2. Any explicit `minimumReleaseAge` must not evaluate to zero (e.g. "0 days", "0 hours").
 
 import fs from 'fs';
 import process from 'process';
@@ -46,6 +46,42 @@ export function isAllowedMinimumReleaseAgeNull(rule) {
 }
 
 /**
+ * Parse Renovate's compound duration syntax to milliseconds without dependencies.
+ * Units follow ms@2.1.3, plus Renovate's 30-day months (including uppercase M).
+ * https://github.com/renovatebot/renovate/blob/main/lib/util/pretty-time.ts
+ * Invalid syntax remains the responsibility of renovate-config-validator.
+ * @param {string} value
+ * @returns {number | null}
+ */
+function releaseAgeMilliseconds(value) {
+  const units = [
+    [/^(milliseconds?|msecs?|ms)$/i, 1],
+    [/^(seconds?|secs?|s)$/i, 1000],
+    [/^(minutes?|mins?|m)$/i, 60 * 1000],
+    [/^(hours?|hrs?|h)$/i, 60 * 60 * 1000],
+    [/^(days?|d)$/i, 24 * 60 * 60 * 1000],
+    [/^(weeks?|w)$/i, 7 * 24 * 60 * 60 * 1000],
+    [/^(years?|yrs?|y)$/i, 365.25 * 24 * 60 * 60 * 1000],
+  ];
+  const parts = value.split(/(.*?[a-z]+)/).map(part => part.trim()).filter(Boolean);
+  if (!parts.length) return null;
+
+  let total = 0;
+  for (const part of parts) {
+    const month = /^(\d+)\s*(?:months?|M)$/.exec(part);
+    if (month) {
+      total += Number(month[1]) * 30 * 24 * 60 * 60 * 1000;
+      continue;
+    }
+    const match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(part);
+    if (!match || part.length > 100) return null;
+    const multiplier = match[2] ? units.find(([pattern]) => pattern.test(match[2]))[1] : 1;
+    total += Number(match[1]) * multiplier;
+  }
+  return Number.isFinite(total) ? total : null;
+}
+
+/**
  * Validates policy constraints on loaded packageRules.
  * @param {string} file
  * @param {any[]} packageRules
@@ -70,8 +106,7 @@ export function validatePackageRules(file, packageRules) {
           );
         }
       } else if (typeof val === 'string') {
-        const trimmed = val.trim().toLowerCase();
-        if (/^0\s*(days?|hours?|mins?|minutes?|d|h|m)?$/.test(trimmed)) {
+        if (releaseAgeMilliseconds(val) === 0) {
           errors.push(
             `[POLICY_ERROR] ${loc}: "minimumReleaseAge": "${val}" evaluates to zero. ` +
             `Zero-delay release age bypasses stability buffers and is forbidden.`

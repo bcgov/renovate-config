@@ -73,3 +73,48 @@ test('validatePackageRules permits legitimate non-zero release age strings', () 
   const errors = validatePackageRules('test.json', legitimateRules);
   assert.equal(errors.length, 0);
 });
+
+// Include every ms unit alias and Renovate's custom month spellings.
+const durationUnits = [
+  'millisecond', 'milliseconds', 'msec', 'msecs', 'ms',
+  'second', 'seconds', 'sec', 'secs', 's',
+  'minute', 'minutes', 'min', 'mins', 'm',
+  'hour', 'hours', 'hr', 'hrs', 'h',
+  'day', 'days', 'd', 'week', 'weeks', 'w',
+  'month', 'months', 'M', 'year', 'years', 'yr', 'yrs', 'y',
+];
+
+for (const minimumReleaseAge of [
+  ...durationUnits.map(unit => `0 ${unit}`),
+  '0.0 days', '.0 seconds', '-0.0 weeks', '00.00h',
+  '  0.0 days  ', '0d0h0m', '0 weeks 0 days', '0months0s',
+  '1 day -24 hours', '0.5 hours -30 minutes',
+]) {
+  test(`validatePackageRules rejects zero duration ${JSON.stringify(minimumReleaseAge)} for Playwright`, () => {
+    const errors = validatePackageRules('test.json', [{
+      matchPackageNames: ['playwright'], minimumReleaseAge,
+    }]);
+    assert.equal(errors.length, 1);
+    assert.match(errors[0], /evaluates to zero/);
+  });
+}
+
+for (const minimumReleaseAge of [
+  ...durationUnits.map(unit => `1 ${unit}`),
+  '0.1 days', '.5 seconds', '0 days 1 second', '1d2h3m',
+  '1M', '1m', '1 day -1 hour',
+]) {
+  test(`validatePackageRules permits non-zero duration ${JSON.stringify(minimumReleaseAge)}`, () => {
+    assert.deepEqual(validatePackageRules('test.json', [{
+      matchPackageNames: ['playwright'], minimumReleaseAge,
+    }]), []);
+  });
+}
+
+test('validatePackageRules leaves invalid durations to schema validation', () => {
+  for (const minimumReleaseAge of ['', ' ', '0 bananas', '0 days garbage', 'days']) {
+    assert.deepEqual(validatePackageRules('test.json', [{
+      matchPackageNames: ['playwright'], minimumReleaseAge,
+    }]), []);
+  }
+});
