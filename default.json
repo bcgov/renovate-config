@@ -285,8 +285,7 @@
         "playwright-core",
         "mcr.microsoft.com/playwright"
       ],
-      "rangeStrategy": "bump",
-      "minimumReleaseAge": null
+      "rangeStrategy": "bump"
     },
     {
       "description": "Group vite",
