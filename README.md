@@ -26,7 +26,7 @@
 ## Quick Start
 
 1. **Enable Mend Renovate** for your repository:
-   - **BCGov:** [Create a devops-requests issue](https://github.com/bcgov/devops-requests/issues/new?template=new_request_type.md) to join the Mend Renovate GitHub App.
+   - **BCGov:** Request installation via [devops-requests](https://github.com/bcgov/devops-requests/issues/new/choose) (select **Request to have a GitHub Application added to a repository in a BC gov-managed GitHub organization**) or directly through the [CITZ Service Desk](https://citz-do.atlassian.net/servicedesk/customer/portal/2/group/9/create/10).
    - **Other orgs:** Use the [Mend Renovate GitHub App](https://github.com/apps/renovate).
 
 2. Once approved a **PR will be sent with a configuration file** like the [one in this repo](./renovate.json).
