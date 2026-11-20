@@ -133,6 +133,8 @@ Consolidates and groups updates for infrastructure managers and GitHub Actions:
 
 **Be respectful and constructive.** Open an [issue](https://github.com/bcgov/renovate-config/issues) for questions, problems, or suggestions. Submit PRs for improvements.
 
+See [docs/MAINTAINING.md](docs/MAINTAINING.md) for validation, release, canary rollout, and health check procedures, and [docs/adr/](docs/adr/) for architecture decision records.
+
 **For urgent matters:** Use GitHub issues to ensure visibility and response.
 
 # Security Policy: Dependency Updates & Vulnerability Alerts
