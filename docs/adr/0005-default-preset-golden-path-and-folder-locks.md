@@ -40,7 +40,7 @@ Treating `bcgov/quickstart-openshift` as the golden-path consumer keeps standard
    - Repositories whose folder layout encodes a fixed major or minor version MUST block major and folder-crossing upgrades in their repository-level `renovate.json` rather than in `default.json`.
    - Enforce this with:
      - A repository-wide major update backstop (`"matchManagers": ["dockerfile"]`, `"matchUpdateTypes": ["major"]`, `"enabled": false`, plus `"matchManagers": ["github-actions"]`, `"matchDatasources": ["docker"]`, `"matchUpdateTypes": ["major"]`, `"enabled": false` where workflow `container:` images are used), and
-     - Per-directory `packageRules` entries combining `matchFileNames` and `allowedVersions` to pin each folder to its intended track (for example, `postgres/16/**` locked with `"allowedVersions": "/^16([.-]|$)/"`, and `alembic/3.14/**` locked with `"allowedVersions": "/^3\\.14([.-]|$)/"`).
+     - Per-directory `packageRules` entries combining `matchManagers` (`["dockerfile"]`), `matchDatasources` (`["docker"]`), `matchFileNames`, `allowedVersions`, and `matchPackageNames` (whenever a directory contains unrelated packages or multiple images, so non-target dependencies remain updatable). For example, `postgres/16/**` scopes Docker image bumps with `"allowedVersions": "/^16([.-]|$)/"`, and `alembic/3.14/**` adds `"matchPackageNames": ["python"]` with `"allowedVersions": "/^3\\.14([.-]|$)/"` so application dependencies in `pyproject.toml` are not constrained by the Python 3.14 track.
 
 ## Consequences
 

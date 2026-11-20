@@ -7,7 +7,7 @@ This guide covers day-to-day maintenance for `bcgov/renovate-config`: local vali
 - **Single preset file:** All shared rules live in [`default.json`](../default.json) (JSONC syntax). Never rename it to `default.jsonc` or add nested preset files; downstream `github>bcgov/renovate-config#<tag>` lookups resolve `default.json`.
 - **This repo's config:** [`renovate.json`](../renovate.json) extends `github>bcgov/renovate-config` and disables self-updates so CI always validates against the active branch rather than a pinned tag.
 - **ADRs:** Non-trivial preset, workflow, or policy decisions belong in [`docs/adr/`](adr/) using [`docs/adr/template.md`](adr/template.md). Routine regex tweaks and grouping adjustments do not require an ADR.
-- **Code owners:** Maintainers are listed in [`.github/CODEOWNERS`](../.github/CODEOWNERS).
+- **Code owners:** [`.github/CODEOWNERS`](../.github/CODEOWNERS) receives review and release-triage notifications; most entries there are currently observers rather than active maintainers (see issue `#469`).
 
 ## Local Validation Before Opening a PR
 
